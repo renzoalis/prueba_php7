@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<?php require_once('public/modales/agregar_empleado.html');?>
+
+  <div id="modal-edit-empleado" class="modal fade" role="dialog">
+  </div>
+
+  <form method="POST" name="editar_venta" id="form_editar_venta">
+    <div id="modal-edit-compra" class="modal fade" role="dialog">
+    </div>
+  </form>
+
+  <form method="POST" name="editar_nota" id="form_editar_nota">
+    <div id="modal-edit-nota" class="modal fade" role="dialog">
+    </div>
+  </form>
+
+  <form method="POST" name="editar_pago" id="form_editar_cobro">
+    <div id="modal-edit-pago" class="modal fade" role="dialog">
+    </div>
+  </form>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-address-book-o"></i> Cuenta corriente empleados</h3>
+
+        <br>
+        <form method="GET" name="buscar_empleado" id="buscar_empleado">
+          <div class="row">
+            <div class="col-md-4">
+              <i class="fa fa-calendar"></i> 
+              <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+            </div>
+
+            <input id="fecha_desde" type="hidden" name="fecha_desde" value="<?php echo date_format($f_desde,'d/m/Y'); ?>">
+            <input id="fecha_hasta" type="hidden" name="fecha_hasta" value="<?php echo date('d/m/Y'); ?>">
+
+            <div class="col-md-4">
+
+              <select id="combo_emplead" name="id_empleado" class="form-control form-angosto" placeholder="Seleccionar empleado" onchange="$('#buscar_empleado').submit();">
+                <option value=""> Seleccione un empleado </option>
+                <?php foreach ($empleados as $emplead) { ?>
+                  <option <?php if($_GET['id_empleado'] == $emplead['id']) { echo 'selected'; } ?> value="<?php echo $emplead['id']; ?>"><?php echo $emplead['nombre']; ?></option>
+                <?php } ?>
+              </select>
+
+            </div>
+          </div>
+        </form>
+
+        <?php if ($_GET['id_empleado']) { ?>
+
+          <h3> Saldo actual: $ <span class="<?php echo $class_cc; ?>"><?php echo $saldo -> ccte_saldo_actual; ?></span></h3>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-2 col-xs-4">Fecha</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Tipo</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Número</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Importe</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Mes</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($cc->fetch()){ ?>
+                        <tr style="cursor: pointer;" onclick="getDetalleCC(<?php echo $cc->ccte_operacion_tipo; ?>,<?php echo $cc->ccte_operacion_id; ?>);" >
+                            
+                        <td><?php echo date('Y/m/d', strtotime($cc -> ccte_fh)); ?></td>
+
+                        <td><?php echo $cc -> ccop_nombre; ?></td>
+
+                        <td><?php echo $cc -> ccte_operacion_id; ?></td>
+
+                        <td>$ <span class="row_monto"><?php echo number_format($cc -> ccte_importe,2,',','.'); ?></span></td>
+                        
+                        <td><?php if($cc -> ccte_operacion_tipo) { echo $cc -> getMes(); } ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        <?php } ?>
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/empleados.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#combo_emplead').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#buscar_empleado').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

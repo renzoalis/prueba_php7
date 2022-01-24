@@ -1,0 +1,224 @@
+<input class="botonEnvRec" id="tab2" type="radio" name="tabs"checked>
+<label for="tab2">Enviadas</label>
+
+<input class="botonEnvRec"  id="tab1" type="radio" name="tabs">
+<label  for="tab1">Recibidas</label>
+
+<input class="botonEnvRec" id="tab3" type="radio" name="tabs">
+<label for="tab3">Archivadas</label>
+
+<section  id="content1" style="width: 95%; margin: auto;">   
+  <div style="overflow-x:auto;">
+
+    <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_recibidas" style="background-color: #fafafa;">
+      <thead>
+        <tr>
+          <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Fecha</th>
+          <!--  --><th class="col-md-1 col-xs-4">Origen</th>
+          <!--  --><th class="col-md-1 col-xs-4">Cant./prod</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Cant./bultos</th>
+          <!--  --><th class="col-md-2 col-xs-4">Costo carga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Costo descarga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Observación</th> 
+          <!--  --><th class="col-md-2 col-xs-4">Estado</th> 
+        </tr>
+
+      </thead>
+      <tbody>
+        <?php while ($transferencias->fetch()){ ?>
+            <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalRecibidas" onclick="getTransferencia(<?php echo $transferencias->transf_id; ?>);" >
+            
+            <!-- -->
+           <th scope="row">#<?php echo $transferencias -> transf_id; ?></th>
+
+            <!-- -->
+              <td><?php echo date('Y/m/d', strtotime($transferencias -> transf_fh)); ?></td>
+
+            <!-- -->
+              <td><?php if($transferencias -> transf_origen){
+                            echo $transferencias -> getPuestoNombre( $transferencias -> transf_origen);
+                          }else{
+                            echo '-';
+                          }
+                  ?>
+              </td>
+            
+            <!-- -->
+              <td><?php echo $transferencias -> transf_cant; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferencias -> getCantBultos(); ?></td>
+
+            <!-- -->
+              <td><?php echo $transferencias ->  transf_costo_carga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferencias ->  transf_costo_descarga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferencias -> transf_obs; ?></td>
+            
+            <!-- -->
+              <td><?php echo $transferencias -> te_desc; ?></td>
+            
+         
+
+            </tr>
+        <?php     } ?>
+      </tbody>
+      <tfoot style="background-color: #ededed;">
+        
+      </tfoot>
+    </table>
+    </div><!--//overflow-->
+</section><!--//section-->
+
+
+<section  id="content2" style="width: 95%; margin: auto;">   
+  <div style="overflow-x:auto;">
+
+    <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_enviadas" style="background-color: #fafafa;">
+      <thead>
+        <tr>
+          <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Fecha</th>
+          <!--  --><th class="col-md-1 col-xs-4">Destino</th>
+          <!--  --><th class="col-md-1 col-xs-4">Cant./prod</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Cant./bultos</th>
+          <!--  --><th class="col-md-2 col-xs-4">Costo carga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Costo descarga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Observación</th> 
+          <!--  --><th class="col-md-2 col-xs-4">Estado</th> 
+
+        </tr>
+
+      </thead>
+      <tbody>
+        <?php while ($transferenciasEnviadas->fetch()){ ?>
+            <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getTransferencia(<?php echo $transferenciasEnviadas->transf_id; ?>);" >
+
+            <!-- -->
+               <th scope="row">#<?php echo $transferenciasEnviadas -> transf_id; ?></th>
+
+            <!-- -->
+              <td><?php echo date('Y/m/d', strtotime($transferenciasEnviadas -> transf_fh)); ?></td>
+
+            <!-- -->
+              <td><?php if($transferenciasEnviadas -> transf_destino){
+                            echo $transferenciasEnviadas -> getPuestoNombre( $transferenciasEnviadas -> transf_destino);
+                          }else{
+                            echo '-';
+                          }
+                  ?>
+              </td>
+            
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas -> transf_cant; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas -> getCantBultos(); ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas ->  transf_costo_carga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas ->  transf_costo_descarga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas -> transf_obs; ?></td>
+ 
+            <!-- -->
+              <td><?php echo $transferenciasEnviadas -> te_desc; ?></td>
+
+            
+         
+
+            </tr>
+        <?php     } ?>
+      </tbody>
+      <tfoot style="background-color: #ededed;">
+        
+      </tfoot>
+    </table>
+    </div><!--//overflow-->
+</section><!--//section-->
+
+<section  id="content3" style="width: 95%; margin: auto;">   
+  <div style="overflow-x:auto;">
+
+    <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_archivadas" style="background-color: #fafafa;">
+      <thead>
+        <tr>
+          <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Fecha</th>
+          <!--  --><th class="col-md-1 col-xs-4">Origen</th>
+          <!--  --><th class="col-md-1 col-xs-4">Destino</th>
+          <!--  --><th class="col-md-1 col-xs-4">Cant./prod</th> 
+          <!--  --><th class="col-md-1 col-xs-4">Cant./bultos</th>
+          <!--  --><th class="col-md-1 col-xs-4">Costo carga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Costo descarga</th>  
+          <!--  --><th class="col-md-2 col-xs-4">Observación</th> 
+          <!--  --><th class="col-md-2 col-xs-4">Estado</th> 
+
+        </tr>
+
+      </thead>
+      <tbody>
+        <?php while ($transferenciasArchivadas->fetch()){ ?>
+            <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getTransferencia(<?php echo $transferenciasArchivadas->transf_id; ?>);" >
+
+            <!-- -->
+               <th scope="row">#<?php echo $transferenciasArchivadas -> transf_id; ?></th>
+
+            <!-- -->
+              <td><?php echo date('Y/m/d', strtotime($transferenciasArchivadas -> transf_fh)); ?></td>
+
+            <!-- -->
+              <td><?php if($transferenciasArchivadas -> transf_origen){
+                            echo $transferenciasArchivadas -> getPuestoNombre( $transferenciasArchivadas -> transf_origen);
+                          }else{
+                            echo '-';
+                          }
+                  ?>
+              </td>
+
+            <!-- -->
+              <td><?php if($transferenciasArchivadas -> transf_destino){
+                            echo $transferenciasArchivadas -> getPuestoNombre( $transferenciasArchivadas -> transf_destino);
+                          }else{
+                            echo '-';
+                          }
+                  ?>
+              </td>
+            
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas -> transf_cant; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas -> getCantBultos(); ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas ->  transf_costo_carga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas ->  transf_costo_descarga; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas -> transf_obs; ?></td>
+
+            <!-- -->
+              <td><?php echo $transferenciasArchivadas -> te_desc; ?></td>
+
+            
+         
+
+            </tr>
+        <?php     } ?>
+      </tbody>
+      <tfoot style="background-color: #ededed;">
+        
+      </tfoot>
+    </table>
+    </div><!--//overflow-->
+</section><!--//section-->

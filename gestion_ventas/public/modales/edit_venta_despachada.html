@@ -1,0 +1,310 @@
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Venta V00<?php echo $do_ventas -> venta_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="arch_venta_id" id="arch_venta_id" value="<?php echo $do_ventas -> venta_id;?>">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $clientes['nombre']; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input type="date" name="venta_fh" class="form-angosto" required id="venta_fh" value="<?php echo date('Y-m-d',strtotime($do_ventas -> venta_fh));?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos">
+              <thead>
+                <tr>
+                  <th class="col-md-2 col-xs-3">Categoria</th>
+                  <th class="col-md-2 col-xs-3">Producto</th>
+                  <th class="col-md-3 col-xs-3">Variedad</th>
+                  <th class="col-md-1 col-xs-3">Calibre</th>
+                  <th class="col-md-1 col-xs-4">Cantidad</th>
+                  <th class="col-md-1 col-xs-4">Valor</th>
+                  <th class="col-md-1 col-xs-1">Descuento</th>
+                  <th class="col-md-2 col-xs-4">SubTotal</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr>
+                  <td><?php echo $d['tipo_nombre']; ?><input type="hidden" id="prod_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][id]" value="<?php echo $d['prod_id']; ?>"></td>
+                  <td><?php echo $d['cat_nombre']; ?> </td>
+                  <td><?php echo $d['prod_nombre']; ?> </td>
+                  <td><?php echo $d['prod_calibre']; ?> </td>
+                  <td><?php echo $d['prod_cant']; ?> </td>
+                  <td><?php echo $d['prod_val']; ?> </td>
+                  <td style="color: red;"><?php echo $d['prod_desc']; ?>
+                  </td>
+                  <td><?php echo $d['prod_tot']; ?>
+                    <a href="#" class="borrar">
+                      <i class="fa fa-times" aria-hidden="true" title="Eliminar producto">
+                      </i>
+                    </a>
+                  </td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;">Total $</span></td>
+                <td id="precio_total"><input type="number" readonly name="saldo_final_total" id="saldo_final_total" value="<?php echo $do_ventas -> venta_monto_total - $do_ventas -> venta_descuento_total; ?>"></td>
+                
+              </tfoot>
+            </table>  
+                  <?php if(!$cajaAbierta) { ?>
+                    <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+                  <?php } elseif($hayproductos) { ?>
+                    <button onclick="abrirModalDevolucion(<?php echo $do_ventas -> venta_id;?>,<?php echo $do_ventas -> venta_cliente_id;?>);" style="background-color:#00aa9a; color:rgba(255,255,255,.84)" type="button" id="boton-concepto" class="btn btn-raised btn-sm" title="Devolución de mercadería" ><i class="fa fa-reply"></i> Devolución de mercadería</button> 
+                  <?php } ?>
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+
+
+        <!-- Seccion Conceptos -->
+        <div class="row form-seccion">
+          <table class="table table-hover table-bordered table-sm z-depth-1 tabla_conceptos" id="tabla_conceptos">
+            <thead>
+                <tr>
+                    <th class="td-ancha">Concepto</th>
+                    <th class="td-angosta">Fecha</th>
+                    <th class="td-angosta">Observación</th>
+                    <th class="td-angosta">Monto</th>
+                </tr>
+            </thead>
+            <tbody id="contenedor-artefactos"> 
+              <?php while ($do_conceptos -> fetch()) { ?>
+                <td><?php echo $do_conceptos -> getTipo(); ?></td>
+                <td><?php echo date('d/m/y H:i', strtotime($do_conceptos -> vc_fh)); ?></td>
+                <td><?php echo $do_conceptos -> vc_observacion; ?></td>
+                <td><?php if($do_conceptos -> vc_monto) { echo '$ '.$do_conceptos -> vc_monto; } else { echo '-';} ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+            <tfoot>
+              <tr class="footer-tabla-artefactos">
+                <td> </td>
+                <td>  </td>
+                <td> </td>
+              </tr>
+            </tfoot>
+        </table>
+        <span style="float: left;">
+            <button type="button" id="boton-concepto" class="btn btn-raised btn-sm btn-info" title="Agregar Observación" data-toggle="modal" data-target="#myModalObs">
+              <i class="fa fa-eye"></i> Agregar Observación
+            </button> 
+        </span>
+        </div>
+        <!-- Seccion Conceptos -->
+
+        <input type="hidden" name="cant_prod" id="cant_prod" value="<?php echo $i; ?>">
+        <!-- Cambiar cuando este listo credito -->
+        <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="1"> 
+
+        <form method="POST" id="form-obs">
+          <input type="hidden" name="obs_venta_id" id="obs_venta_id" value="<?php echo $do_ventas -> venta_id;?>"> 
+          <input type="hidden" name="nuevaObs" id="nuevaObs" value="1"> 
+          <div id="myModalObs" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-chico">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <span class="modal-title">
+                  <span style="font-size: 18px;"><i class="fa fa-eye"></i></span> 
+                  <span style="font-size: 18px;" id="nombre_cliente">Observacion </span> 
+                </div>
+                <div class="modal-body"> 
+
+                  <div class="row" >
+
+                    <div class="col-md-12 col-xs-12"> 
+
+                      <div class="row">
+                        <div class="col-md-1 col-xs-1 label-cliente">
+                          <span class="form-label"><i class="fa fa-edit"></i> </span>
+                        </div>
+                        <div class="col-md-11">
+                          <textarea cols="3" rows="3" style="width: 100%; height: 50px;" autocomplete="off" type="text" name="nueva_obs" id="nueva_obs" class="form-cliente" placeholder="Escriba una observacion" ></textarea>
+                        </div>
+                      </div>
+
+                      <hr>
+
+                      <div class="form-group label-cliente">
+                        <button type="submit" class="btn btn-raised btn-primary" >Guardar</button>
+                        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                      </div>
+
+                    </div>
+                  </div>
+           
+                </div>
+
+              </div>
+
+            </div>
+          </div>          
+        </form>
+
+ <!-- Seccion imprimir -->
+        <div style="display:none">
+          <div id="imprimir">
+            <br>
+          <div align="center" style="margin-bottom:10px">
+            <img src="../templates/templates/assets/images/logo_eksa_small.png" alt="Logotipo">
+          </div>
+            <p style="text-align: center;margin-bottom:0px"><strong>NOTA DE PEDIDO</strong><br><span style="font-size:11px">**no válido como factura**</span><br></p>
+          <!-- Traductor del dia para fecha ej- sunday x domingo-->
+            <?php
+              $day = date('l',strtotime($do_ventas -> venta_fh));
+                switch ($day) {
+                 case "Sunday":
+                   $dia = "Domingo";
+                    break;
+                case "Monday":
+                   $dia = "Lunes";
+                   break;
+                case "Tuesday":
+                   $dia = "Martes";
+                   break;
+                case "Wednesday":
+                  $dia = "Miercoles";
+                  break;
+                case "Thursday":
+                  $dia = "Jueves";
+                  break;
+                case "Friday":
+                  $dia = "Viernes";
+                  break;
+                case "Saturday":
+                  $dia = "Sabado";
+                   break;
+                }
+            ?>   
+
+          <p style="text-align: center;font-size:15px"><strong><?php echo $dia ;?> <?php echo date('d/m',strtotime($do_ventas -> venta_fh));?> a las <?php echo date('H:i',strtotime($do_ventas -> venta_fh));?></strong></p>
+
+            <p style="text-align: left;font-size:15px"><strong>Venta: </strong>V00<?php echo $do_ventas -> venta_id;?></p>
+            <p style="font-size:15px"><strong>Puesto: </strong><?php echo PUESTO_NOMBRE;?></p>
+            <p style="font-size:15px"><strong>Nave: </strong><?php echo NAVE_ID;?></p>
+            <p style="font-size:15px"><strong>Vendedor: </strong><?php echo $do_ventas -> usua_nombre;?></p>
+            <p style="font-size:15px"><strong>Cliente: </strong><?php echo $do_ventas -> cliente_nombre;?></p>
+              <div class="row" style=" margin-top:20px;border-bottom: 1px solid #ccc; font-size:15px" >
+                <div class="col-xs-1" ><strong>C</strong></div>
+                <div class="col-xs-7"><strong>Producto</strong></div>
+                <div class="col-xs-2" ><strong>Precio</strong></div>
+              </div>
+                <?php foreach ($detalle as $d) { ?>
+                <div class="row" style="border-bottom: 1px solid #ccc; font-size:15px;">
+
+                     <div class="col-xs-1 "><?php echo $d['prod_cant']; ?></div>
+                     <div class="col-xs-7 "><?php echo $d['cat_nombre']; ?> <?php echo $d['prod_nombre']; ?> <?php echo $d['prod_calibre']; ?></div>
+                     <div class="col-xs-2 ">$<?php echo $d['prod_tot']; ?></div>
+                </div>
+                <?php } ?> 
+                <br>  
+                 <div class="row">
+                     <div class="col-xs-8 "><strong>Total:</strong></div>
+                     <div class="col-xs-2 "><strong>$<?php echo $do_ventas -> venta_monto_total; ?></strong></div>
+                </div>
+
+                <div class="row" style="margin-top:30px; margin-bottom:30px;">
+                  <div class="col-xs-1" style="margin-top:-8px"><i class="fa fa-scissors" aria-hidden="true"></i></div>
+                     <div class="col-xs-10" style="border-bottom: 1px dotted #ccc;"></div>
+                </div>
+
+           <p style="text-align: center;"><strong>TALON PARA RETIRO</strong></p>
+            <p style="text-align: center;font-size:15px"><strong><?php echo $dia ;?> <?php echo date('d/m',strtotime($do_ventas -> venta_fh));?> a las <?php echo date('H:i',strtotime($do_ventas -> venta_fh));?></strong></p>
+            <p style="font-size:15px"><strong>Puesto: </strong><?php echo PUESTO_NOMBRE;?></p>
+            <p style="font-size:15px"><strong>Nave: </strong><?php echo NAVE_ID;?></p>
+            <p style="font-size:15px"><strong>Vendedor: </strong><?php echo $do_ventas -> usua_nombre;?></p>
+              <div class="row" style="margin-top:20px;border-bottom: 1px solid #ccc; font-size:15px" >
+                <div class="col-xs-1" ><strong>C</strong></div>
+                <div class="col-xs-7"><strong>Producto</strong></div>
+                <div class="col-xs-2" ><strong>Lote</strong></div>
+              </div>
+                <?php foreach ($detalle as $d) { ?>
+                <div class="row" style="border-bottom: 1px solid #ccc; font-size:15px">
+                     <div class="col-xs-1 "><strong><?php echo $d['prod_cant']; ?></strong></div>
+                     <div class="col-xs-7 "><?php echo $d['cat_nombre']; ?> <?php echo $d['prod_nombre']; ?> <?php echo $d['prod_calibre']; ?></div>
+                     <div class="col-xs-2 "><strong><?php echo $d['prod_lote']; ?></strong></div>
+                </div>
+                <?php } ?> 
+          </div>
+         </div>
+ <!-- Seccion imprimir -->
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-2 col-xs-2"> 
+      <button href="#" type="button" class="btn btn-sm btn-raised btn-default" id="botonImprimir">Imprimir</button>
+      </div>
+      <div class="col-md-10 col-sm-10 col-xs-10">
+        <div class="form-group">
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+<script type="text/javascript">
+
+
+  $('#form_editar_venta').find('input').not('input[type=hidden]').attr('disabled',true);
+  $(".form-select-datalist").prop("disabled", true);
+  $(".borrar").css('display','none');
+  $("#guardar-cambios").css('display','none');
+  $("#nuevo_cliente").css('display','none');
+
+    $('#botonImprimir').on("click", function () {
+   // $("#imprimir").css("display", "block");
+      $(this).blur();
+      $('#imprimir').printThis({
+        base: "",
+           });
+        
+         });
+  
+
+</script>
+
+

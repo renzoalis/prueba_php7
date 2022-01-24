@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+<style type="text/css">
+
+  .balance-diario {
+    float: right;
+    font-size: 30px;
+    text-shadow: 1px 1px #dddddd;
+    margin-right: 26px;
+  }
+
+  .verde {
+    color: #4caf50;
+  }
+
+  .rojo {
+    color: #f44336;
+  }
+
+  hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+  }
+.cards-section .item-inner:hover {
+  background:white;
+}
+
+.botonCaja {
+    width: 100%;
+  }
+.cobrosTabla {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  border-bottom: 1px solid #8bd6d8;
+  }
+
+  .pagosTabla {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  border-bottom: 1px solid #bd4040;
+  }
+  .detallesTabla {
+    padding-top: 4px; 
+    padding-bottom: 4px; 
+    padding-left: 20px; 
+    border-bottom: 1px solid #8bd6d8;
+  }
+  .plataPositiva {
+    font-weight: 600; color: #40babd;
+  }
+  .plataNegativa {
+    font-weight: 600; color: #e95f35;;
+  }
+
+  .tabla-caja {
+    font-size: 20px;
+    border: 0;
+    background-color: #eeeeee;
+  }
+
+  .tabla-excel { 
+    margin-top: 40px;
+  }
+
+  .tabla-excel tbody tr td { 
+    text-align: left;
+  }
+
+  .corte-control {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .titulo-verde {
+    background-color: #8fd291;
+  }
+
+  .hijo-verde { 
+    background-color: #b5efb6;
+  }
+
+  .titulo-rojo {
+    background-color: #ef7b73;
+  }
+
+  .hijo-rojo {
+    background-color: #e6a4a0;
+  }
+
+  .select2-container {
+    width: 90% !important;
+    padding-left: 12px;
+  }
+  .form-terceros {
+    width: 100% !important;
+  }
+
+</style>
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+  <form name="form_abrir_caja" id="form_abrir_caja" method="post">
+    <div id="div-cerrar-caja"></div>
+  </form>
+
+  <form name="form_conciliar" id="form_conciliar" method="post">
+    <div id="div-conciliar"></div>
+  </form>
+
+  <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+  <form class="form-horizontal form-label-left" name="abrir_caja" id="abrir_caja" method="post" action="" enctype="multipart/form-data">
+    <?php require_once('public/modales/abrirCaja.html');?>
+  </form>
+
+  <input type="hidden" name="premium" id="premium" value="<?php echo $premium; ?>">
+
+
+    <section class="cards-section fadein" id="transicion" style="background-color: #eeeeee;">     
+
+      <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-md-4"></div>      
+        <div class="col-md-4 text-center">
+          <h3 style="margin:0;">Caja diaria</h3>
+        </div>      
+        <div class="col-md-4">
+          <!-- <h2 style="margin:0;text-align: right;">
+            <a href="../cajaHistorial/historial_caja.php" class="btn btn-sm btn-success text-right" style="padding-right: 10px; padding-left: 10px;margin-top: 0px; float:right; margin-bottom: 0px">
+            Historial Caja  <i class="fa fa-chevron-circle-right"></i></a>
+          </h2> -->
+        </div>    
+      </div>
+
+      <hr>
+
+      <div class="row" id="contenedor-esperando" style="display: none;">
+       <div class="col-md-4"></div>      
+       <div class="col-md-4 text-center">
+         <h4>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          <br><br>
+         </h4>
+       </div>      
+       <div class="col-md-4"></div>      
+      </div>
+
+      <div class="row" id="contenedor-datos-caja">
+      </div>
+   
+      </div>
+    </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/caja.js"></script>   
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+          
+       
+          //Traigo los datos de la caja
+          actualizarCaja();
+          if(navigator.onLine) {
+            checkEnviarDatosCierre();
+            // servicioEnviarDatosCierre();
+          }else {
+            notificacion('Sin conexión','El puesto se encuentra desconectado de internet. <br> Sincronización de datos pendiente.','<icon class=\"fa fa-times\">','error',10000);
+          }
+
+          //selector de fecha
+           $('#fecha_historial').daterangepicker({
+                "singleDatePicker": true,
+                "maxDate": new Date('<?php echo $maniana; ?>'),
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+
+          $('#fecha_historial').on('apply.daterangepicker', function(ev, picker) {
+            actualizarCaja();
+          });
+
+        } );          
+        
+    </script>
+
+
+</body>
+</html>

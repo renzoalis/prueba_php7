@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+<style type="text/css">
+input[type=checkbox], input[type=radio] {
+    transform: scale(1.5);
+}
+</style>
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+<form class="form-horizontal form-label-left" name="agregar_dtv" id="agregar_dtv" method="post"> 
+<?php require_once('public/modales/agregar_dtv.html');?>
+</form>
+  <input type="hidden" name="premium" id="premium" value="<?php echo $premium; ?>">
+
+  <form method="POST" name="editar_dtv" id="form_editar_dtv">
+  <div id="modal-edit-dtv" class="modal fade" role="dialog">
+  </div>
+</form>
+
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-address-book-o"></i> Documentos de transito vegetal</h3>
+
+
+      <div style="height:50px" id="cards-wrapper" class="cards-wrapper row">
+        <div  class="item item-primary col-md-3  col-md-offset-3 col-xs-12">
+          <a style="text-decoration: none;" href="cartera.php">
+            <div class="sub-item-ventas z-depth-1"   >
+              <h3 style="margin-bottom:0px" class="title"> 
+                 DTVs abiertos
+              </h3>
+            </div><!--//item-inner-->
+          </a>
+        </div><!--//item-->
+
+        <div class="item item-primary col-md-3  col-xs-12">
+          <a style="text-decoration: none" href="#">
+            <div style="background-color:mintcream" class="sub-item-ventas z-depth-1">
+              <h3 style="margin-bottom:0px" class="title"> 
+                 DTVs enviados
+              </h3>
+            </div><!--//item-inner-->
+          </a>
+          </div><!--//item-->
+      </div><!--//cards-->
+
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+               <form method="POST" id="form-cubrir">
+                 <input type="hidden" name="hidden-cerrardtvs" value="1">
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="">Nro DTV</th>
+                      <!--  --><th class="">Fecha de Alta</th>
+                      <!--  --><th class="">Fecha de vencimiento</th>
+                      <!--  --><th class="">Tipo</th>
+                      <!--  --><th class="">Motivo</th>
+                      <!--  --><th class="">Emisor</th>
+                      <!--  --><th class="">Receptor</th>
+                      <!--  --><th class="">Cod_cierre</th>
+                      <!--  --><th class="">Estado</th>
+
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($dtves->fetch()){ ?>
+                        <tr style="cursor: pointer;<?php if ($dtves->dtv_estado == 2) { echo $colorrojo;} ?>" data-toggle="modal" data-target="#myModalEdit" id="fila_dtv_<?php echo $dtves->dtv_id; ?>" onclick="getDTV(<?php echo $dtves->dtv_id; ?>)" >
+                          <!-- -->
+
+                          <!-- -->
+                          <td><?php echo $dtves -> dtv_numero; ?></td>
+                          <!-- -->
+                          <td><?php echo date('d-m-Y',strtotime($dtves -> dtv_fh)) ?></td>
+                          <!-- -->
+                          <td><?php echo date('d-m-Y',strtotime($dtves -> dtv_fh_vencimiento)) ?></td>
+                          <!-- -->
+                           <td><?php echo $dtves -> dtv_tipo; ?></td>
+                          <!-- -->
+                           <td><?php echo $dtves -> dtv_motivo; ?></td>
+                          <!-- -->
+                          <td><?php echo $dtves -> dtv_emisor; ?></td>
+                           <!-- -->
+                          <td><?php echo $dtves -> dtv_receptor; ?></td>
+                           <!-- -->
+                          <td><?php echo $dtves -> dtv_codigo_cierre; ?></td>
+                           <!-- -->
+                          <td style="text-align: center" id="estado_dtv_<?php echo $dtves->dtv_id; ?>"><?php if ($dtves->dtv_estado == 2) { echo 'ENVIADO';} else {echo 'ABIERTO';} ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+              </form>
+
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/dtv.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+        } );
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<div id="clientemodal" class="modal" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+        <div class="modal-header">
+          Finalizar Venta
+        </div>
+        <div class="modal-body">
+          <!--
+          <span class="modal-title">
+            <span class="form-inline">
+              <i class="fa fa-user"></i> Cliente: 
+              <select id="combo_cli" name="input_id_cliente" class="form-control form-angosto" placeholder="Seleccionar cliente" required>
+                <?php foreach ($clientes as $cli) { ?>
+                  <option value="<?php echo $cli['id']; ?>"><?php echo $cli['nombre']; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+         
+            <span id="deuda_cliente"></span> -->
+          </span>
+          <a href="#" class="btn btn-sm btn-raised btn-primary" data-toggle="modal" data-target="#myModalClienteAdd"> <i class="fa fa-user-plus"></i> Agregar nuevo </a>
+        </div>
+
+        <div class="modal-footer">
+                <button class="btn btn-raised btn-primary" onclick='
+
+                if ($("#combo_cli").val() == "") {
+                  $("#cliente_alert").show();
+                  return false;
+                }
+
+                if ($("#cant_items").val() == 0) {
+                  alert("La venta no tiene productos.");
+                  return false;
+                }
+
+                $("#cliente").val($("#combo_cli").val());
+                $("#productoshidden").val($("#cant_items").val());
+                $("#totalhidden").val();
+                $("#detalle_venta").submit()'>Continuar</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+  <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function() {
+     
+    <?php if ($_GET['id_cliente']) {?>
+      var id_cliente = <?php echo $_GET['id_cliente'] ?>;
+     $("#combo_cli").val(id_cliente);
+    <?php } ?>
+    });
+
+</script>

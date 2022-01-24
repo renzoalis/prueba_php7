@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<form method="POST" name="editar_venta" id="form_editar_venta">
+  <div id="modal-edit-venta" class="modal fade" role="dialog">
+  </div>
+</form>
+
+ <!--              MODAL NUEVO PAGO                       -->
+ <form class="form-horizontal form-label-left" name="form_pago" id="form_pago" method="post" action="" enctype="multipart/form-data" > 
+ <?php require_once('public/modales/nuevo_pago.html'); ?> 
+</form>
+
+<div id="modal-ver-pago" class="modal fade" role="dialog">
+  </div>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Entregas de dinero</h3>
+
+      <div class="row">
+        
+        <div class="col-md-4">
+          <form method="GET" id="form-fecha">
+          <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+          </form>
+        </div>
+
+        <div class="col-md-4">
+        <?php if(!$cajaAbierta) { ?>
+          <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+        <?php } else { ?>
+          <h4><a href="#" data-toggle="modal" data-target="#myModalPago" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nueva Entrega</a></h4>
+        <?php } ?>
+        </div>
+
+        <div class="col-md-4"></div>
+
+      </div>
+
+
+       
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="col-md-2 col-xs-3">Fecha</th>
+                      <!-- 3 --><th class="col-md-2 col-xs-4">Empleado</th>
+                      <!-- 2 --><th class="col-md-2 col-xs-4">Forma de pago</th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!-- 7 --><th class="col-md-2 col-xs-4">Mes</th> 
+                      <!-- 8 --><th class="col-md-2 col-xs-4">Usuario</th> 
+                      <!-- 9 --><th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_pagos->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getPago(<?php echo $do_pagos->pago_id; ?>);" >
+
+                          <td><?php echo date('Y/m/d', strtotime($do_pagos -> pago_fh)); ?></td>
+
+                          <td><?php echo $do_pagos -> empleado_nombre; ?></td>
+                        
+                          <td><?php echo $do_pagos -> getFormaPago(); ?></td>
+                          
+                          <td>$ <span class="row_monto"><?php echo intval($do_pagos -> pago_monto_total); ?></span></td>
+
+                          <td><?php echo $do_pagos -> getMes(); ?></td>
+
+                          <td><?php echo $do_pagos -> usua_nombre; ?></td>
+
+                          <td> PM-<?php echo $do_pagos -> pago_id; ?> </td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/pagos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+            $('#combo_cli').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        } );
+        
+        <?php if ($_GET['id_pago']) {?>
+          notificacion('Pago guardado','Se guardó correctamente el pago PM-<?php echo $_GET["id_pago"]; ?>.','<icon class=\"fa fa-check\">','success',5000);
+        <?php } ?>
+        
+    </script>
+
+</body>
+</html>

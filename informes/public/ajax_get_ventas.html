@@ -1,0 +1,32 @@
+<div class="row" style="border-bottom: solid 2px #8bd6d8; margin: 0px; background-color: turquoise;">
+   <div class="col-md-1" style="text-align: center"><strong>#</strong></div>
+   <div class="col-md-2" style="text-align: center"><strong>Vendedor</strong></div>
+   <div class="col-md-1" style="text-align: center"><strong>Fecha</strong></div>
+   <div class="col-md-2" style="text-align: center"><strong>Cliente</strong></div>
+   <div class="col-md-2" style="text-align: center"><strong>Total</strong></div>
+   <div class="col-md-2" style="text-align: center"><strong>Pago</strong></div>
+   <div class="col-md-1" style="text-align: center"><strong>Estado</strong></div>
+   <div class="col-md-1" style="text-align: center"><strong>X</strong></div>
+ </div>
+  <?php while ($do_ventas->fetch()){ ?>
+    <div class="row" style="margin:0px">
+     <div class="col-md-1" style="text-align: center"><strong><?php echo $do_ventas -> venta_id; ?></strong></div>
+     <div class="col-md-2" style="text-align: center"><?php echo $do_ventas -> usua_nombre; ?></div>
+  	 <div class="col-md-1" style="text-align: center"><?php echo date('d/m/y h:i', strtotime($do_ventas -> venta_fh)); ?></div>
+  	 <div class="col-md-2" style="text-align: center"><?php echo $do_ventas -> cliente_nombre; ?></div>
+  	 <div class="col-md-2" style="text-align: center">$<?php echo intval($do_ventas -> venta_monto_total); ?></div>
+  	 <div class="col-md-2" style="text-align: center">$<?php echo intval($do_ventas -> venta_monto_contado); ?></div>
+  	 <div class="col-md-1" style="text-align: center"><?php echo $do_ventas -> vestado_descripcion; ?></div>
+  	 <div class="col-md-1" style="text-align: center">
+  	 <?php
+  	 	     if($do_ventas -> venta_estado_id == 2)  echo
+      			'<a style="cursor: pointer" onclick="getVentaSaldada('.$do_ventas -> venta_id.')">VER</a>
+    	  ';
+   			if($do_ventas -> venta_estado_id == 4)  echo 
+   			    '<a style="cursor: pointer" onclick="getVentaDespachada('.$do_ventas -> venta_id.')">VER</a>
+     	  ';
+
+      ?>
+  	 </div>
+   	</div>
+  <?php     } ?>

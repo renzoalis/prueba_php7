@@ -1,0 +1,105 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+</style>
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Pago Flete T00<?php echo $do_pagoFlete -> flete_id; ?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+   
+        <!-- Seccion transportista y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $do_pagoFlete -> transportista_nombre; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="pago_fh" class="form-angosto" required id="pago_fh" value="<?php echo date('Y-m-d',strtotime($do_pagoFlete -> flete_fh));?>" disabled>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion transportista y fecha -->
+        <!-- Div cantidad  y costo unitario-->
+            <table class="table table-striped table-bordered table-sm z-depth-1" >
+              <thead>
+                 <tr>
+                    <th class="col-md-4 col-xs-4">Producto</th>
+                    <th class="col-md-2 col-xs-4">Calibre</th>
+                    <th class="col-md-2 col-xs-4">Cant</th>
+                    <th class="col-md-2 col-xs-4">Precio u.</th>
+                    <th class="col-md-2 col-xs-4">Precio Total</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+              <?php while ($do_detalle_flete->fetch()){ ?>
+                <tr>
+                <td> <?php echo $do_detalle_flete -> tipo_nombre; ?> - <?php echo $do_detalle_flete -> cat_nombre; ?> - <?php echo $do_detalle_flete -> prod_nombre; ?> </td>
+                <td> <?php echo $do_detalle_flete -> detalle_prod_calibre; ?> </td>
+                <td> <?php echo $do_detalle_flete -> detalle_prod_cant; ?> </td>
+                <td> $<?php echo $do_detalle_flete -> detalle_prod_costo_u; ?></td>
+                <td> $<?php echo $do_detalle_flete -> detalle_prod_cant * $do_detalle_flete -> detalle_prod_costo_u; ?> </td>
+                </tr>
+              <?php     } ?>
+
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Total</strong></td>
+                <td><strong>$<?php echo $do_pagoFlete -> flete_monto_total; ?></strong> </td>
+              </tfoot>
+            </table>    
+        <!-- / Div Cantidad y costo unitario -->           
+          
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="-" disabled value="<?php echo $do_pagoFlete -> flete_observacion;?>">
+            </span>
+          </div>
+          <div class="col-md-2" style="text-align:left;">
+             <?php if ($do_pagoFlete -> flete_compra_id) { ?>
+                <a  target="_blank" href="../compras/listado.php?id_compra_abrir=<?php echo $do_pagoFlete -> flete_compra_id; ?>" style="text-decoration: none">Ver compra C00<?php echo $do_pagoFlete -> flete_compra_id; ?></a>
+              <?php }if($do_pagoFlete -> flete_transf_id){ ?>
+                <a  target="_blank" href="../transferencias/index.php?id_transf_abrir=<?php echo $do_pagoFlete -> flete_transf_id; ?>" style="text-decoration: none">Ver transf T00<?php echo $do_pagoFlete -> flete_transf_id; ?></a>
+              <?php } ?>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="$('#modal-edit-pago').modal('hide');">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

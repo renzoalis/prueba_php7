@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+          <h3><i class="fa fa-exclamation-circle"></i> Pérdida de mercadería</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <form method="GET" id="form-fecha">
+            <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+            <input id="fecha_desde" type="hidden" name="fecha_desde">
+            <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+          </form>
+        </div>
+
+        <div class="col-md-4"> 
+        </div>
+      </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="col-md-1 col-xs-3">Fecha</th>
+                      <!-- 2 --><th class="col-md-4 col-xs-4">Concepto</th>
+                      <!-- 5 --><th class="col-md-5 col-xs-4">Producto</th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4">Lote</th>
+                      <!-- 7 --><th class="col-md-1 col-xs-4">Usuario</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($perdidas->fetch()){ ?>
+                      <tr>
+                        <td><?php echo date('d/m/y H:i', strtotime($perdidas -> perdida_fh)); ?></td>
+                        <td><?php echo $perdidas -> perdida_desc; ?></td>
+                        <td><?php echo $perdidas -> perdida_cantidad; ?> x <?php echo $perdidas -> perdida_prod_nombre; ?></td>
+                        <td><?php echo $perdidas -> ps_lote; ?></td>
+                        <td><?php echo $perdidas -> usua_nombre; ?> </td>
+                      </tr>
+                    <?php  } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/gastos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<div id="myModalAddProducto" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 40%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-dropbox"></i></span> 
+        <span style="font-size: 18px;" id="Nuevo_prod">Nueva variedad</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_producto_add" id="detalle_producto_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="add_producto" id="add_producto" value="1">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  
+                  <div class="form-group">
+                      <label for="input_categoria" class="control-label col-md-4 col-sm-4 col-xs-12">Producto</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <select name="input_categoria" id="input_categoria" class="form-control col-md-7 col-xs-12" required="required">
+                          <option value="">Seleccione un producto</option>
+                          <?php while ($do_categoria -> fetch()) { ?>
+                          <option value="<?php echo $do_categoria -> cat_id; ?>"><?php echo $do_categoria -> cat_nombre; ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="input_modelo" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <input type="text" name="input_modelo" id="input_modelo" value="" class="form-control col-md-7 col-xs-12">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="input_modelo" class="control-label col-md-4 col-sm-4 col-xs-12">Presentación</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <input type="text" name="input_presentacion" id="input_presentacion" value="" class="form-control col-md-7 col-xs-12">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="input_alias" class="control-label col-md-4 col-sm-4 col-xs-12">Alias</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <input type="text" name="input_alias" id="input_alias" value="" class="form-control col-md-7 col-xs-12">
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-raised btn-primary" >Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

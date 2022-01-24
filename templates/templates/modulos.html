@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <link rel="shortcut icon" href="favicon.png">  
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/intranet.css">
+
+    <script type="text/javascript">  
+        var vector_paginas = <?php echo $paginas_modulos; ?>;        
+    </script>
+    <script type="text/javascript" src="../templates/templates/assets/js/modulos.js"></script>
+
+</head> 
+
+    
+<body class="landing-page">   
+<?php require_once('../templates/templates/modales/modal_modulo_edit.html'); ?> 
+<?php require_once('../templates/templates/modales/modal_modulo_add.html'); ?>   
+    <!--FACEBOOK LIKE BUTTON JAVASCRIPT SDK-->
+    <div id="fb-root"></div>
+
+    
+    <div class="page-wrapper">
+        
+<?php require_once('../templates/templates/header.html');?>
+        <section class="cards-section text-center" style="/*background-color: #DEDEDE;">
+            <div class="container">
+                <h2 class="title">Administración de módulo</h2>
+                <div class="intro">
+                <a href="#" data-toggle="modal" data-target="#myModalmoduloAdd"><i class="fa fa-plus"></i> Agregar módulo</a> o click para editar
+                </div><!--//intro-->
+                <div class="form-group pull-right">
+                    <input type="text" class="search form-control" placeholder="Buscar...">
+                </div>
+                <span class="counter pull-right"></span>
+                <table class="table table-hover table-bordered results">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-1">#</th>
+                      <th class="col-md-4 col-xs-5">Nombre</th>
+                      <th class="col-md-2 col-xs-4">Cantidad de páginas</th>
+                      <th class="col-md-2 col-xs-3">Estado</th>
+                    </tr>
+                    <tr class="warning no-result">
+                      <td colspan="4"><i class="fa fa-warning"></i> Sin resultados</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php while ($do_modulos->fetch()){ ?>
+                    <script type="text/javascript"> cargar_json(<?php echo json_encode($do_modulos); ?>,<?php echo $do_modulos->mod_id; ?>); </script>
+                        <tr style="cursor: pointer;" onclick="modificar_modulo(<?php echo $do_modulos->mod_id; ?>);" data-toggle="modal" data-target="#myModalmoduloEdit">
+                          <th scope="row"><?php echo $do_modulos -> mod_id; ?></th>
+                          <td><?php echo $do_modulos -> mod_nombre; ?></td>
+                          <td><?php echo $contador_paginas[$do_modulos -> mod_id]; ?></td>
+                          <td><?php if(!$do_modulos -> mod_baja) 
+                                        {echo '<i class="fa fa-check-circle-o"></i> Activo';} 
+                                    else 
+                                        {echo '<i class="fa fa-times-circle"></i> Inactivo';} ?>
+                          </td>
+                        </tr>
+                    <?php    } ?>
+                  </tbody>
+                </table>
+            </div><!--//container-->
+        </section><!--//cards-section-->
+        
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>                                 
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/intranet.js"></script>
+    <script type="text/javascript">  
+        $('#breadcrumb_div').html('<ol class="breadcrumb"> <li ><a href="../index.php" >Inicio</a></li> <li ><a href="index.php" >Seguridad</a></li> <li class="active"> Módulos </li></ol>');
+    </script>
+
+
+    
+</body>
+</html> 
+

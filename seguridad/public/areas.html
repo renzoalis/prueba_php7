@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/areas.js"></script>
+    
+</head> 
+
+    
+<body class="landing-page">   
+<?php require_once('public/modales/modal_area_edit.html'); ?> 
+<?php require_once('public/modales/modal_area_add.html'); ?>   
+    <!--FACEBOOK LIKE BUTTON JAVASCRIPT SDK-->
+    <div id="fb-root"></div>
+
+    
+    <div class="page-wrapper">
+        
+<?php require_once('../templates/templates/header.html');?>
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <div class="container">
+                <br>
+                <div class="intro">
+                <a href="#" data-toggle="modal" data-target="#myModalAreaAdd"><i class="fa fa-plus"></i> Agregar área</a> o click para editar
+                </div><!--//intro-->
+
+                <span class="counter pull-right"></span>
+                <table class="table table-hover table-bordered results z-depth-1" id="tabla_tickets">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-1">#</th>
+                      <th class="col-md-4 col-xs-5">Nombre</th>
+                      <th class="col-md-2 col-xs-4">Usuarios activos</th>
+                      <th class="col-md-2 col-xs-3">Estado</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_areas->fetch()){ ?>
+                    <script type="text/javascript"> cargar_json(<?php echo json_encode($do_areas); ?>,<?php echo $do_areas->area_id; ?>); </script>
+                        <tr style="cursor: pointer;" onclick="modificar_area(<?php echo $do_areas->area_id; ?>);" data-toggle="modal" data-target="#myModalAreaEdit">
+                          <th scope="row"><?php echo $do_areas -> area_id; ?></th>
+                          <td><?php echo $do_areas -> area_nombre; ?></td>
+                          <td><?php echo $contador_usuarios[$do_areas -> area_id]; ?></td>
+                          <td><?php if(!$do_areas -> area_baja) 
+                                        {echo '<i class="fa fa-check-circle-o"></i> Activo';} 
+                                    else 
+                                        {echo '<i class="fa fa-times-circle"></i> Inactivo';} ?>
+                          </td>
+                        </tr>
+                    <?php    } ?>
+                  </tbody>
+                </table>
+            </div><!--//container-->
+        </section><!--//cards-section-->
+        
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> GAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    
+    <script type="text/javascript">  
+        $('#breadcrumb_div').html('<ol class="breadcrumb"> <li ><a href="../index.php" >Inicio</a></li> <li ><a href="index.php" >Seguridad</a></li> <li class="active"> Areas </li></ol>');
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": []
+              });
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+        } );
+    </script>
+
+    
+</body>
+</html> 
+

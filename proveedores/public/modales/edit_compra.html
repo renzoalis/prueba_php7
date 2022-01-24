@@ -1,0 +1,241 @@
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Compras C00<?php echo $do_compras -> compra_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="edit_compra_id" id="edit_compra_id" value="<?php echo $do_compras -> compra_id;?>">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-industry"></i>
+              <?php $tieneproveedor =0; foreach ($proveedores as $prov) { ?>
+              <?php if($do_compras -> compra_prov_id == $prov['id']) { $tieneproveedor=1; ?>
+              <span>Proveedor: <?php echo $prov['nombre']; ?> </span>
+
+               <?php }} if($tieneproveedor == 0){?>
+              <span> Sin proveedor </span>
+
+               <?php }  ?>
+
+            </span>
+            
+          </div>
+
+
+<!-- Form transportistas -->
+<form id="upd_transp" name="upd_transp" method="POST">
+  <input type="hidden" name="id_compra_transp" id="id_compra_transp" value="<?php echo $do_compras -> compra_id;?>">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-truck"></i>
+              <?php $tienetransportista=0; foreach ($transportista as $transp) { ?>
+              <?php  if($do_compras -> compra_transp_id == $transp['id']) { $tienetransportista=1; ?>
+              <span>Transportista:<?php echo $transp['nombre']; ?> </span>
+
+               <?php }} if($tienetransportista == 0){?>
+              <span> Sin Transportista </span>
+
+               <?php }  ?>
+              </span>
+          </div>
+</form>
+
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="compra_fh" class="form-angosto editable" required id="compra_fh" value="<?php echo date('Y-m-d',strtotime($do_compras->compra_fh));?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos_edit">
+              <thead>
+                 <tr>
+                    <th class="col-md-4 col-xs-4">Producto</th>
+                    <th class="col-md-2 col-xs-4">Calibre</th>
+                    <th class="col-md-2 col-xs-4">Cant</th>
+                    <th class="col-md-2 col-xs-4">Precio u.</th>
+                    <th class="col-md-2 col-xs-4">Precio Total</th>
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr>
+                  <td><?php echo $d['prod_modelo'];?> <input type="hidden" id="edit_prod_id_<?php echo $i;?>" name="prod[<?php echo $i;?>][id]" value="<?php echo $d['prod_id'];?>"></td>
+                  <td><input type="text" step="1" min="1" id="edit_calibre_<?php echo $i;?>" class="det_venta" name="prod[<?php echo $i;?>][calibre]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['calibre'];?>" readonly></td>
+                  <td><input type="number" step="1" min="1" id="edit_cantidad_<?php echo $i;?>" name="prod[<?php echo $i;?>][cantidad]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['cant'];?>" readonly></td>
+                  <td><div style="display: flex;"><span style="padding-top:3px;padding-right: 2px">$</span><input type="number" step="0.10" min="0" id="edit_precio_kg_<?php echo $i;?>" name="prod[<?php echo $i;?>][precio_kg]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['precio_por_kg'];?>" readonly></div></td>
+                  <td><div style="display: flex;"><span style="padding-top:3px;padding-right: 2px">$</span><input type="number" step="0.10" min="0" readonly id="edit_precio_total_<?php echo $i;?>" class="precio_parcial" value="<?php echo $d['precio_parcial'];?>"> <a href="#" class="borrar"><i class="fa fa-times"></i></a></div></td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</span></td>
+                <td id="precio_total"><span>$</span><input type="number" readonly value="<?php echo $do_compras -> compra_monto_total; ?>" name="edit_saldo_final_total" id="edit_saldo_final_total"></td>
+              </tfoot>
+            </table>
+
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+        <!-- Seccion Pagos -->
+        <div class="row form-seccion">
+            <table class="table table-hover table-bordered table-sm z-depth-1 tabla_pagos" id="tabla_pagos">
+              <thead><h3 style="text-align: center;">Pagos</h3 >
+                <tr>
+                  <th class="td-ancha">Tipo</th>
+                  <th class="td-angosta">Fecha</th>
+                  <th class="td-angosta">Observación</th>
+                  <th class="td-angosta">Monto</th>
+                </tr>
+              </thead>
+              <tbody id="contenedor-artefactos"> 
+                <?php while ($do_pagos_prov -> fetch()) { ?>
+                  <td><?php echo $do_pagos_prov -> getFormaPago($do_pagos_prov -> pago_forma_pago); ?>
+                      <?php if($do_pagos_prov -> pago_forma_pago == 1) echo ' Comp. '.$do_pagos_prov -> pago_comprob_efectivo; ?>
+                      <?php if($do_pagos_prov -> pago_forma_pago == 8) echo ' Nro. '.$do_pagos_prov -> pago_nro_transf; ?>
+                  </td>
+                  <td><?php echo date('d/m/Y H:i', strtotime($do_pagos_prov -> pago_fh)); ?></td>
+                  <!-- Fecha con hora  <td><?php echo $do_pagos_prov -> pago_fh ?></td> -->
+                  <td><?php echo $do_pagos_prov -> pago_observacion; ?></td>
+                  <td>$ <?php echo $do_pagos_prov -> pago_monto_total?></td>
+                  </tr>
+              <?php } ?>
+              </tbody>
+              <tfoot>
+                <tr class="footer-tabla-artefactos">
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                </tr>
+              </tfoot>
+            </table>
+            <hr>
+            <table class="table table-hover table-bordered table-sm z-depth-1 tabla_conceptos" id="tabla_conceptos">
+              <thead><h3 style="text-align: center;">Conceptos</h3 >
+                  <tr>
+                      <th class="td-ancha">Concepto</th>
+                      <th class="td-angosta">Fecha</th>
+                      <th class="td-angosta">Observación</th>
+                      <th class="td-angosta">Monto</th>
+                  </tr>
+              </thead>
+              <tbody id="contenedor-artefactos"> 
+                <?php while ($do_conceptos -> fetch()) { ?>
+                  <td><?php echo $do_conceptos -> getTipo($do_conceptos -> cc_tipo); ?></td>
+                  
+                  <td><?php echo date('d/m/Y H:i', strtotime($do_conceptos -> cc_fh)); ?></td>
+                  <td><?php echo $do_conceptos -> cc_observacion; ?></td>
+                  <td>$ <?php echo $do_conceptos -> cc_monto?></td>
+                  </tr>
+              <?php } ?>
+              </tbody>
+              
+            </table>
+           
+        </div>
+        <!-- Seccion Pagos -->
+
+        <!--observacion -->
+        <div class="row form-seccion">
+          <div class="col-md-6">
+          <!--observacion  -->  <span class="form-block">
+              <form id="modificar_obs" method="POST">
+              <input type="hidden" name="id_compra_obs" id="id_compra_obs" value="<?php echo $do_compras -> compra_id;?>" >
+              <i class="fa fa-edit"></i>   
+                <input autocomplete="off" oninput="$('#boton-obs').show();" type="text" name="input_observacion_compra" id="input_observacion_compra" class="form-obs" placeholder="Observación de la compra" value="<?php echo $do_compras -> compra_observacion; ?>" readonly>
+                <button style="display: none;" onclick="guardarObs();" type="button" id="boton-obs" class="btn btn-raised btn-sm btn-primary" title="Guardar Observación" ><i class="fa fa-edit"></i>Guardar Observación</button>
+              </form>
+            </span>
+        </div>
+       <!--observacion  -->
+
+        <input type="hidden" name="cant_prod" id="edit_cant_prod" value="0">
+        <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="<?php echo $i; ?>">            
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">     
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+  $('#boton-eliminar').on("click", function(e) { 
+      if(confirm('Desea eliminar la compra de forma permanente?')){
+        return true;
+      } else {
+        e.preventDefault();
+      }
+    });
+
+  $('#input_cheque_terceros').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+  
+   $('#combo_transp_e').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+
+  $('#combo_transp_e').on("change", function(e) { habilitarTransp($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
+    $('#combo_prov_e').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+
+  $('#form_editar_compra').find('input').not('input[type=hidden]').not('input[name="input_observacion_compra"]').attr('disabled',true);
+  //$(".form-select-datalist").prop("disabled", true);
+  $(".form-select-prov").prop("disabled", true);
+  $(".form-select-transp").prop("disabled", true);
+  $("#guardar-cambios").css('display','none');
+  $("#nuevo_prov").css('display','none');
+  $("#nuevo_transp").css('display','none');
+  $(".borrar").css('display','none');
+
+</script>

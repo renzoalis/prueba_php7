@@ -1,0 +1,54 @@
+<div id="myModalItemEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nuevo ítem</h4>
+      </div>
+      <div class="modal-body">
+        <p>Complete los siguientes campos:</p><br>
+        <form class="form-horizontal form-label-left" name="detalle_item_edit" id="detalle_item_edit" method="post" action="" enctype="multipart/form-data"> 
+            <input type="hidden" name="Edit_item_id" id="Edit_item_id" value="0">                 
+            <div class="form-group">
+                <label for="id_Nombre" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Nombre</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="Edit_item_Nombre" id="Edit_item_Nombre" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="itemEstado_edit" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Estado</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="hidden" name="itemEstado_edit" id="itemEstado_edit">
+                  <h5 style="cursor: pointer;" onclick="cambio_estado();" id="itemEstado_check_edit"></h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_contenido" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Contenido:</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  Texto de introducción del ítem
+                </div>
+            </div>
+                  <textarea name="Contenido_item_edit" id="Contenido_item_edit" class="form-control col-md-7 col-xs-12"></textarea>
+            <br>
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="document.getElementById('detalle_item_edit').submit();" style="" >Guardar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../templates/templates/assets/ckeditor/ckeditor.js"></script> 
+<script type="text/javascript">                       
+    CKEDITOR.replace( "Contenido_item_edit" );         
+</script>

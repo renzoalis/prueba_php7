@@ -1,0 +1,113 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  #div-contado {
+    display: none;
+  }
+</style>
+<div id="myModalNota" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo"><i class="fa fa-sticky-note-o"></i> Nueva nota</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="nueva_nota" id="nueva_nota" value="1">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-4 col-xs-12" id="div-agente"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i> 
+              <select id="combo-agente" name="input_id_agente" class="form-control form-angosto" placeholder="Seleccionar agente" required>
+                <option value=""> Seleccione un agente </option>
+                <?php while ($notas_agentes -> fetch()) { ?>
+                  <option value="<?php echo $notas_agentes -> ta_id; ?>"> <?php echo $notas_agentes -> ta_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+          </div>
+
+          <div class="col-md-4 col-xs-12" id="div-seleccionar-agente"> 
+          </div>
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="datetime" name="nota_fh" class="form-angosto" required id="nota_fh" value="<?php echo date('Y-m-d H:i:s');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <div class="row"> 
+
+          
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_tipo" name="combo_tipo" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value=""> Tipo de nota </option>
+                <option value="NC"> Crédito </option>
+                <option value="ND"> Débito </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+
+        <!-- Div Efectivo -->
+        <div class="row form-seccion" id="div-contado">
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto" id="input_monto" class="form-obs form-contado" required placeholder="Monto">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Efectivo --> 
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_nota" id="input_obs_nota" class="form-obs" placeholder="Describa el motivo de la nota" required>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

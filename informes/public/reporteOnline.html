@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+</head> 
+<style type="text/css">
+    tr th { text-align: center };
+</style>
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+
+    <?php require_once('public/modales/ver_variaciones_precio.html'); ?> 
+
+    <div id="modal-edit-venta" class="modal fade" role="dialog">
+  </div>
+  
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <h3><i class="fa fa-bar-chart"></i> Reporte Online</h3>
+            <br>
+            <div class="container" style="margin-bottom: 100px">
+<?php foreach ($respuesta as $clave=>$valor) { ?>
+        <h2 style="background: #8bd6d8;color: whitesmoke;height: 50px;margin-bottom: 0px;margin-top:0px;padding-top: 5px;"><?php echo $clave;?></h2>
+  <?php foreach ($valor as $categorias=>$cat) { ?> 
+        <h4 style="background: #377677;border-top: 2px solid whitesmoke;padding-left: 30px;text-align: left;color: whitesmoke;height: 30px;margin-bottom: 0px;margin-top:0px;padding-top: 5px;"><?php echo $categorias;?></h2>
+<table class="table" style="margin-bottom: 0px">
+
+  <thead style="text-align: center">
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Inicial</th>
+      <th scope="col">Agregado</th>
+      <th scope="col">Transferido</th>
+      <th scope="col">Venta</th>
+      <th scope="col">Bultos vendidos</th>
+      <th scope="col">Precio Menor</th>
+      <th scope="col">Precio Mayor</th>
+      <th scope="col">Promedio</th>
+      <th scope="col">X</th>
+    </tr>
+  </thead>
+  <tbody>
+   <?php foreach ($cat as $productos=>$prod) { ?> 
+    <tr>
+      <th scope="row"><?php echo $productos;?></th>
+      <td><?php echo $prod["stock"]["Inicial"];?></td>
+      <td><?php echo $prod["stock"]["Agregado"];?></td>
+      <td><?php echo $prod["stock"]["Transferido"];?></td>
+      <td><?php echo $prod["stock"]["Venta"];?></td>
+      <td><?php echo $prod["bultos"];?></td>
+      <td><?php echo $prod["precio_menor"];?>$</td>
+      <td><?php echo $prod["precio_mayor"];?>$</td>
+      <td><?php echo round($prod["promedio"], 2) ;?>$</td>
+      <td><a style="cursor: pointer"onclick="traerInfodetallada(<?php echo $prod['id'];?>,'<?php echo $prod['calibre'];?>','<?php echo $productos;?>')">VER</a></td>
+    </tr>
+    <?php } ?>
+  </tbody>
+</table>
+ <?php }} ?> 
+            </div>
+
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html');?>
+  <script src="public/js/informes.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fecha_cc_cli').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_cc_cli').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde_ccCli').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta_ccCli').val(picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#fecha_ventas').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_ventas').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_ventas_d').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_ventas_h').val(picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#combo_cli').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        });
+    </script>
+
+    
+</body>
+</html> 
+

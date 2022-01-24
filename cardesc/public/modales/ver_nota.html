@@ -1,0 +1,91 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    background-color: #eeeeee;
+  }
+</style>
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nota <?php echo $do_nota -> nota_tipo; ?>00<?php echo $do_nota -> nota_id; ?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $do_nota -> importador_nombre; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="nota_fh" class="form-angosto" required id="nota_fh" value="<?php echo date('Y-m-d',strtotime($do_nota -> nota_alta_fh));?>" disabled>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Div  -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4>  Tipo </h4>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"></i>
+              <input autocomplete="off" type="text" name="input_tipo_nota" id="input_tipo_nota" class="input-pagos form-obs form-contado" value="<?php echo $do_nota -> nota_tipo;?>" disabled>
+            </span>
+          </div>
+        </div>
+        <!-- / Div  -->
+
+        <!-- Div  -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4>  Monto $</h4>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" value="<?php echo $do_nota -> nota_monto;?>" disabled>
+            </span>
+          </div>
+        </div>
+        <!-- / Div  -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+          <h4>  Observación </h4>
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="-" disabled value="<?php echo $do_nota -> nota_observacion;?>">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="$('#modal-edit-nota').modal('hide');">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

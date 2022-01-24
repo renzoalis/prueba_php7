@@ -1,0 +1,160 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-money"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cheque">Cheque CH00<?php echo $do_cheques -> cheque_id; ?></span> 
+        <span style="font-size: 18px; float: right; margin-right:10px; "><i class="fa fa-calendar"></i> Fecha Ingreso: <?php echo $do_cheques -> cheque_ingreso_fh; ?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_cheque_edit" id="detalle_cheque_edit" method="post" action="" enctype="multipart/form-data">
+          <input type="hidden"  name="estado_nuevo" id="estado_nuevo" value="">
+              <input type="hidden"  name="id_cheque" id="id_cheque" value="<?php echo $do_cheques -> cheque_id; ?>">
+            <div id="datos_cheque">
+
+              <div class="row" >
+
+                <div class="col-md-12 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cheque">
+                      <span class="form-label">Banco </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input disabled type="text" name="input_banco" id="input_banco" class="form-cliente" placeholder="Banco" value="<?php echo $do_cheques -> banco_nombre; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Número </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input disabled type="text" name="input_numero" id="input_numero" class="form-cliente" placeholder="Número" value="<?php echo $do_cheques -> cheque_numero; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque" style="padding-right: 0px">
+                      <span  class="form-label">Monto $</span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_monto" id="input_monto" class="form-cliente" placeholder="Monto" value="<?php echo $do_cheques -> cheque_monto; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cheque">
+                      <span class="form-label">Emisión </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_emision" id="input_emision" class="form-cliente" placeholder="Emisión" value="<?php echo date('Y/m/d', strtotime($do_cheques -> cheque_emitido_fh)) ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cheque">
+                      <span class="form-label">Venc </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_vencimiento" id="input_vencimiento" class="form-cliente" placeholder="Vencimiento" value="<?php echo date('Y/m/d', strtotime($do_cheques -> cheque_vencimiento_fh)) ?>">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Estado </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <select id="input_estado_cheque" name="input_estado_cheque" class="input-pagos select-forma-pago form-boleto" disabled>
+                        <option value=""> - </option>
+                        <?php while ($do_estados -> fetch()) { ?>
+                        <option value="<?php echo $do_estados -> vestado_id; ?>" <?php if($do_estados -> vestado_id == $do_cheques -> cheque_estado) { echo 'selected';} ?>> <?php echo $do_estados -> vestado_descripcion; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                 <?php if ($do_cheques -> prov_nombre) { ?> 
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Proveedor </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_cliente" id="input_cliente" class="form-cliente" placeholder="Proveedor" value="<?php echo $do_cheques -> prov_nombre; ?>">
+                    </div>
+                  </div>
+                  <?php } ?>
+                  <?php if ($do_cheques -> transportista_nombre) { ?> 
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Transp. </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_cliente" id="input_cliente" class="form-cliente" placeholder="Proveedor" value="<?php echo $do_cheques -> transportista_nombre; ?>">
+                    </div>
+                  </div>
+                  <?php } ?>
+                  <?php if ($do_cheques -> despachante_nombre) { ?> 
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Despach. </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_cliente" id="input_cliente" class="form-cliente" placeholder="Proveedor" value="<?php echo $do_cheques -> despachante_nombre; ?>">
+                    </div>
+                  </div>
+                  <?php } ?>
+                  <?php if ($do_cheques -> importador_nombre) { ?> 
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Import. </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_importador" id="input_importador" class="form-cliente" placeholder="Proveedor" value="<?php echo $do_cheques -> importador_nombre; ?>">
+                    </div>
+                  </div>
+                  <?php } ?>
+                 <?php if ($do_cheques -> exportador_nombre) { ?> 
+                  <div class="row">
+                    <div class="col-md-1 col-xs-12 label-cheque">
+                      <span class="form-label">Export. </span>
+                    </div>
+                    <div class="col-md-11  col-xs-12">
+                      <input disabled type="text" name="input_exportador" id="input_exportador" class="form-cliente" placeholder="Proveedor" value="<?php echo $do_cheques -> exportador_nombre; ?>">
+                    </div>
+                  </div>
+                  <?php } ?>
+
+                  
+
+                  <hr>
+                  <div class="form-group label-cheque">
+                  <?php if(!$cajaAbierta) { ?>
+                    <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+                  <?php } else { ?>
+                    <?php if (in_array($do_cheques -> cheque_estado,array(1,3,7,8,9,10))) { ?>
+                      <button type="button" class="btn btn-sm btn-raised btn-success" onclick="actualizarEstado(2)">Cubrir</button>
+                      <button type="button" class="btn btn-sm btn-raised btn-danger" onclick="actualizarEstado(4)" >Rechazado S/F</button>
+                      <button type="button" class="btn btn-sm btn-raised btn-danger" onclick="actualizarEstado(5)">Rechazado C/F</button>
+                      <button type="button" class="btn btn-sm btn-raised btn-danger" onclick="actualizarEstado(6)">Vencido</button>
+                    <?php } ?>
+                  <?php } ?>
+
+                    <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+                  </div>
+               
+
+                </div>
+
+
+              </div>
+            </div>
+           
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>

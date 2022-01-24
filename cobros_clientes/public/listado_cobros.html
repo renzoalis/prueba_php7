@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<form method="POST" name="editar_venta" id="form_editar_venta">
+  <div id="modal-edit-cobro" class="modal fade" role="dialog">
+  </div>
+</form>
+
+<?php if ($_GET['id_pago']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente el pago número <b>PA00<?php echo $_GET['id_pago']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+<form class="form-horizontal form-label-left" name="form_cobro" id="form_cobro" method="post" action="" enctype="multipart/form-data" > 
+ <?php require_once('public/modales/nuevo_cobro.html'); ?> 
+</form>
+
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Listado de cobros</h3>
+
+      <div class="row">
+        <div class="col-md-4">
+          <form method="GET" id="form-fecha">
+            <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+            <input id="fecha_desde" type="hidden" name="fecha_desde">
+            <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+          </form>
+        </div>
+    
+        <div class="col-md-4">
+          <?php if(!$cajaAbierta) { ?>
+            <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+          <?php } else { ?>
+            <h4><a href="#" data-toggle="modal" data-target="#myModalCobro" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nuevo Cobro</a></h4>
+          <?php } ?>
+        </div>
+
+        <div class="col-md-4"></div>
+      </div>
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="col-md-2 col-xs-3">Fecha</th>
+                      <!-- 3 --><th class="col-md-2 col-xs-4">Cliente ID</th>
+                      <!-- 3 --><th class="col-md-2 col-xs-4">Cliente</th>
+                      <!-- 2 --><th class="col-md-2 col-xs-4">Forma de pago</th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!-- 7 --><th class="col-md-2 col-xs-4">Observacion</th> 
+                      <!-- 7 --><th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_cobros->fetch()){ ?>
+                      <?php if ($do_cobros -> cobro_forma_pago == 1 AND $do_cobros -> cobro_venta_id){?>
+                      <?php }else{ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getCobro(<?php echo $do_cobros->cobro_id; ?>);" >
+
+                        <!-- 1 Fecha -->
+                          <td><?php echo date('Y/m/d H:i:s', strtotime($do_cobros -> cobro_fh)); ?></td>
+
+                        <!-- 3 Cliente -->
+                          <td><?php echo $do_cobros -> cliente_id; ?></td>
+                          <td><?php echo $do_cobros -> cliente_nombre; ?></td>
+                        
+                        <!-- 2 Concepto -->
+                          <td><?php echo $do_cobros -> fp_desc; ?></td>
+
+                        <!-- 5 Monto -->
+                          <td>$ <span class="row_monto"><?php echo $do_cobros -> cobro_monto_total; ?></span></td>
+
+                          <!-- 5.1 Observacion -->
+                          <td><?php echo $do_cobros -> cobro_observacion; ?></td>
+
+                        <!-- 8 Estado pago -->
+                          <td> CO00<?php echo $do_cobros -> cobro_id; ?> </td>
+
+                        </tr>
+                      <?php }?>
+
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/cobros.js"></script>   
+    
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+           {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_venta_elim']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_venta_edit']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+            $('#combo_cli_cobro').select2({
+              minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                },
+                inputTooShort: function () {
+                    return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+                }
+              }
+            });
+
+        } );
+
+        <?php if ($_GET['id_cobro']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+
+    </script>
+
+</body>
+</html>

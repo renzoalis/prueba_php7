@@ -1,0 +1,58 @@
+<div id="myModalmoduloEdit" class="modal fade" moduloe="dialog">
+  <div class="modal-dialog" style="width: 600px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar módulo <span id="id_modulo_titulo"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p>Complete los siguientes campos:</p><br>
+        <form class="form-horizontal form-label-left" name="detalle_modulo_edit" id="detalle_modulo_edit" method="post" action="" enctype="multipart/form-data"> 
+            <input type="hidden" name="edit_modulo_id" id="edit_modulo_id">                 
+            <div class="form-group">
+                <label for="moduloNombre" class="contmodulo-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Nombre</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="moduloNombre" id="moduloNombre" class="form-control col-md-7 col-xs-12" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="moduloEstado" class="contmodulo-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Estado</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="hidden" name="moduloEstado" id="moduloEstado">
+                  <h5 style="cursor: pointer;" onclick="cambio_estado();" id="moduloEstado_check"></h5>
+                </div>
+            </div>  
+            <hr>
+            <div class="form-group">
+                <label for="agregar_respuesta" class="contmodulo-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Páginas</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <table class="table table-hover table-bordered" id="tabla_paginas">
+                    <!-- JQuery para cargar tabla. -->
+                  </table>
+                  <input type="text" name="agregar_respuesta" id="agregar_respuesta" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="Agregar nueva página">
+                </div>
+            </div>      
+            
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('detalle_modulo_edit').submit();" style="" >Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+      <div class="modal-footer">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style type="text/css">
+
+</style>
+

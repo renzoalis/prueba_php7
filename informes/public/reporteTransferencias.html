@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+</head> 
+<style type="text/css">
+    tr th { text-align: center };
+</style>
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+
+    <div id="modal-edit-venta" class="modal fade" role="dialog">
+    </div>
+  
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+          <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+    <h3> Reporte Transferencias </h3>
+
+    <br>
+      <div class="col-md-3">
+        <form method="GET" id="form-fecha">
+          <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="">Matriz ID</th> 
+                      <!-- 1 --><th class="">Lote compuesto</th> 
+                      <!-- 1 --><th class="">ID</th> 
+                      <!-- 1 --><th class="">Fecha</th> 
+                      <!-- 1 --><th class="">Origen</th> 
+                      <!-- 1 --><th class="">Destino</th> 
+                      <!-- 1 --><th class="">N° viaje</th> 
+                      <!-- 1 --><th class="">Transportista</th> 
+                      <!-- 2 --><th class="">Categoria</th>
+                      <!-- 3 --><th class="">Producto</th>
+                      <!-- 4 --><th class="">Variedad</th>
+                      <!-- 4 --><th class="">Calibre</th>
+                      <!-- 4 --><th class="">Lote</th>
+                      <!-- 5 --><th class="">Cantidad Origen</th>
+                      <!-- 5 --><th class="">Cantidad Destino</th>
+                      <!-- 4 --><th class="">Valor</th>
+                      <!-- 6 --><th class="">Carga</th> 
+                      <!-- 6 --><th class="">Descarga</th> 
+                      <!-- 6 --><th class="">Flete</th> 
+                      <!-- 6 --><th class="">PPV</th> 
+                      <!-- 6 --><th class="">Estado</th> 
+                      <!-- 6 --><th class="">OBS</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($reporte_transferencias->fetch()){ ?>
+                    <tr>
+                          <td> <?php echo $reporte_transferencias -> MATRIZ_ID; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> LOTE_COMPUESTO; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> ID; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> FECHA; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> ORIGEN; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> DESTINO; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> NUMERO_VIAJE; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> TRANSPORTISTA; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> CATEGORIA; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> PRODUCTO; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> VARIEDAD; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> CALIBRE; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> LOTE; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> CANTIDAD_ORIGEN; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> CANTIDAD_DESTINO; ?> </td>
+                          <td> $ <span class="row_monto"><?php echo $reporte_transferencias -> VALOR; ?> </td>
+                          <td> $ <span class="row_monto"><?php echo $reporte_transferencias -> CARGA; ?> </td>
+                          <td> $ <span class="row_monto"><?php echo $reporte_transferencias -> DESCARGA; ?> </td>
+                          <td> $ <span class="row_monto"><?php echo $reporte_transferencias -> FLETE_DESTINO; ?> </td>
+                          <td> $ <span class="row_monto"><?php echo $reporte_transferencias -> PPV; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> ESTADO; ?> </td>
+                          <td> <?php echo $reporte_transferencias -> OBS; ?> </td>
+                    </tr>
+                            
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html');?>
+    <script src="../templates/templates/assets/plugins/print-this/print-this/printThis.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/daterangepicker.min.js"></script>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script type="text/javascript" src="public/js/informes.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+  
+
+
+
+        } );
+
+    </script>  
+    
+</body>
+</html> 
+

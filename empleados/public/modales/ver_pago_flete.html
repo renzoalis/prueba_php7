@@ -1,0 +1,96 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+</style>
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Pago Flete T00<?php echo $do_pagoFlete -> flete_id; ?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+   
+        <!-- Seccion empleado y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $do_pagoFlete -> empleado_nombre; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="pago_fh" class="form-angosto" required id="pago_fh" value="<?php echo date('Y-m-d',strtotime($do_pagoFlete -> flete_fh));?>" disabled>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion empleado y fecha -->
+
+       
+        <!-- Div cantidad  y costo unitario-->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          
+          <div class="col-md-4 col-xs-12"> 
+              <h4>  Cantidad: </h4>
+            <span class="form-inline">
+              <i class="fa fa-cube"></i>
+              <input autocomplete="off" type="number" class="input-pagos form-obs form-contado" value="<?php echo $do_pagoFlete -> flete_cantidad ;?>" disabled>
+            </span>
+          </div>
+           
+          <div class="col-md-4 col-xs-12"> 
+             <h4>   Costo unitario $ </h4>
+              <span class="form-inline">
+                <i class="fa fa-quora"></i>
+                <input autocomplete="off" type="number" class="input-pagos form-obs form-contado" value="<?php echo $do_pagoFlete -> flete_costo_unitario ;?>" disabled>
+              </span>
+          </div>
+      
+          <div class="col-md-4 col-xs-12"> 
+              <h4>  Monto total $ </h4>
+                <span class="form-inline">
+                  <i class="fa fa-dollar"></i>
+                  <input autocomplete="off" type="number" class="input-pagos form-obs form-contado" value="<?php echo $do_pagoFlete -> flete_monto_total ;?>" disabled>
+                </span>
+              </div>
+          
+        </div>
+        <!-- / Div Cantidad y costo unitario -->           
+          
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="-" disabled value="<?php echo $do_pagoFlete -> flete_observacion;?>">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="$('#modal-edit-pago').modal('hide');">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

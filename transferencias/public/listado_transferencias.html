@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+    <link rel="STYLESHEET" type="text/css" href="./public/css/estilos.css"> 
+
+</head> 
+<input type="hidden" name="id_puesto" id="id_puesto" value="<?php echo PUESTO_ID;?>">
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+<form method="POST" name="editar_transferencia" id="form_editar_transferencia">
+<div id="modal-edit-transferencia" class="modal fade" role="dialog">
+</div>
+</form>
+
+<form class="form-horizontal form-label-left" name="form_concepto" id="form_concepto" method="post" action="" enctype="multipart/form-data" > 
+
+</form>
+
+  <form class="form-horizontal form-label-left" name="detalle_compra" id="detalle_compra" method="post"> 
+<?php require_once('public/modales/nueva_transferencia.html'); ?> 
+</form>
+    <div class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-truck"></i> Listado de transferencias </h3>
+      <?php if(!$cajaAbierta) { ?>
+        <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span><br>
+      <?php } else { ?>
+        <h4><a href="#" class="btn btn-sm brn-raised btn-primary" data-toggle="modal" data-target="#myModalTransferencias" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nueva Transferencia</a></h4>
+      <?php } ?>
+
+    <br>
+      
+        <div class="row" id="contenedor-esperando" style="display: none;">
+        <div class="col-md-4"></div>      
+        <div class="col-md-4 text-center">
+          <h4>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          <br><br>
+          </h4>
+        </div>      
+        <div class="col-md-4"></div>      
+        </div>
+        
+      <div id="tablas">
+      </div>
+     
+    </div><!--//-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/transferencias.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+          var id_puesto = $('#id_puesto').val();
+          <?php if(!$cajaAbierta) { ?>
+            notificacion('Caja cerrada','No se pueden actualizar las transferncias con la caja cerrada.','<icon class=\"fa fa-warning\">','error',10000);
+            getTablas();
+          <?php } else { ?>
+          if(navigator.onLine) { // Servicios si el navegador esta online
+            getCambiosDeEstado();
+            enviarTransferenciasPendientes();
+            getTransferenciasService(id_puesto);
+          } else {
+            notificacion('Sin conexión','El puesto se encuentra desconectado de internet. <br> Sincronización de datos pendiente.','<icon class=\"fa fa-times\">','error',10000);
+          }
+          <?php } ?>
+
+            $('#tabla_recibidas').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+            $('#tabla_enviadas').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+             $('#tabla_archivadas').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#input_productos').on("change", function(e) {
+             cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').attr('data-prodid'),$(e.target).find('option:selected').attr('data-calibre'),$(e.target).find('option:selected').attr('data-costou'),$(e.target).find('option:selected').attr('data-lote'));
+                                                           });
+
+              $('#input_productos').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                          }
+                }
+              });
+
+            $('#combo_puestos').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+            $('#combo_transp').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+            <?php if ($_GET['id_nuevo']) { ?>
+                notificacion('Transferencia enviada','ID puesto: TR00<?php echo $_GET["id_nuevo"]; ?>','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+
+            <?php if ($_GET['id_transf_abrir']) {?>
+             getTransferencia(<?php echo $_GET['id_transf_abrir'];?>);
+            <?php } ?>
+            
+            <?php if ($_GET['recibida']) { ?>
+                notificacion('Transferencia guardada','Se aceptó con éxito la transferencia.','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+
+            <?php if ($_GET['conexion'] == 'error-conexion') { ?>
+                notificacion('Problemas en la conexión','El puesto no pudo comunincar esta acción al sistema matriz. <br> Intente de nuevo más tarde','<icon class=\"fa fa-warning\">','warning',5000);
+            <?php } ?>
+
+            <?php if ($_GET['conexion_recibida'] == 'ok') { ?>
+                notificacion('Sistema matriz notificado','Recibo enviado al sistema matriz.','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+          
+        } );
+        
+    </script>
+
+</body>
+</html>
+

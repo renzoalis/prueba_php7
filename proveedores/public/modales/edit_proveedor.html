@@ -1,0 +1,150 @@
+<form class="form-horizontal form-label-left" name="detalle_prov_edit" id="detalle_prov_edit" method="post" action="" enctype="multipart/form-data">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-truck"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cliente">Proveedor PR00<?php echo $do_proveedores -> prov_id; ?></span> 
+      </div>
+      <div class="modal-body"> 
+            <div id="datos_cliente"> 
+
+              <input type="hidden" name="edit_prov_id" id="edit_prov_id" value="<?php echo $do_proveedores -> prov_id; ?>">
+              <input type="hidden" name="edit_proveedor" id="edit_proveedor" value="1">
+
+              <div class="row" >
+
+                <div class="col-md-12 col-xs-12"> 
+
+                  <div class="row">
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label">Nombre </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_nombre" id="input_nombre" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_nombre; ?>">
+                    </div>
+                  
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label">CUIT </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_dni" id="input_dni" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_dni; ?>">
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Teléfono </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_telefono_1" id="input_telefono_1" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_tel1; ?>">
+                    </div>
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label">Dirección </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_direccion" id="input_direccion" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_direccion; ?>">
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label">E-mail </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_email" id="input_email" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_email; ?>">
+                    </div>
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Obs. </span>
+                    </div>
+                    <div class="col-md-5">
+                      <input autocomplete="off" type="text" name="input_observacion" id="input_observacion" class="form-cliente" placeholder="" value="<?php echo $do_proveedores -> prov_observacion; ?>">
+                    </div>
+
+                  </div>
+
+                  <hr>
+
+                </div>
+
+                <div class="col-md-12 col-xs-12">
+
+                  <h3>Cuenta corriente</h3>
+                  <h4 class="edit_cliente_saldo_actual">Saldo actual: <span class="<?php echo $class_cc; ?>">$ <?php if($do_cc_last -> ccte_saldo_actual){echo $do_cc_last -> ccte_saldo_actual;}else{echo '0';} ?></span></h4>
+                  <div class="edit_cliente_cc">
+                  <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-2 col-xs-4">Fecha</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Operación</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Saldo</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_cc -> fetch()){ ?>
+                        <tr>
+
+                        <!-- -->
+                          <td> <?php echo date('d/m/Y', strtotime($do_cc -> ccte_fh)); ?></td>
+
+                        <!-- -->
+                          <td> <?php echo $do_cc -> ccop_nombre; ?></td>
+
+                        <!-- -->
+                          <td> <?php echo $do_cc -> ccte_importe; ?></td>
+                        
+                        <!-- -->
+                          <td> <?php echo $do_cc -> ccte_saldo_actual; ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <a href="cuenta_corriente.php?id_proveedor=<?php echo $do_proveedores -> prov_id; ?>" target="_blank" > Ver más</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+           
+
+        <form method="POST" name="eliminar_proveedor" id="eliminar_proveedor">
+          <input type="hidden" name="borrar_proveedor" value="1">
+          <input type="hidden" name="id_eliminar" value="<?php echo $do_proveedores -> prov_id; ?>">
+        </form>
+
+        <div class="form-group label-cliente">
+          <?php 
+           if ($do_cc_last -> ccte_saldo_actual == 0 && $premium){  ?>
+            <button type="button" class="btn btn-raised btn-danger" onclick="eliminarProveedor();">Eliminar</button>
+          <?php } ?>
+          <button type="submit" class="btn btn-raised btn-primary">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</form>

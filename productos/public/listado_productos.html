@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<?php require_once('public/modales/nuevo_producto.html');?>
+
+<form method="POST" name="editar_producto" id="form_editar_producto">
+  <div id="modal-edit-producto" class="modal fade" role="dialog">
+  </div>
+</form>
+
+<input type="hidden" name="premium" id="premium" value="<?php echo $premium; ?>">
+
+<?php if ($_GET['id_elim']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se eliminó correctamente la variedad <b><?php echo $_GET['id_elim']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_nuevo']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se agregó correctamente la variedad <b><?php echo $_GET['id_nuevo']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_edit']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificó correctamente el alias<b><?php echo $_GET['id_edit']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+    <section class="cards-section text-center" id="transicion" style="background-color: #eeeeee;">
+        <h3><i class="fa fa-cubes"></i> Listado de variedades</h3>
+      <p><i class="fa fa-info-circle"></i> Última actualización: dd/mm/yyyy</p>
+
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 0 --><th class="col-md-1 col-xs-3">ID</th>
+                      <!-- 2 --><th class="col-md-2 col-xs-4">Categoría</th>
+                      <!--2.1--><th class="col-md-1 col-xs-4">Producto</th>
+                      <!-- 1 --><th class="col-md-2 col-xs-3">Variedad</th>
+                      <!-- 3 --><th class="col-md-2 col-xs-4">Alias</th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4">Calibre</th>
+                      <!-- 7 --><th class="col-md-1 col-xs-4">Stock de Venta</th>
+                      <!-- 7 --><th class="col-md-1 col-xs-4">Stock Fisico</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_productos->fetch()){ ?>
+                        <tr style="cursor: pointer;" onclick="getProducto(<?php echo $do_productos->prod_id; ?>,$('#premium').val());" >
+
+                          <td><?php echo $do_productos -> prod_id; ?></td>
+                          <td><?php echo $do_productos -> tipo_nombre; ?></td>
+                          <td><?php echo $do_productos -> cat_nombre; ?></td>
+                          <td><?php echo $do_productos -> prod_nombre; ?></td>
+                          <td><?php echo $do_productos -> prod_alias; ?></td>
+                          <?php $stock = $do_productos -> getStockPorCalibre(); ?>
+                          <td><?php echo $stock['calibres']; ?></td>
+                          <td><?php echo $stock['cantidades']; ?></td>
+                          <td><?php echo $do_productos -> getStockFisico();?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright"><a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+
+    <script type="text/javascript" src="public/js/productos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_elim']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_nuevo']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_edit']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+        } );
+
+        <?php if ($_GET['id_busqueda']) {?>
+            getSolicitud(<?php echo $_GET['id_busqueda']; ?>);
+        <?php } ?>
+        
+        
+    </script>
+
+</body>
+</html>

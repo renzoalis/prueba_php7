@@ -1,0 +1,159 @@
+
+<div id="myModalTransferencias" class="modal fade" role="dialog">
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nueva Transferencia</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="nueva_transferencia" id="nueva_transferencia" value="1">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-industry"></i>
+              <select id="combo_puestos" name="combo_puestos" class="form-control form-angosto" placeholder="Seleccionar Puesto" required>
+                <option value=""> Seleccione un destino </option>
+                          <?php while ($do_puesto -> fetch()) { ?>
+                          <option value="<?php echo $do_puesto -> puesto_id; ?>"> <?php echo $do_puesto -> puesto_nombre; ?></option>
+                          <?php } ?>
+              </select> 
+            </span>
+          </div>
+
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-hashtag"></i>
+              <input type="text" class="form-obs" name="numero_viaje">
+            </span>
+          </div>
+          
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-truck"></i>
+              <input type="hidden" name="transportista_nombre" id="transportista_nombre" value="">
+              <select id="combo_transp" name="combo_transp" class="form-control form-angosto" placeholder="Seleccionar Transportista" required onchange="actualizarNombre();">
+                <option value=""> Seleccione un Transportista </option>
+                          <?php while ($do_transp -> fetch()) { ?>
+                          <option value="<?php echo $do_transp -> transportista_id; ?>" transp_nombre="<?php echo $do_transp -> transportista_nombre; ?>"> <?php echo $do_transp -> transportista_nombre; ?></option>
+                          <?php } ?>
+              </select> 
+            </span>
+          </div>
+          
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="compra_fh" class="form-angosto" required id="compra_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos">
+              <thead>
+                 <tr>
+                    <th class="col-md-4 col-xs-4">Producto</th>
+                    <th class="col-md-1 col-xs-2">Stock</th>
+                    <!-- <th class="col-md-1 col-xs-2">Costo Unitario</th> -->
+                    <th class="col-md-1 col-xs-2">Cantidad</th>
+                    <th class="col-md-1 col-xs-2">Precio carga unitaria ($)</th>
+                    <!-- <th class="col-md-1 col-xs-2">Precio flete unitaria ($)</th> -->
+                    <!-- <th class="col-md-3 col-xs-4">Observación</th> -->
+                    <th class="col-md-1 col-xs-2">Total ($)</th>
+                  </tr>
+              </thead>
+              <tbody> </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td> 
+                <td></td>
+                <!-- <td></td> -->
+                <td></td>
+                <!-- <td></td> -->
+                <!-- <td></td> -->
+                <td>Total</span></td>
+                <td><input type="number" readonly name="costo_final_total" id="costo_final_total"></td>
+              </tfoot>
+            </table>
+
+            <span class="form-inline" >
+              <i class="fa fa-cart-plus"></i> 
+              <select id="input_productos" name="aux_producto" class="form-control form-select-datalist" placeholder="Agregar producto a la transferencia" style="width: 50%;">
+                 <option value="" >Agregar producto a la transferencia</option>
+                 <?php foreach ($productos as $prod => $lote) {
+                  foreach ($lote as $key => $value){
+
+                  $producto_texto =  $value['modelo'];
+                 ?>
+                  <option value="<?php echo $key; ?>" data-prodid="<?php echo $value['id']; ?>" data-lote="<?php echo $key; ?>" data-calibre="<?php echo $value['calibre']; ?>" data-costou="<?php echo $value['costou']; ?>"><?php echo $producto_texto; ?></option>
+                
+                <?php }
+                  } ?>
+              </select>
+            </span>
+
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+          <input type="hidden" name="cant_prod" id="cant_prod" value="0">
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-7">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_observacion_transferencia" id="input_observacion_transferencia" class="form-obs" placeholder="Observación de la transferencia">
+            </span>
+          </div>
+
+        </div>
+
+
+       
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary">
+          <button type="button" class="btn btn-raised btn-default" onclick="recargar();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+  function actualizarNombre(){
+      var trasnpNombre= $('option:selected', this).attr('transp_nombre');
+      $('#transportista_nombre').val(trasnpNombre);
+  }
+
+
+</script>
+<script>
+function recargar() {
+  window.location = window.location.pathname
+   }
+</script>

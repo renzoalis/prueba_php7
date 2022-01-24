@@ -1,0 +1,23 @@
+  <span class="form-inline">
+    <i class="fa fa-user"></i> 
+    <select id="combo-select-agente" name="input_id_select_agente" class="form-control form-angosto" placeholder="Seleccionar agente" required>
+      <option value=""> Seleccione un <?php echo $notas_agentes -> ta_nombre; ?> </option>
+      <?php foreach ($listado as $k => $v) { ?>
+        <option value="<?php echo $k; ?>"> <?php echo $v; ?></option>
+      <?php } ?>
+    </select>
+  </span>
+ 
+  <script type="text/javascript">  
+    $('#combo-select-agente').select2({
+          minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+          language: {
+            noResults: function (params) {
+              return "No hay resultados.";
+            },
+            inputTooShort: function () {
+                return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+            }
+          }
+        });
+  </script>

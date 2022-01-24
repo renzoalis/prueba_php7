@@ -1,0 +1,44 @@
+<style type="text/css">
+  td {text-align: center}
+</style>
+<div id="variacionesprecio" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Variaciones de precio</span> 
+        </span>
+      </div>
+      <div class="modal-body" style="padding-top: 0px; padding-left: 0px;padding-right: 0px;">
+      <h3 id="nombre_producto" style=" text-align:center;background: #8bd6d8;color: whitesmoke;margin-bottom: 0px;margin-top:0px;"></h3>
+      <!-- SPINNER CARGANDO.... -->
+          <div style="margin-top: 30px;color: darkcyan;}" class="row" id="contenedor-esperando">
+           <div class="col-md-4"></div>      
+           <div class="col-md-4 text-center">
+             <h4>
+              <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+              <br><br>
+            </h4>
+          </div>      
+          <div class="col-md-4"></div>      
+        </div>
+        <!-- SPINNER CARGANDO.....-->
+
+         <!-- ESTA INFO ES GENERADA POR AJAX.....-->
+        <div id="info_traida_x_ajax"> 
+
+
+        </div>
+         <!-- ESTA INFO ES GENERADA POR AJAX.....-->
+
+
+        <hr>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

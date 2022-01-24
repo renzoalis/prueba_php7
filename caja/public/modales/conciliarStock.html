@@ -1,0 +1,91 @@
+    <div id="modalConciliar" class="modal fade" role="dialog">
+    
+      <div class="modal-dialog">
+        <!-- Modal content-->
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span class="modal-title">
+            <span style="font-size: 18px;"><i class="fa fa-dropbox"></i></span> 
+            <span style="font-size: 18px; margin-left: 5px;"> Conciliación de Stock </span> 
+          </div>
+          <div class="modal-body"> 
+                <div> 
+                  <input type="hidden" name="conciliarStock" id="conciliarStock" value="1">
+                  <input type="hidden" name="modificoAlguna" id="modificoAlguna" value="0">
+                  <input type="hidden" name="conciliar_caja_id" id="conciliar_caja_id" value="<?php echo $do_caja -> caja_id?>">
+
+                  <div class="row">
+
+                    <div class="table-responsive">
+                      <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                        <thead>
+                          <tr class="header-tabla-caja">
+                            <th class="col-md-12 dobleheader-estadistico title-estadistico" colspan="6">Lotes</th>
+                          </tr>
+                          <tr class="header-tabla-caja">
+                            <th class="col-xs-1 text-center">ID</th>
+                            <th class="col-xs-9 text-center">Producto</th>
+                            <th class="col-xs-1 text-center">Stock Fisico</th>
+                            <th class="col-xs-1 text-center">Stock Venta</th>
+                             <!-- <th class="col-md-1 text-center">Diferencia</th>
+                            <th class="col-md-2 text-center">Tipo</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach($lotes as $l) { ?>
+                            <tr>
+                              <input type="hidden" id="prod_<?php echo $l['id']; ?>" readonly name="prod[<?php echo $l['id']; ?>]" value="<?php echo $l['prod']; ?>">
+                              <input type="hidden" id="cal_<?php echo $l['id']; ?>" readonly name="cal[<?php echo $l['id']; ?>]" value="<?php echo $l['cal']; ?>">
+                              <td class="col-xs-1" style="text-align:left;"><?php echo $l['id']; ?></td>
+                              <td class="col-xs-9" style="text-align:left;"><?php echo $l['producto']; ?></td>
+                              <td class="col-xs-1"><input style="width:100%; text-align:right;" type="number" id="cant_<?php echo $l['id']; ?>" readonly name="cant[<?php echo $l['id']; ?>]" step="1" min="0" value="<?php echo $l['cant']; ?>"></td>
+                              <td class="col-xs-1"><input style="width:100%; text-align:right;" type="number" id="cant_venta_<?php echo $l['id']; ?>" readonly name="cantVenta[<?php echo $l['id']; ?>]" step="1" min="0" value="<?php echo $l['cant_venta']; ?>"></td>
+                             <!-- <td class=""><input type="number" id="real_<?php echo $l['id']; ?>" name="real[<?php echo $l['id']; ?>]" step="1" min="0" value="<?php echo $l['cant']; ?>" oninput="modificarReal(<?php echo $l['id']; ?>);"></td>
+                              <td style="text-align: center !important;" id="dif_<?php echo $l['id']; ?>"> </td>
+                              <td>
+                                <select required disabled style="width: 100% !important; display: none;" name="tipo[<?php echo $l['id']; ?>]" id="tipo_<?php echo $l['id']; ?>" >
+                                    <option value="">- Motivo -</option>
+                                  <?php foreach($tipos_conciliacion as $k => $v) { ?>
+                                    <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                                  <?php } ?>
+                                </select>
+                              </td> -->
+
+                            </tr>
+
+                          <?php } ?>
+                          
+
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                  </div>
+
+                  <hr>
+
+                  <br>
+                  <div class="row" >
+
+                    <div class="col-md-12 col-xs-12"> 
+
+                      <div class="form-group label-cliente">
+                       <!-- <button type="submit" class="btn btn-raised btn-primary" >Guardar</button> -->
+                        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+               
+
+          </div>
+
+        </div>
+
+      </div>
+  </div>

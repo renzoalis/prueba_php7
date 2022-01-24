@@ -1,0 +1,329 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+<div id="myModalPago" class="modal fade" role="dialog">
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nuevo Pago</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_pago" id="nuevo_pago" value="1">
+        <!-- Seccion proveedor y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i> 
+              <select id="combo_cli" name="input_id_exportad" class="form-control form-angosto" placeholder="Seleccionar exportador" required>
+                <option value=""> Seleccione un exportador </option>
+                <?php foreach ($exportadores as $tra) { ?>
+                <option value="<?php echo $tra['id']; ?>"><?php echo $tra['nombre']; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+            <span id="deuda_prov"></span>
+            <br>
+          </div>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="pago_fh" class="form-angosto" required id="pago_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion proveedor y fecha -->
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value=""> Forma de pago </option>
+                <option value="1"> Efectivo </option>
+                <option value="2"> Cheque Propio</option>
+                <option value="6"> Cheque Terceros </option>
+                <option value="8"> Transferencia </option>
+                <option value="9"> Deposito </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+
+        <!-- Div Efectivo -->
+
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4> <i class="fa fa-print"> </i>  Efectivo </h4>
+
+          <div class="col-md-1 col-xs-1 label-cliente">
+            <span class="form-label">Monto </span>
+          </div>
+          <div class="col-md-5">
+          <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto" id="input_monto" class="input-pagos form-obs form-contado  soloNumeros" min="0"></span>
+          </div>
+
+          <div class="col-md-1 col-xs-1 label-cliente">
+            <span class="form-label">Comprobante </span>
+          </div>
+          <div class="col-md-5">
+            <input style="margin-left: 10px;" autocomplete="off" type="text" name="input_comprob_contado" id="input_comprob_contado" class="input-pagos form-obs form-contado">
+          </div>
+
+        </div>
+        <!-- / Div Efectivo -->
+
+          <!-- Div Transferencia -->
+
+        <div class="row form-seccion div-pagos" id="div-transfer">
+          <h4> <i class="fa fa-print"> </i>  Transferencia bancaria</h4>
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_transfer" id="input_monto_transfer" class="input-pagos form-obs form-transfer soloNumeros" min="0"></span>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Comprobante </span>
+            </div>
+            <div class="col-md-5">
+              <input style="margin-left: 10px;" autocomplete="off" type="text" name="input_comprob_transfer" id="input_comprob_transfer" class="input-pagos form-obs form-transfer">
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Emisor</span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_emisor_t" name="input_banco_emisor_t" class="input-pagos select-forma-pago form-transfer" placeholder="Banco" required>
+                <option value=""> Seleccione un banco </option>
+                <?php while ($do_banco_et -> fetch()) { ?>
+                <option value="<?php echo $do_banco_et -> banco_id; ?>"> <?php echo $do_banco_et -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Receptor</span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_receptor_t" name="input_banco_receptor_t" class="input-pagos select-forma-pago form-transfer" placeholder="Banco" required>
+                <option value=""> Seleccione un banco</option>
+                <?php while ($do_banco_rt -> fetch()) { ?>
+                <option value="<?php echo $do_banco_rt -> banco_id; ?>"> <?php echo $do_banco_rt -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Factura </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_factura_transfer" id="input_factura_transfer" class="input-pagos form-obs form-transfer">
+            </div>
+
+          </div>
+
+        </div>
+        <!-- / Div Transferencia -->
+
+        <!-- Div Cheque -->
+        <div class="row form-seccion div-pagos" id="div-cheque">
+          <h4> <i class="fa fa-money"> </i> Cheque propio</h4>
+
+          <div class="row">
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Número </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="number" name="input_numero_cheque" id="input_numero_cheque" class="input-pagos form-obs form-cheque" placeholder="000000" min="0">
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Banco </span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_cheque" name="input_banco_cheque" class="input-pagos select-forma-pago form-cheque" placeholder="Banco" required>
+                <option value=""> Seleccione </option>
+                <?php while ($do_banco -> fetch()) { ?>
+                <option value="<?php echo $do_banco -> banco_id; ?>"> <?php echo $do_banco -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Titular </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_titular_cheque" id="input_titular_cheque" class="input-pagos form-obs form-cheque" placeholder="Persona física/jurídica">
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_cheque" id="input_monto_cheque" class="input-pagos form-obs form-cheque soloNumeros" min="0"></span>
+            </div>
+
+            
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">F. Emisión </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="date" name="input_emision_cheque" id="input_emision_cheque" max="<?php echo date('Y-m-d'); ?>" class="input-pagos form-obs form-cheque" >
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">F. Cobro </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="date" name="input_cobro_cheque" id="input_cobro_cheque" max="<?php echo date('Y-m-d',strtotime(date("Y-m-d", mktime()) . " + 1 year")); ?>" class="input-pagos form-obs form-cheque" >
+            </div>
+
+          </div>
+
+        </div>
+        <!-- / Div Cheque -->
+
+         <!-- Div Deposito -->
+
+        <div class="row form-seccion div-pagos" id="div-deposito">
+          <h4> <i class="fa fa-print"> </i>  Depósito bancario</h4>
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_deposito" id="input_monto_deposito" class="input-pagos form-obs form-deposito soloNumeros" min="0"></span>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Comprobante </span>
+            </div>
+            <div class="col-md-5">
+              <input  style="margin-left: 10px;" autocomplete="off" type="text" name="input_comprob_deposito" id="input_comprob_deposito" class="input-pagos form-obs form-deposito">
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Banco </span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_d" name="input_banco_d" class="input-pagos select-forma-pago form-deposito" placeholder="Banco" required>
+                <option value=""> Seleccione un banco </option>
+                <?php while ($do_banco_d -> fetch()) { ?>
+                <option value="<?php echo $do_banco_d -> banco_id; ?>"> <?php echo $do_banco_d -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Factura </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_factura_deposito" id="input_factura_deposito" class="input-pagos form-obs form-deposito">
+            </div>           
+
+          </div>
+
+        </div>
+        <!-- / Div Deposito -->
+
+        <!--  Div terceros -->
+         <div class="row form-seccion div-pagos" id="div-terceros">
+          <h4> <i class="fa fa-money"> </i>  Cheque terceros </h4>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-money"></i>
+                <select id="input_cheque_terceros" name="input_cheque_terceros" class="input-pagos form-xlargo select-forma-pago form-terceros" placeholder="Forma de pago" required onchange="$('#input_monto_cheque_tercero').val($(this).find('option:selected').attr('rel'));">
+                  <option value=""> Cheque terceros </option>
+                  <?php while ($do_cheques_terceros -> fetch()) { ?>
+                   <option rel="<?php echo $do_cheques_terceros -> cheque_monto; ?>" value="<?php echo $do_cheques_terceros -> cheque_id; ?>"> <?php echo $do_cheques_terceros -> banco_nombre .' - N° '.$do_cheques_terceros -> cheque_numero.' - $'.$do_cheques_terceros -> cheque_monto.' - '.$do_cheques_terceros -> cheque_cobro_fh.' - '.$do_cheques_terceros -> cheque_titular; ?></option>
+                  <?php } ?>
+                </select>
+            </span>
+          </div>
+          <div class="col-md-6 col-xs-12 label-cliente">
+            <span class="form-label">Monto </span>
+            <span class="pesitosimbolo" style="background-color: rgb(235, 235, 228); padding-bottom: 6px">$<input autocomplete="off" type="number" style="border-top: none" name="input_monto_cheque_tercero" id="input_monto_cheque_tercero" class="input-pagos form-obs form-contado" min="0"></span>
+          </div>
+        </div>
+
+        <!-- / Div terceros -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del pago">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarYsubmitear();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default"  data-dismiss="modal">Cancelar</button>
+           <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

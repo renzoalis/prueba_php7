@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+    <?php require_once('public/modales/balanceDiario.html');?>
+    <?php require_once('public/modales/ccClientes.html');?>
+    <?php require_once('public/modales/cuentasCorrientes.html');?>
+    <?php require_once('public/modales/listadoCobros.html');?>
+    <?php require_once('public/modales/listadoVentas.html');?>
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <h3><i class="fa fa-bar-chart"></i> Informes</h3>
+            <br>
+            <div class="container">
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-file-text-o"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte online </h3>
+                            <a class="link" href="./reporteOnline.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-dollar"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte Ventas </h3>
+                            <a class="link" href="./reporteVentas.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cart-arrow-down"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte Compras </h3>
+                            <a class="link" href="./reporteCompras.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-truck"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte Transferencias </h3>
+                            <a class="link" href="./reporteTransferencias.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-credit-card"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte Lotes </h3>
+                            <a class="link" href="./reporteLotes.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//cards-->
+
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-remove"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Reporte Perdidas </h3>
+                            <a class="link" href="./reportePerdidas.php"><span></span></a>
+                        </div><!--//item-inner-->
+
+                    </div><!--//item-->
+
+
+                </div><!--//cards-->
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html');?>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fecha_cc_cli').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_cc_cli').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde_ccCli').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta_ccCli').val(picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#fecha_ventas').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_ventas').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_ventas_d').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_ventas_h').val(picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#combo_cli').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        });
+    </script>
+
+    
+</body>
+</html> 
+

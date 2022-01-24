@@ -1,0 +1,467 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pago {
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Salida de Caja <?php echo $salidas_de_caja -> categoria." | ".$salidas_de_caja -> op_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+            <div class="col-md-6 col-xs-12"> 
+              <span class="form-inline">
+                <i class="fa fa-user"></i> 
+                <select id="combo_cli_cobro" name="input_id_cliente" class="form-control form-angosto" placeholder="Seleccionar cliente" disabled>
+                <option value="1" <?php echo 'selected';?> ><?php echo $detalle -> nombre_operador;?> </option>
+                  
+                </select>
+              </span>
+              <span id="deuda_cliente"></span>
+            </div>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="cobro_fh" class="form-angosto" required id="cobro_fh" value="<?php echo date('Y-m-d',strtotime($salidas_de_caja -> fecha));?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" disabled>
+                <option value=""> Forma de pago </option>
+                <option value="1" <?php echo 'selected';?> ><?php echo $salidas_de_caja -> forma_pago;?> </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+        <?php if($salidas_de_caja -> fp_id == 1) { ?>
+        <!-- Div Efectivo -->
+          <div class="row form-seccion" id="div-contado">
+            <h4> <i class="fa fa-print"> </i>  Monto </h4>
+            <div class="col-md-5 col-xs-12"> 
+              <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" disabled value="<?php echo $salidas_de_caja -> monto; ?>">
+              </span>
+            </div>
+          </div>
+        <!-- / Div Efectivo -->
+        <?php } ?>
+
+
+        <!-- Div Boleto -->
+        <?php if($salidas_de_caja -> fp_id == 5) { ?>
+          <div class="row form-seccion div-pago" id="div-boleto">
+            <h4> <i class="fa fa-money"> </i> Boleto </h4>
+
+            <div class="row">
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Número </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="number" name="input_numero_boleto" id="input_numero_boleto" class="input-pagos form-obs form-boleto" disabled value="<?php echo $detalle -> boleto_numero; ?>">
+              </div>
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Banco </span>
+              </div>
+              <div class="col-md-5">
+                <select id="input_banco_boleto" name="input_banco_boleto" class="input-pagos select-forma-pago form-boleto" placeholder="Banco" disabled>
+                  <option value=""> Seleccione </option>
+                  <?php while ($do_banco -> fetch()) { ?>
+                  <option <?php if($detalle -> boleto_banco_id == $do_banco -> banco_id) {echo 'selected';} ?> value="<?php echo $do_banco -> banco_id; ?>"> <?php echo $do_banco -> banco_nombre; ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Monto $ </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="number" name="input_monto_pesos_boleto" id="input_monto_pesos_boleto" class="input-pagos form-obs form-boleto" value="<?php echo $detalle -> boleto_monto_pesos; ?>" readonly>
+              </div>
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Monto R$ </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="number" name="input_monto_reales_boleto" id="input_monto_reales_boleto" class="input-pagos form-obs form-boleto" value="<?php echo $detalle -> boleto_monto_reales; ?>" readonly>
+              </div>
+
+              
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">F. Emisión </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="date" name="input_emision_boleto" id="input_emision_boleto" class="input-pagos form-obs form-boleto" value="<?php echo $detalle -> boleto_emision_fh; ?>" readonly>
+              </div>
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">F. Venc. </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="date" name="input_venc_boleto" id="input_venc_boleto" class="input-pagos form-obs form-boleto" value="<?php echo $detalle -> boleto_vencimiento_fh; ?>" readonly>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label"> NFE </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="number" name="input_nfe_boleto" id="input_nfe_boleto" class="input-pagos form-obs form-boleto" value="<?php echo $detalle -> boleto_nfe; ?>" readonly>
+              </div>
+
+            </div>
+
+          </div>
+        <?php } ?>
+        <!-- / Div Boleto -->
+
+        <!-- Div Cheque Terceros-->
+        <?php if($salidas_de_caja -> fp_id == 6) { ?>
+        <div class="row form-seccion div-pago" id="div-cheque">
+          <h4> <i class="fa fa-money"> </i> Cheque </h4>
+
+          <div class="row">
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Número </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="number" name="input_numero_cheque" id="input_numero_cheque" class="input-pagos form-obs form-cheque soloNumeros" value="<?php echo $detalle -> cheque_numero; ?>" readonly>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Banco </span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_cheque" name="input_banco_cheque" class="input-pagos select-forma-pago form-cheque" placeholder="Banco" disabled>
+                <option value=""> Seleccione </option>
+                <?php while ($do_banco2 -> fetch()) { ?>
+                <option <?php if($detalle -> cheque_banco_id == $do_banco2 -> banco_id) {echo 'selected';} ?>  value="<?php echo $do_banco2 -> banco_id; ?>"> <?php echo $do_banco2 -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Titular </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_titular_cheque" id="input_titular_cheque" class="input-pagos form-obs form-cheque" value="<?php echo $detalle -> cheque_titular; ?>" readonly>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_cheque" id="input_monto_cheque" class="input-pagos form-obs form-cheque soloNumeros" value="<?php echo $detalle -> cheque_monto; ?>" readonly> </span>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">F. Emisión </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_emision_cheque" id="input_emision_cheque" class="input-pagos form-obs form-cheque" value="<?php echo date('d/m/Y',strtotime($detalle -> cheque_emision_fh)); ?>" readonly >
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">F. Cobro </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_cobro_cheque" id="input_cobro_cheque" class="input-pagos form-obs form-cheque" value="<?php echo date('d/m/Y',strtotime($detalle -> cheque_cobro_fh)); ?>" readonly>
+            </div>
+
+          </div>
+
+        </div>
+        <?php } ?>
+        <!-- / Div Cheque -->
+
+        <!-- Div Cheque Propio-->
+        <?php if($salidas_de_caja -> fp_id == 2) { ?>
+          <div class="row form-seccion div-pago" id="div-cheque">
+            <h4> <i class="fa fa-money"> </i> Cheque </h4>
+  
+            <div class="row">
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Número </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="number" name="input_numero_cheque" id="input_numero_cheque" class="input-pagos form-obs form-cheque soloNumeros" value="<?php echo $detalle -> cheque_numero; ?>" readonly>
+              </div>
+  
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Banco </span>
+              </div>
+              <div class="col-md-5">
+                <select id="input_banco_cheque" name="input_banco_cheque" class="input-pagos select-forma-pago form-cheque" placeholder="Banco" disabled>
+                  <option value=""> Seleccione </option>
+                  <?php while ($do_banco2 -> fetch()) { ?>
+                  <option <?php if($detalle -> cheque_banco_id == $do_banco2 -> banco_id) {echo 'selected';} ?>  value="<?php echo $do_banco2 -> banco_id; ?>"> <?php echo $do_banco2 -> banco_nombre; ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+            </div>
+  
+            <div class="row">
+  
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Titular </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="text" name="input_titular_cheque" id="input_titular_cheque" class="input-pagos form-obs form-cheque" value="<?php echo $detalle -> cheque_titular; ?>" readonly>
+              </div>
+  
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">Monto </span>
+              </div>
+              <div class="col-md-5">
+               <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_cheque" id="input_monto_cheque" class="input-pagos form-obs form-cheque soloNumeros" value="<?php echo $detalle -> cheque_monto; ?>" readonly> </span>
+              </div>
+  
+            </div>
+  
+            <div class="row">
+  
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">F. Emisión </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="date" name="input_emision_cheque" id="input_emision_cheque" class="input-pagos form-obs form-cheque" value="<?php echo $detalle -> cheque_emitido_fh; ?>" readonly >
+              </div>
+  
+              <div class="col-md-1 col-xs-1 label-cliente">
+                <span class="form-label">F. Pago </span>
+              </div>
+              <div class="col-md-5">
+                <input autocomplete="off" type="date" name="input_cobro_cheque" id="input_cobro_cheque" class="input-pagos form-obs form-cheque" value="<?php echo $detalle -> cheque_ingreso_fh; ?>" readonly>
+              </div>
+  
+            </div>
+  
+          </div>
+          <?php } ?>
+          <!-- / Div Cheque Propio -->
+         <!-- Div Credito -->
+        <?php if($salidas_de_caja -> fp_id == 3) { ?>
+        <div class="row form-seccion div-pago" id="div-credito">
+          <h4> <i class="fa fa-credit-card"> </i> Crédito </h4>
+          <br>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_credito" id="input_monto_credito" class="input-pagos form-obs form-credito" value="<?php echo $salidas_de_caja -> monto; ?>" readonly>
+            </span>
+          </div>
+        </div>
+        <?php } ?>
+        <!-- / Div credito -->
+
+         <!-- Div debito -->
+        <?php if($salidas_de_caja -> fp_id == 4) { ?>
+        <div class="row form-seccion div-pago" id="div-debito">
+          <h4> <i class="fa fa-credit-card"> </i> Débito </h4>
+          <br>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_debito" id="input_monto_debito" class="input-pagos form-obs form-debito" value="<?php echo $salidas_de_caja -> monto; ?>" readonly>
+            </span>
+          </div>
+        </div>
+         <?php } ?>
+        <!-- / Div debito -->
+
+        <!-- Div Transferencia -->
+        <?php if($salidas_de_caja -> fp_id == 8) { ?>
+        <div class="row form-seccion div-pago" id="div-transfer">
+          <h4> <i class="fa fa-print"> </i>  Transferencia bancaria</h4>
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$<input autocomplete="off" type="number" name="input_monto_transfer" id="input_monto_transfer" class="input-pagos form-obs form-transfer" value="<?php echo $detalle -> t_monto; ?>" readonly></span>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Comprobante </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_comprob_transfer" id="input_comprob_transfer" class="input-pagos form-obs form-transfer" value="<?php echo $detalle -> t_comprobante; ?>" readonly>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Emisor</span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_emisor_t" name="input_banco_emisor_t" class="input-pagos select-forma-pago form-transfer" placeholder="Banco" disabled>
+                <option value=""> Seleccione un banco </option>
+                <?php while ($do_banco_et -> fetch()) { ?>
+                <option <?php if($detalle -> t_banco_emisor_id == $do_banco_et -> banco_id) {echo 'selected';} ?> value="<?php echo $do_banco_et -> banco_id; ?>"> <?php echo $do_banco_et -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Receptor</span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_receptor_t" name="input_banco_receptor_t" class="input-pagos select-forma-pago form-transfer" placeholder="Banco" disabled>
+                <option value=""> Seleccione un banco</option>
+                <?php while ($do_banco_rt -> fetch()) { ?>
+                <option <?php if($detalle -> t_banco_receptor_id == $do_banco_rt -> banco_id) {echo 'selected';} ?>  value="<?php echo $do_banco_rt -> banco_id; ?>"> <?php echo $do_banco_rt -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Factura </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_factura_transfer" id="input_factura_transfer" class="input-pagos form-obs form-transfer" value="<?php echo $detalle -> t_factura; ?>" readonly>
+            </div>
+
+          </div>
+
+        </div> 
+        <?php } ?>
+        <!-- / Div Transferencia -->
+
+        <!-- Div Deposito -->
+        <?php if($salidas_de_caja -> fp_id == 9) { ?>
+        <div class="row form-seccion div-pago" id="div-deposito">
+          <h4> <i class="fa fa-print"> </i>  Depósito bancario</h4>
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+              <span class="pesitosimbolo">$ <input autocomplete="off" type="number" name="input_monto_deposito" id="input_monto_deposito" class="input-pagos form-obs form-deposito" value="<?php echo $detalle -> d_monto; ?>" readonly></span>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Comprobante </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_comprob_deposito" id="input_comprob_deposito" class="input-pagos form-obs form-deposito" value="<?php echo $detalle -> d_comprobante; ?>" readonly>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Banco </span>
+            </div>
+            <div class="col-md-5">
+              <select id="input_banco_d" name="input_banco_d" class="input-pagos select-forma-pago form-deposito" placeholder="Banco" disabled>
+                <option value=""> Seleccione un banco </option>
+                <?php while ($do_banco_d -> fetch()) { ?>
+                <option <?php if($detalle -> d_banco_id == $do_banco_d -> banco_id) {echo 'selected';} ?> value="<?php echo $do_banco_d -> banco_id; ?>"> <?php echo $do_banco_d -> banco_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Factura </span>
+            </div>
+            <div class="col-md-5">
+              <input autocomplete="off" type="text" name="input_factura_deposito" id="input_factura_deposito" class="input-pagos form-obs form-deposito" value="<?php echo $detalle -> d_factura; ?>" readonly>
+            </div>           
+
+          </div>
+
+        </div> 
+        <?php } ?>
+        <!-- / Div Deposito -->
+
+        
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del cobro" value="<?php echo $salidas_de_caja -> observacion; ?>" readonly>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

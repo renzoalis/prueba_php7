@@ -1,0 +1,110 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pago {
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Salida por Otros <?php echo "-> PAGO | ".$do_pagos_otros -> ENTIDAD;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+            <div class="col-md-6 col-xs-12"> 
+              <span class="form-inline">
+                <i class="fa fa-user"></i> 
+                <select id="combo_cli_cobro" name="input_id_cliente" class="form-control form-angosto" placeholder="Seleccionar cliente" disabled>
+                <option value="1" <?php echo 'selected';?> ><?php echo $pago -> nombre_entidad;?> </option>
+                  
+                </select>
+              </span>
+              <span id="deuda_cliente"></span>
+            </div>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="cobro_fh" class="form-angosto" required id="cobro_fh" value="<?php echo date('Y-m-d',strtotime($do_pagos_otros -> FECHA));?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" disabled>
+                <option value=""> Forma de pago </option>
+                <option value="11" <?php echo 'selected';?> > Con dinero de otro puesto </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+        <?php if($do_pagos_otros -> FORMA_PAGO_ID == 11) { ?>
+        <!-- Div Efectivo -->
+          <div class="row form-seccion" id="div-contado">
+            <h4> <i class="fa fa-print"> </i>  Monto </h4>
+            <div class="col-md-5 col-xs-12"> 
+              <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" disabled value="<?php echo $do_pagos_otros -> MONTO; ?>">
+              </span>
+            </div>
+          </div>
+        <!-- / Div Efectivo -->
+        <?php } ?>
+
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del cobro" value="<?php echo $do_pagos_otros -> observacion; ?>" readonly>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

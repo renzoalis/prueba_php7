@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?>
+
+    <script type="text/javascript" src="public/js/permisos.js"></script>
+    
+</head> 
+
+    
+<body class="landing-page">   
+    <!--FACEBOOK LIKE BUTTON JAVASCRIPT SDK-->
+    <div id="fb-root"></div>
+
+    
+    <div class="page-wrapper">
+        
+<?php require_once('../templates/templates/header.html');?>
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <div class="container">
+                <br>
+                <div class="intro">
+                Click en un casillero para editar los permisos
+                </div><!--//intro-->
+
+                <span class="counter pull-right"></span>
+                <table class="table table-hover table-bordered results z-depth-1">
+                  <thead>
+                    <tr>
+                        <th class="col-md-1 col-xs-1" style="text-align: center;">
+                            Roles <i class="fa fa-chevron-right"></i>
+                            <br>
+                            <i class="fa fa-chevron-down"></i> Módulos
+                        </th>
+                      <?php foreach ($array_roles as $roles) {?>
+                        <td class="col-md-1 col-xs-1" style="vertical-align: middle; text-align: center;"> <?php echo $roles['rol_nombre']; ?></td>
+                      <?php } //Foreach modulo?>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_modulos_tabla -> fetch()){ ?>
+                        <tr style="cursor: pointer; text-align: center;">
+                            <td scope="row"><?php echo $do_modulos_tabla -> mod_nombre; ?></td>
+                                <?php foreach ($array_roles as $roles) { ?>
+                                <td><?php if($matriz[$do_modulos_tabla -> mod_id][$roles['rol_id']]) 
+                                {
+                                    $id = $roles["rol_id"];
+                                    echo '<i class="fa fa-times seponegris" onclick="cambiar_permiso('.$do_modulos_tabla -> mod_id.','.$id.',0)"></i> ';
+                                    for($i=0; $i < $matriz[$do_modulos_tabla -> mod_id][$roles['rol_id']]; $i++)
+                                    {  $j = $i +1; echo '<i class="fa fa-check-circle-o seponegris" onclick="cambiar_permiso('.$do_modulos_tabla -> mod_id.','.$id.','.$j.')"></i> ' ;
+                                    }
+                                    for($i= $matriz[$do_modulos_tabla -> mod_id][$roles['rol_id']]; $i < 4; $i++)
+                                    {  $j = $i +1; echo '<i class="fa fa-check-circle-o seponegrisoscuro" onclick="cambiar_permiso('.$do_modulos_tabla -> mod_id.','.$id.','.$j.')"></i> ' ;
+                                    } 
+                                } else {
+                                    $id = $roles["rol_id"];
+                                    for($i=0; $i < 4; $i++)
+                                    {  $j = $i +1; echo '<i class="fa fa-check-circle-o seponegrisoscuro" onclick="cambiar_permiso('.$do_modulos_tabla -> mod_id.','.$id.','.$j.')"></i> ' ;
+                                    }
+                                }}?>
+                                </td>
+                        </tr>
+                    <?php    } ?>
+                  </tbody>
+                </table>
+            </div><!--//container-->
+        </section><!--//cards-section-->
+        <form name="detalle_permiso_edit" id="detalle_permiso_edit" method="post" action="" enctype="multipart/form-data"> 
+        <input type="hidden" name="rol_id" id="rol_id">
+        <input type="hidden" name="modulo_id" id="modulo_id">
+        <input type="hidden" name="tipoacc_id" id="tipoacc_id">
+        </form>
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> GAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript">  
+        $('#breadcrumb_div').html('<ol class="breadcrumb"> <li ><a href="../index.php" >Inicio</a></li> <li ><a href="index.php" >Seguridad</a></li> <li class="active"> Permisos </li></ol>');
+    </script>
+
+    
+</body>
+</html> 
+

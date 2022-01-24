@@ -1,0 +1,41 @@
+<form class="form-horizontal form-label-left" name="cargarBalanceDiario" id="cargarBalanceDiario" method="post" action="balanceDiario.php" target="blank" enctype="multipart/form-data">
+<div id="balanceDiario" class="modal fade" role="dialog" >
+  <div class="modal-dialog modal-chico">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 24px;" id="titulo">Resumen balance diario</span> 
+        </span>
+        </span>
+      </div>
+      <div class="modal-body"> 
+              <input type="hidden" name="balance" id="balance" value="1">
+              
+              <div class="row">
+             
+                <div class="col-md-12">
+                  <i class="fa fa-calendar"></i> 
+                  <input id="fecha_balanceDiario" type="date" name="fecha_balanceDiario" class="form-fecha" value="<?php echo date('Y-m-d'); ?>" autocomplete="off">      
+                </div>
+                
+              </div>
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-12">
+        <div class="form-group">
+          <button  type="button" class="btn btn-raised btn-sm btn-primary" id="imprimir_resumen" onclick="$('#cargarBalanceDiario').submit();">Imprimir Listado</button>
+          <button type="button" class="btn btn-raised btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</form>
+

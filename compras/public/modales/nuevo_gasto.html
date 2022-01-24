@@ -1,0 +1,59 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+
+</style>
+<div id="myModalGasto" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Gastos varios</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_concepto" id="nuevo_concepto" value="1">
+        <input type="hidden" name="combo_tipo" id="combo_tipo" value="7">
+        <input type="hidden" name="concepto_compra_id" id="concepto_compra_id" value="<?php echo $_POST['id']; ?>">
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" required type="text" name="input_obs_concepto" id="input_obs_concepto" class="form-obs" placeholder="Concepto ">
+            </span>
+          </div>
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-dollar"></i> 
+                <input autocomplete="off" required type="number" step="0.1" name="input_monto" id="input_monto" class="form-obs" placeholder="Monto ">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->  
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary" value="Guardar">
+        <button type="button" class="btn btn-raised btn-default" onclick="$('#myModalGasto').modal('hide');">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

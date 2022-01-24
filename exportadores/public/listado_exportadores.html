@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<?php require_once('public/modales/agregar_exportador.html');?>
+
+  <div id="modal-edit-exportador" class="modal fade" role="dialog">
+  </div>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-cloud-upload"></i> Listado de exportadores</h3>
+      <h4><a href="#" data-toggle="modal" data-target="#myModalExportadorAdd" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nuevo exportador</a></h4>
+
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-1 col-xs-4">Nombre</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Teléfono</th>
+                      <!--  --><th class="col-md-1 col-xs-4">DNI / CUIT</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Empresa</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Dirección</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Observación</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">Saldo</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">Fecha de alta</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($exportadores->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getExportador(<?php echo $exportadores->exportador_id; ?>);" >
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_nombre; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_tel1; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_dni; ?></td>
+                        
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_emp_nombre ?></td>
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_direccion; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> exportador_observacion; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $exportadores -> getSaldo();?></td>
+
+                        <!-- -->
+                          <td><?php echo date('Y/m/d', strtotime($exportadores -> exportador_fh_alta)); ?></td>
+                        
+                        <!-- -->
+                          <td> [<?php echo $exportadores -> exportador_id; ?>] </td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/exportadores.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_nuevo']) {?>
+              notificacion('Exportador guardado','Se guardó correctamente el exportador <?php echo $_GET["id_nuevo"]; ?>.','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+
+        } );
+        
+    </script>
+
+</body>
+</html>

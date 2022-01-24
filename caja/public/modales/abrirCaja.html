@@ -1,0 +1,74 @@
+  <div id="modalAbrirCaja" class="modal fade" role="dialog">
+  
+    <div class="modal-dialog modal-chico">
+      <!-- Modal content-->
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <span class="modal-title">
+          <span style="font-size: 18px;"><i class="fa fa-upload"></i></span> 
+          <span style="font-size: 18px; margin-left: 5px;" id="nombre_cliente"> Abrir caja - <?php echo date('Y/m/d H:i:s'); ?></span> 
+        </div>
+        <div class="modal-body"> 
+              <div id="datos_cliente"> 
+
+                <input type="hidden" name="nuevaCaja" id="nuevaCaja" value="1">
+                <p style="text-align: right">
+                <i class="fa fa-user"></i> <span><?php echo $usr -> usua_nombre ?></span>
+                </p>
+                <br>
+                <div class="row" >
+
+                  <div class="col-md-12 col-xs-12"> 
+
+                    <div class="row">
+                      <div class="col-md-4 col-xs-1 label-cliente">
+                        <span class="form-label"> Monto inicial efectivo</span>
+                      </div>
+
+                      <div class="col-md-8">
+                        <input autocomplete="off" type="text" step="0.10" min="0" name="monto_inicial" id="monto_inicial" class="form-cliente" value="<?php echo '$'.$saldo_anterior -> caja_monto_cierre; ?>" required readonly>
+                        <input autocomplete="off" type="hidden" name="monto_efectivo" id="monto_efectivo" class="form-cliente" value="<?php echo $saldo_anterior -> caja_monto_cierre; ?>">
+                      </div>
+
+                    </div>
+                    <div class="row">
+
+                      <div class="col-md-4 col-xs-1 label-cliente">
+                        <span class="form-label">Cheques de terceros</span>
+                      </div>
+
+                      <div class="col-md-8">
+                        <select id="input_cheque_terceros" name="input_cheque_terceros"  class="form-cliente" placeholder="Cheques de terceros" >
+                          <option value=""> <?php echo $do_cheques_terceros -> N; ?> cheque/s ($<?php echo $total_cheques; ?>)</option>
+                          <?php while ($do_cheques_terceros -> fetch()) { ?>
+                           <option value="<?php echo $do_cheques_terceros -> cheque_id; ?>"> <?php echo $do_cheques_terceros -> banco_nombre .' - N° '.$do_cheques_terceros -> cheque_numero.' - $'.$do_cheques_terceros -> cheque_monto.' - '.$do_cheques_terceros -> cheque_cobro_fh.' - '.$do_cheques_terceros -> cheque_titular; ?></option>
+                          <?php } ?>
+
+                        </select>
+                        <input autocomplete="off" type="hidden" name="monto_cheque" id="monto_cheque" class="form-cliente" value="<?php echo $total_cheques; ?>">
+
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group label-cliente">
+                      <button type="button" class="btn btn-raised btn-primary" onclick="abrirCaja();">Abrir</button>
+                      <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+             
+
+        </div>
+
+      </div>
+
+    </div>
+</div>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <link rel="shortcut icon" href="../templates/templates/favicon.PNG">    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <link id="intranet" rel="stylesheet" href="../templates/templates/assets/css/intranet.css">
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <script type="text/javascript" src="../templates/templates/assets/js/estadisticas.js"></script>
+    
+
+
+</head> 
+
+<body class="landing-page">
+
+<?php require_once('../templates/templates/modales/modal_item.html'); ?>
+<?php require_once('../templates/templates/modales/modal_subitem.html'); ?>
+<?php require_once('../templates/templates/modales/modal_item_edit.html'); ?>
+<?php require_once('../templates/templates/modales/modal_subitem_edit.html'); ?>
+
+    <div class="page-wrapper">
+
+<?php require_once('../templates/templates/header.html');?>
+
+        <div class="doc-wrapper">
+            <div class="container">
+                <div id="doc-header" class="doc-header text-center">
+                    <h1 class="doc-title"><i class="icon fa <?php echo $estadisticas -> est_icono; ?>"></i> <?php echo $estadisticas -> est_alt; ?></h1>
+                    <div class="meta"><i class="fa fa-clock-o"></i> Última actualización: <?php echo fechaMeses($estadisticas -> ultima_modificacion); ?></div>
+                </div><!--//doc-header-->
+                <div class="doc-body">
+                    <div class="doc-content">
+                        <div class="content-inner">
+                            <?php foreach ($items as $item) { ?>
+                            <script type="text/javascript"> cargar_json(<?php echo getObjetoItem($item['item_id']); ?>,<?php echo $item['item_id']; ?>); </script>
+                            <section id="<?php echo $item['item_nombre']; ?>-section" class="doc-section">
+                                <h2 class="section-title" > <?php echo ($item['item_alt']); ?> 
+                                    <?php if ($puedeEditar){ ?> 
+
+                                    <a href="#" onclick="modificar_item(<?php echo $item['item_id']; ?>);" data-toggle="modal" data-target="#myModalItemEdit">
+                                        <i class="fa fa-pencil icono_editar"></i>
+                                    </a>     
+                                    <?php } ?>
+                                </h2>
+                                <br>
+                                    <?php echo ($item['item_texto']); ?>
+                                <div class="section-block">
+                                    <?php foreach ($item['subitems'] as $subitem) { ?>
+                                    <script type="text/javascript"> cargar_json_subitem(<?php echo getObjetoSubitem($subitem['subitem_id']); ?>,<?php echo $subitem['subitem_id']; ?>); </script>
+                                    <br>
+                                    <div id="<?php echo $subitem['subitem_nombre']; ?>-section" class="row" style="margin-left: 0px;">
+                                        <h3 class="block-title"> <?php echo ($subitem['subitem_alt']); ?> 
+                                            <?php if ($puedeEditar){ ?> 
+
+                                                <a href="#" onclick="modificar_subitem(<?php echo $subitem['subitem_id']; ?>);" data-toggle="modal" data-target="#myModalSubitemEdit">
+                                                    <i class="fa fa-pencil icono_editar"></i>
+                                                </a>     
+                                            <?php } ?>
+                                        </h3>
+                                        <?php if($subitem['subitem_image_path']) { //if tiene imagen, col 6?>
+                                        <div class="col-md-6">
+                                           <?php echo ($subitem['subitem_texto']); ?> 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="<?php echo $subitem['subitem_image_path']; ?>">
+                                        </div>
+                                        <?php } //if tiene imagen, col 6 ?>
+                                        <?php if (!$subitem['subitem_image_path']) { //if no tiene imagen, col 12 ?>
+                                        <div class="col-md-12">
+                                           <?php include('../templates/templates/secciones_estadisticas/'.$subitem['subitem_texto']); ?>
+                                        </div>
+                                        <?php } //if tiene imagen, col 12 ?>
+                                    </div>
+                                    <br>
+                                    <?php } //foreach ?>
+                                </div>
+                            </section>
+                            <?php } //foreach ?>
+
+                        </div><!--//content-inner-->
+                    </div><!--//doc-content-->
+                    <div class="doc-sidebar hidden-xs">
+                        <nav id="doc-nav" >
+                            <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                            <?php foreach ($items as $item) {?>
+                                <li><a class="scrollto" href="#<?php echo $item['item_nombre']; ?>-section"><?php echo ($item['item_alt']); ?></a>
+                                </li>
+                                <?php if (sizeof($item['subitems']) > 0) {
+                                    echo '<ul class="nav doc-sub-menu">';
+                                } ?>
+                                <?php foreach ($item['subitems'] as $subitem) { ?>
+                                       <li><a class="scrollto" href="#<?php echo $subitem['subitem_nombre']; ?>-section"><?php echo ($subitem['subitem_alt']); ?></a></li>                
+                                <?php } //foreach ?>
+                                <?php if (sizeof($item['subitems']) > 0) {
+                                    echo '</ul>';
+                                } ?> 
+                                <?php if ($puedeEditar){ ?>
+                               <ul class="nav doc-sub-menu"> <li> <a href="#" style="color: #40babd;" onclick="nuevo_subitem(<?php echo ($item['item_id']); ?>);" data-toggle="modal" data-target="#myModalSubitem"> <i class="fa fa-plus-circle"></i> Nuevo subitem</a></li> </ul>
+                            <?php } ?>
+                            <?php } //foreach ?>    
+                            <?php if ($puedeEditar){ ?>
+                                <li> <a href="#" style="color: #40babd;" data-toggle="modal" data-target="#myModalItem"> <i class="fa fa-plus-circle"></i> Nuevo ítem</a></li>
+                            <?php } ?>
+                            </ul><!--//doc-menu-->
+                        </nav>
+                    </div><!--//doc-sidebar-->
+                </div><!--//doc-body-->              
+            </div><!--//container-->
+        </div><!--//doc-wrapper-->
+
+        
+    </div><!--//page-wrapper-->
+    
+    <footer id="footer" class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por  <a href="http://www.dev-gam.com.ar/" targe="_blank">GAM</a> </small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/prism/prism.js"></script>    
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>                                                                
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQYTlIWQ6An2vZLhWFjOHa5sVdEkStM4M&libraries=visualization" type="text/javascript"></script> <!-- //Mapa -->
+    
+
+    <script type="text/javascript">  
+
+        $(document).ready(function() {
+            $('body :not(script)').contents().filter(function() {
+                return this.nodeType === 3;
+              }).replaceWith(function() {
+                  return this.nodeValue.replace('LINK_INTERRUPCIONES_GEOGRAFICO','<a href="migrar_interrupciones_geo.php">Ejecutar</a>');
+              });
+            $('#breadcrumb_div').html('<ol class="breadcrumb"> <li ><a href="../index.php" >Inicio</a></li> <li ><a href="index.php" >Estadisticas</a></li> <li class="active"> <?php echo $estadisticas -> est_alt; ?> </li></ol>');
+            cargar_mapa(<?php echo $puntos; ?>);
+        });
+
+        $( ".section-title" ).hover(
+            function() {
+            $(this).find( 'i' ).css( 'visibility', 'visible' );
+            $(this).find( 'i' ).css( 'opacity', '1' );
+            $(this).find( 'a' ).css( 'text-decoration', 'none' );
+          }, function() {
+            $(this).find( 'i' ).css( 'visibility', 'hidden' );
+            $(this).find( 'i' ).css( 'opacity', '0' );
+          });
+
+         $( ".block-title" ).hover(
+            function() {
+            $(this).find( 'i' ).css( 'visibility', 'visible' );
+            $(this).find( 'i' ).css( 'opacity', '1' );
+            $(this).find( 'a' ).css( 'text-decoration', 'none' );
+          }, function() {
+            $(this).find( 'i' ).css( 'visibility', 'hidden' );
+            $(this).find( 'i' ).css( 'opacity', '0' );
+          });
+
+  
+
+    </script>
+
+</body>
+
+</html> 

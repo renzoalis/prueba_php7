@@ -1,0 +1,127 @@
+<div id="myModalImportadorAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico">
+    <!-- Modal content-->
+    <script type="text/javascript">
+      function validarImportador(){
+          var nombre = $('#add_input_nombre').val();
+
+          $.ajax({
+              url: 'ajax_validarImportador.php',
+              type: 'POST',
+              data: {nombre : nombre},
+              dataType: 'json'
+          }).done(function(data){
+            if(data){ //encontro un importador con el mismo nombre
+              alert('Ya existe un importador con el mismo nombre. Debe ingresar un nombre distinto');
+            }else{
+              $('#detalle_importador_add').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-user-plus"></i></span> 
+        <span style="font-size: 18px;" id="nombre_importador">Nuevo importador </span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_importador_add" id="detalle_importador_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_importador"> 
+
+              <input type="hidden" name="add_importador" id="add_importador" value="1">
+
+              <div class="row" >
+
+                <div class="col-md-12 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-user"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_nombre" id="add_input_nombre" class="form-cliente" placeholder="Nombre" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-address-card"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_dni" id="add_input_dni" class="form-cliente" placeholder="DNI / CUIT" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-phone"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_telefono_1" id="add_input_telefono_1" class="form-cliente" placeholder="Teléfono" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-industry"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_empresa" id="add_input_empresa" class="form-cliente" placeholder="Empresa" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-home"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_direccion" id="add_input_direccion" class="form-cliente" placeholder="Dirección" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_email" id="add_input_email" class="form-cliente" placeholder="E-mail" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-eye"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_observacion" id="add_input_observacion" class="form-cliente" placeholder="Observación" >
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="form-group label-cliente">
+                    <button type="button" class="btn btn-raised btn-primary" onclick="validarImportador();">Guardar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+           
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

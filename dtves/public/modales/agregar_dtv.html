@@ -1,0 +1,192 @@
+<style type="text/css">
+  .subirinput{
+    margin-top:-10px;
+  }
+</style>
+<input type="hidden" name="dtv_cant_prod" id="dtv_cant_prod" value="1">
+<input type="hidden" name="" id="noguardado" value="0">
+<input type="hidden" name="add_dtv" id="add_dtv" value="1">
+
+<div id="myModalDTVAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-grande" >
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <div style="margin-top:5px;display: inline-block;">
+<span style="margin-top: 5px;padding-top: 5px;font-size: 18px;"><i class="fa fa-plus"></i> DTV</span>
+</div> 
+
+      </div>
+      <div class="modal-body" style="margin-top: 0px;padding-top: 5px">   
+            <div id="datos_dtv"> 
+
+              <div class="row" >
+
+                <div class="col-md-6 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Número DTV </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="number" name="input_numero_dtv" id="input_numero_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Fecha de alta </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input  type="date" name="dtv_fh" required id="dtv_fh" value="" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Fecha de vencimiento </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="date" name="input_fecha_vencimiento_dtv" id="input_fecha_vencimiento_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Tipo</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="text" name="input_tipo_dtv" id="input_tipo_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Motivo</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="text" name="input_motivo_dtv" id="input_motivo_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Emisor </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="text" name="emisor_dtv" id="emisor_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Cuit Emisor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="number" name="input_cuitemisor_dtv" id="input_cuitemisor_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Receptor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="text" name="input_receptor_dtv" id="input_receptor_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                  <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Cuit Receptor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="number" name="input_cuitreceptor_dtv" id="input_cuitreceptor_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                  <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Domicilio/Establecimiento</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" type="text" name="input_domicilio_dtv" id="input_domicilio_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Código de cierre</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off"  type="text" name="input_codcierre_dtv" id="input_codcierre_dtv" class="form-cliente inputdtv" placeholder="">
+                    </div>
+                  </div>
+
+
+                  </div>
+                  <div class="row">
+                   <div class="col-md-12">
+                    <hr>
+                   </div> 
+                  </div>
+                  <div class="row"> 
+                  <div class="col-md-12" style="margin-bottom:10px">
+                    <a href="#" onclick="nuevo_producto_dtv()"> <i class="fa fa-plus"></i>PRODUCTO</a>
+                  </div>
+                  <div class="col-md-12 col-xs-12" style="overflow-x:auto"> 
+                    <table class="table table-bordered table-sm z-depth-1" id="tabla_productos_dtv">
+                      <thead>
+                         <tr>
+                            <th class="">Producto</th>
+                            <th class="">Variedad</th>
+                            <th class="">Tipo de embalaje</th>
+                            <th class="">Cantidad</th>
+                            <th class="">Peso/cant unidades</th>
+                            <th class="">Total</th>
+                            <th class="">U. medidad</th>
+                            <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input class="det_venta inputdtv" type="text" id="dtv_producto_0" name="dtv_prod[0][producto]"></td>
+                          <td><input class="det_venta inputdtv" type="text" id="dtv_variedad_0" name="dtv_prod[0][variedad]"></td>
+                          <td><input class="det_venta inputdtv" type="text" id="dtv_tipoembalaje_0" name="dtv_prod[0][tipo_embalaje]"></td>
+                          <td><input class="det_venta inputdtv" type="number" id="dtv_cantidad_0" name="dtv_prod[0][cantidad]" oninput="modificardtv(0)"></td>
+                          <td><input class="det_venta inputdtv" type="number" id="dtv_peso_0" name="dtv_prod[0][peso]" oninput="modificardtv(0)"></td>
+                          <td><input class="det_venta inputdtv" readonly type="number" id="dtv_total_0" name="dtv_prod[0][total]"></td>
+                          <td><input style="width:80%" class="det_venta" type="text" id="dtv_umedida_0" name="dtv_prod[0][tipo_umedida]"></td>
+                          <td><a style="padding-left:5px;color:red" href="#" id="borrar_producto_dtv"><i class="fa fa-trash"></i></a></td>
+                        </tr>                      
+                      </tbody>
+                    </table>
+                  </div>
+                  </div>
+                  <hr>
+                <div class="row">
+                  <div class="col-md-12">
+                  <div class="form-group label-cliente" style="padding-right:20px">
+                    <button type="button" class="btn btn-raised btn-primary" onclick="guardardtv()">Guardar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal" onclick="borrardatos(<?php echo date('Y-m-d');?>);">Cancelar</button>
+                  </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+       
+      </div>
+
+    </div>
+
+  </div>
+</div>

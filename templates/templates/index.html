@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <link rel="icon" type="image/png" sizes="32x32" href="../templates/templates/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../templates/templates/assets/images/favicon-16x16.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+    
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+
+
+    <style type="text/css">
+        .item-estadistico {
+            padding: 5px 0px 0px 10px !important;
+        }
+        .titulo-estadistico {
+            text-align: left;
+            /*border-bottom: 1px solid #d8d8d8;*/
+        }
+        .list-group-item {
+            border-bottom: 1px solid #eeeeee !important;
+        }
+    </style>
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        
+<?php require_once('../templates/templates/header.html');?>
+<?php if($acceso_mensaje) {echo $acceso_mensaje; }?>
+
+        <section class="cards-section" style="background-color: #eeeeee;">
+            <h3 class="text-center"><i class="fa fa-home"></i> Inicio </h3>
+
+            <div class="container">
+                <?php if($info_act['update']){ ?>
+                    <h5 class="text-center">
+                        <i class="fa fa-database"></i> Base de datos actualizada a la versión <?php echo $info_act['version']; ?>.
+                    </h5>
+                <?php }elseif($info_act['error'] == '100'){ ?>
+                    <h5 class="text-center">
+                        <i class="fa fa-database"></i> No se pudo actualizar la base de datos. <?php echo $info_act['texto']; ?>.
+                    </h5>
+                <?php } ?>
+                <br>
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    <?php foreach($modulos as $mod) { if($mod['modulo']['mod_nombre'] != 'Inicio') { ?>
+                        <div class="item item-<?php echo $mod['modulo']['mod_color']; ?> col-md-4 col-sm-12 col-xs-12">
+                            <div class="item-inner z-depth-1" >
+                                <div class="icon-holder">
+                                    <i class="icon fa <?php echo $mod['modulo']['mod_icono']; ?>"></i>
+                                </div><!--//icon-holder-->
+                                <h3 class="title"> <?php echo $mod['modulo']['mod_nombre']; ?> </h3>
+                                <p class="intro"> <?php echo $mod['modulo']['mod_intro']; ?>  </p>
+                                <a class="link" href="../<?php echo $mod['index']; ?>"><span></span></a>
+                            </div><!--//item-inner-->
+                        </div><!--//item-->
+                    <?php } } ?>     
+
+                </div><!--//cards-->
+                
+            </div><!--//container-->
+        </section><!--//cards-section-->
+
+        
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a>.</small>
+            <?php if($info_act['fecha']){ ?>
+            | 
+                <small>
+                    <i class="fa fa-database"></i> 
+                    Base de datos versión <?php echo $info_act['version']; ?>.
+                    Última actualización <?php echo $info_act['fecha']; ?>.
+                </small>
+            <?php } ?>
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>                                 
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    <script src="../templates/templates/assets/plugins/chartjs/dist/Chart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        setTimeout(function() {
+            $(".desaparecer").fadeOut(7000);
+                },3000);
+        });    
+    </script>
+
+</body>
+</html> 
+

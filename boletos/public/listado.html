@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<form method="POST" name="editar_boleto" id="form_editar_boleto">
+  <div id="modal-edit-boleto" class="modal fade" role="dialog">
+  </div>
+</form>
+
+
+<?php if ($_GET['id_sol_elim']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se eliminó correctamente el boleto número <b><?php echo $_GET['id_sol_elim']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_sol_confirm']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se solucionó correctamente el boleto número <b><?php echo $_GET['id_sol_confirm']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Listado de boletos</h3>
+      <br>
+
+        <form method="GET" id="form-fecha">
+      <div class="col-md-3">
+          <i class="fa fa-adjust"></i>
+          <select id="filtro_estado" name="filtro_estado" class="select-forma-pago" placeholder="Estado" onchange="$('#form-fecha').submit();"> 
+            <option value=""> Estado </option>
+            <option <?php if($_GET['filtro_estado'] == 1) { echo 'selected';}?> value="1"> Pendientes </option>
+            <option <?php if($_GET['filtro_estado'] == 2) { echo 'selected';}?> value="2"> Rechazados </option>          
+            <option <?php if($_GET['filtro_estado'] == 3) { echo 'selected';}?> value="3"> Cobrados </option>                
+          </select>
+      </div>
+        </form>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-4">Banco</th> 
+                      <th class="col-md-1 col-xs-3">Número</th>
+                      <th class="col-md-2 col-xs-4">Monto</th>
+                      <th class="col-md-1 col-xs-4">Emisión</th>
+                      <th class="col-md-2 col-xs-4">Vencimiento</th>
+                      <th class="col-md-1 col-xs-4">Titular</th>
+                      <th class="col-md-3 col-xs-4">Estado</th>
+                      <th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($boletos->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getBoleto(<?php echo $boletos->boleto_id; ?>);" >
+
+                          <td><?php echo $boletos -> banco_nombre; ?></td>
+
+                          <td><?php echo $boletos -> boleto_numero; ?></td>
+
+                          <td>$ <?php echo $boletos -> boleto_monto_pesos; ?> <?php if($boletos -> boleto_monto_reales) echo '(R$ '.$boletos -> boleto_monto_reales.')'; ?></td>
+
+                          <td><?php echo date('Y/m/d', strtotime($boletos -> boleto_emision_fh)); ?></td>
+
+                          <td><?php echo date('Y/m/d', strtotime($boletos -> boleto_vencimiento_fh)); ?></td>
+
+                          <td><?php echo $boletos -> cliente_nombre; ?></td>
+
+                          <td><?php echo $boletos -> vestado_descripcion; ?></td>
+
+                          <td>B00<?php echo $boletos -> boleto_id; ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">DevGAM</small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+
+    <script type="text/javascript" src="public/js/boletos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_ticketboleto_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_sol_elim']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_sol_confirm']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+        } );
+        
+    </script>
+
+</body>
+</html>

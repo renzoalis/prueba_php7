@@ -1,0 +1,71 @@
+<div id="myModalTicketAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog moda-mediano">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-ticket"></i></span> 
+        <span style="font-size: 18px;" id="Nuevo_prod">Nuevo ticket</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <span>Complete el siguiente formulario para iniciar su solicitud.</span><br><br>
+        <form class="form-horizontal form-label-left" name="detalle_ticket_add" id="detalle_ticket_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="alta_ticket" id="alta_ticket" value="1">
+              <div class="row">
+                <div class="col-md-10 col-sm-10 col-xs-10">
+
+                  <div class="row">
+                    <span>
+                      <span class="col-md-3 col-xs-10 form-label">Tema</span>
+                      <select name="ticket_sistema_id" id="ticket_sistema_id" class="form-control form-angosto" placeholder="Seleccione" required="required">
+                        <option value="7" >Suscripción</option>
+                      </select>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <span>
+                      <span class="col-md-3 col-xs-10 form-label">Motivo</span>
+                      <select name="motivo_id" id="motivo_id" class="form-control form-angosto" placeholder="Seleccione" required="required">
+                        <option value="3" >Solicitud de cambio</option>  
+                      </select>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <span>
+                      <span class="col-md-3 col-xs-10 form-label">Descripción </span>
+                      <textarea class="form-control form-angosto" name="descripcion" id="descripcion" placeholder="Ingrese la suscripción y el motivo. Nos comunicaremos con usted a la brevedad." required="required"></textarea>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <span>
+                      <span class="col-md-3 col-xs-10 form-label">Email </span>
+                      <input type="email" class="form-control form-angosto" id="email" name="ticket_email" value="<?php echo $_SESSION['usuario']['usua_email']; ?>">
+                      <i data-toggle="tooltip" title="A través de esta dirección de email usted recibirá noticias sobre el estado de su solicitud." class="fa fa-info-circle"></i>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="" style="" >Enviar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,32 @@
+
+  <div class="row" style="border-bottom: solid 2px #8bd6d8; margin: 0px">
+   <div class="col-md-3" style="text-align: center"><strong>Cantidad</strong></div>
+   <div class="col-md-3" style="text-align: center"><strong>Precio</strong></div>
+   <div class="col-md-3" style="text-align: center"><strong>Cantidad Ventas</strong></div>
+   <div class="col-md-3" style="text-align: center"><strong>X</strong></div>
+  </div>
+  <?php $fila = 1; foreach ($respuesta as $clave=>$valor) {  ?>
+   <div class="row" style="border-bottom: solid 1px #8bd6d8; margin: 0px;">
+     <div class="col-md-3" style="text-align: center"><?php echo $valor["cantidad"];?></div>
+     <div class="col-md-3" style="text-align: center">$<?php echo $clave;?></div>
+     <div class="col-md-3" style="text-align: center"><?php echo $valor["cantidad_ventas"];?></div>
+     <?php $arregloid = json_encode($valor['id']); $arregloids = str_replace("\"", "'", $arregloid); ?>
+     <div class="col-md-3" style="text-align: center">
+       <?php echo
+      '<a id="botonVer_'.$fila.'" style="cursor: pointer" onclick="verVentas('.$arregloids.' ,'.$fila.' )">Ver Ventas</a>
+      <a id="botonOcultar_'.$fila.'" style="cursor: pointer; color:red; display: none" onclick="OcultarVentas('.$fila.' )">Ocultar Ventas</a>
+      <a id="botonVerSinAjax_'.$fila.'" style="cursor: pointer;display: none" onclick="verVentassinAjax('.$fila.' )">Ver Ventas</a>
+      '
+      ?>
+    </div>
+   </div>
+   <!-- En este div se va a mostrar la info de ver ventas -->
+   <?php echo 
+
+   '<div style="display:none; margin-bottom: 5px;border: 2px solid turquoise;" id="div_'.$fila.'"></div>';
+
+     $fila++ ?>
+    <!-- En este div se va a mostrar la info de ver ventas -->
+    
+   <?php } ?>
+

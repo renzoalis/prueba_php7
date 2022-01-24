@@ -1,0 +1,164 @@
+<div class="modal-dialog modal-medio">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-cube"></i></span> 
+        <span style="font-size: 18px;" id="nombre_categoria">Lote N. <?php echo $datos['lote']['id'];?> || <b> <?php echo $datos['lote']['desc'];?> </b> </span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_categoria_edit" id="detalle_categoria_edit" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_lote"> 
+
+              <div class="row">
+              
+                <div class="col-md-2 col-xs-1 label-cliente">
+                  <span class="form-label"> Producto </span>
+                </div>
+                <div class="col-md-10">
+                  <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['producto'] -> tipo_nombre . ' - '. $datos['producto'] -> cat_nombre. ' - '. $datos['producto'] -> prod_nombre .'. CAL. '. $datos['lote']['calibre']; ?>">
+                </div>
+              </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Origen </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['lote']['origen']; ?>" readonly>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Proveedor </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['lote']['prov']; ?>" readonly>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Fecha </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['lote']['fecha']; ?>" readonly>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Cantidad </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['lote']['cantidad']; ?>" readonly>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> PPV. </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text"  class="form-cliente" placeholder="Nombre" value="<?php echo $datos['lote']['ppv']; ?>" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Costo U origen </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text" class="form-cliente" placeholder="Costo U" value="<?php echo $datos['lote']['costo_u']; ?>" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Costo Descarga U </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text" class="form-cliente" placeholder="Costo Descarga U" value="<?php echo $datos['lote']['costo_u_descarga']; ?>" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Costo Carga U </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text" class="form-cliente" placeholder="Costo Carga U" value="<?php echo $datos['lote']['costo_u_carga']; ?>" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-xs-1 label-cliente">
+                <span class="form-label"> Costo U Final </span>
+              </div>
+              <div class="col-md-10">
+                <input autocomplete="off" type="text" class="form-cliente" placeholder="Costo U" value="<?php echo $datos['lote']['costo_u_final']; ?>" readonly>
+              </div>
+            </div>
+
+            <hr>
+           </div>
+
+           <!-- <div id="datos_movimientos" display:> 
+            <h4>Movimientos</h4>
+            <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Operación</th>
+                      <th>Cantidad</th> 
+                      <th>Stock</th> 
+                      <th>Precio venta</th> 
+                      <th>Descuento</th> 
+                      <th>PPV</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php 
+
+                      $stock = 0;
+
+                      foreach ($movs as $k => $v) { 
+                        if($v['tipo'] == '+'){
+                          $stock += $v['cant'];
+                        } elseif($v['tipo'] == '-'){
+                          $stock -= $v['cant'];
+                        } ?>
+                      <tr>
+                        <td><?php echo date('d/m/Y',strtotime($k)); ?></td>
+                        <td><?php echo $v['op']; ?></td>
+                        <td><?php echo $v['tipo'] .' '. $v['cant']; ?></td>
+                        <td><?php echo $stock; ?></td>
+                        <td><?php echo $v['pv']; ?></td>
+                        <td><?php echo $v['desc']; ?></td>
+                        <td><?php echo $v['ppv']; ?></td>
+                      </tr>
+                    <?php } ?>
+                  </tbody>
+                  
+                </table>
+            </div> -->
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-categoria row">
+          <div class="col-md-8"></div>
+          <?php if(!$datos['lote']['cantidad'] and $datos['lote']['ppv'] != '-' ){ //and $datos['lote']['precio_u'] == 0?>  
+       <!--    <div id="liquidarMercaderia" class="col-md-2" style="">
+            <button type="button" class="btn btn-raised btn-success" id="liquidar" onclick="alert('Edit precio U')">Liquidar Mercadería</button>
+          </div> -->
+          <?php } ?>
+          <div class="col-md-2" style="">
+            <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Volver</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

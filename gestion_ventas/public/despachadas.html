@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+    <link rel="stylesheet" type="text/css" href="../templates/templates/assets/css/daterangepicker.css" />
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<form method="POST" name="editar_venta" id="form_archivar_venta">
+  <div id="modal-edit-venta" class="modal fade" role="dialog">
+  </div>
+</form>
+
+<form class="form-horizontal form-label-left" name="form_concepto" id="form_concepto" method="post" action="" enctype="multipart/form-data" > 
+
+</form>
+
+<?php require_once('public/modales/agregar_cliente.html');?>
+
+
+<?php if ($_GET['id_venta_arch']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se archivó correctamente la venta número <b>V00<?php echo $_GET['id_venta_arch']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+    <h3><a href="saldadas.php" style="float:left; margin-left:10%;"><i class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></i></a><i class="fa fa-archive" aria-hidden="true"></i> Ventas despachadas <i style="float:right; margin-right:10%; color:#eeeeee" class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i></h3>
+    <br>
+      <div class="col-md-3">
+        <form method="GET" id="form-fecha">
+          <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="">ID</th> 
+                      <!-- 1 --><th class="">Usuario</th> 
+                      <!-- 2 --><th class="">Fecha</th>
+                      <!-- 3 --><th class="">Cliente</th>
+                      <!-- 4--><th class="">Cantidad Productos</th>
+                      <!-- 4--><th class="">Cantidad Bultos</th>
+                      <!-- 5 --><th class="">Monto</th>
+                      <!-- 5 --><th class="">Cobro</th>
+                      <!-- 6 --><th class="">Observacion</th> 
+                      <!-- 7 --><th class="">Fecha Despachada</th>
+                      <!-- 7 --><th class="">Numero</th>
+                      <!-- 4 <th class="col-md-1 col-xs-4">Costo</th> -->
+                      <!-- 6 <th class="col-md-1 col-xs-4">Ganancia</th> -->
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_ventas->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getVentaDespachada(<?php echo $do_ventas->venta_id; ?>);" >
+
+                        <!-- 1 Estado pago -->
+                          <td> <?php echo $do_ventas -> venta_id; ?> </td>
+
+                           <!-- 1 usuario -->
+                          <td> <?php echo $do_ventas -> usua_nombre; ?> </td>
+                            
+                        <!-- 2 Fecha -->
+                          <td><?php echo date('d/m/y h:i', strtotime($do_ventas -> venta_fh)); ?></td>
+
+                        <!-- 3 Cliente -->
+                          <td><?php echo $do_ventas -> cliente_nombre; ?></td>
+
+                        <!-- 4 Peso -->
+                          <td><?php echo $do_ventas -> getCantProd(); ?></td>
+
+                          <!-- 4 Peso -->
+                          <td><?php echo $do_ventas -> getCantBultos(); ?></td>
+
+                        <!-- 5 Monto -->
+                          <td>$ <span class="row_monto"><?php echo intval($do_ventas -> venta_monto_total); ?></span></td>
+
+                          <!-- 5 Monto -->
+                          <td>$ <span class="row_monto"><?php echo intval($do_ventas -> venta_monto_contado); ?></span></td>
+                        
+                        <!-- 5.1 Observacion -->
+                        <td><?php echo $do_ventas -> venta_observacion; ?></td>
+                        
+                        <!-- 7 Estado -->
+                        <td style="padding-left: 8px"><?php echo $do_ventas -> venta_despachada_fh; ?></td>
+                        
+                        <td><?php echo $do_ventas -> venta_nro; ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script src="../templates/templates/assets/plugins/print-this/print-this/printThis.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/daterangepicker.min.js"></script>
+
+    <script type="text/javascript" src="public/js/ventas.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+            <?php if ($_GET['id_venta']) {?>
+             getVentaDespachada(<?php echo $_GET['id_venta'];?>);
+            <?php } ?>
+
+            <?php if ($_GET['id_venta_elim']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_venta_arch']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

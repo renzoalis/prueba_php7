@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<?php require_once('public/modales/agregar_transportista.html');?>
+
+  <div id="modal-edit-transportista" class="modal fade" role="dialog">
+  </div>
+
+
+<?php if ($_GET['id_transportista']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificó correctamente el transportista número <b>TR00<?php echo $_GET['id_transportista']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_nuevo']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se creó correctamente el transportista número <b>TR00<?php echo $_GET['id_nuevo']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_eliminar']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-trash"></i> Se eliminó correctamente el transportista número <b>TR00<?php echo $_GET['id_eliminar']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-address-book-o"></i> Listado de transportistas</h3>
+      <h4><a href="#" data-toggle="modal" data-target="#myModalTransportistaAdd" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nuevo transportista</a></h4>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-1 col-xs-4">Nombre</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Teléfono</th>
+                      <!--  --><th class="col-md-1 col-xs-4">DNI / CUIT</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Empresa</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Dirección</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Observación</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">Saldo</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">Fecha de alta</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($transportistas->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getTransportista(<?php echo $transportistas->transportista_id; ?>);" >
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_nombre; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_tel1; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_dni; ?></td>
+                        
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_emp_nombre ?></td>
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_direccion; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> transportista_observacion; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $transportistas -> getSaldo();?></td>
+
+                        <!-- -->
+                          <td><?php echo date('Y/m/d', strtotime($transportistas -> transportista_fh_alta)); ?></td>
+                        
+                        <!-- -->
+                          <td> [<?php echo $transportistas -> transportista_id; ?>] </td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/transportistas.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_eliminar']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_nuevo']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_transportista']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+        } );
+        
+    </script>
+
+</body>
+</html>

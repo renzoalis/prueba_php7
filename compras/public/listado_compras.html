@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+<form method="POST" name="editar_compra" id="form_editar_compra">
+  <div id="modal-edit-compra" class="modal fade" role="dialog">
+  </div>
+</form>
+<form class="form-horizontal form-label-left" name="detalle_compra" id="detalle_compra" method="post"> 
+<?php require_once('public/modales/nueva_compra.html'); ?> 
+</form>
+
+<form class="form-horizontal form-label-left" name="form_concepto" id="form_concepto" method="post" action="" enctype="multipart/form-data" > 
+</form>
+
+
+<form class="form-horizontal form-label-left" name="form_pago" id="form_pago" method="post" action="" enctype="multipart/form-data" > 
+    <?php require_once('public/modales/nuevo_pago.html'); ?> 
+</form>
+
+<?php require_once('public/modales/agregar_proveedor.html'); ?>
+<?php require_once('public/modales/agregar_transportista.html'); ?>
+
+<?php if ($_GET['id_compra']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente la compra número <b>C00<?php echo $_GET['id_compra']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<?php if ($_GET['id_pago']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente el pago número <b>P00<?php echo $_GET['id_pago']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3>Listado de compras</h3>
+      <?php if(!$cajaAbierta) { ?>
+        <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+      <?php } else { ?>
+        <h4><a href="#" data-toggle="modal" data-target="#myModalVenta" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Nueva Compra</a></h4>
+      <?php } ?>
+<br>
+      <div class="col-md-3">
+        <form method="GET" id="form-fecha">
+          <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-3">Fecha</th>
+                      <th class="col-md-2 col-xs-4">Concepto</th>
+                      <th class="col-md-1 col-xs-4">Costo Mercadería</th>
+                      <th class="col-md-1 col-xs-4">Fletes</th>
+                      <!-- <th class="col-md-1 col-xs-4">Impuestos</th> -->
+                      <th class="col-md-1 col-xs-4">Descarga</th>
+                      <th class="col-md-2 col-xs-4">Proveedor</th>
+                      <th class="col-md-2 col-xs-4">Observacion</th> 
+                      <th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_compras->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getCompra(<?php echo $do_compras->compra_id; ?>);" >
+                          <td><?php echo date('Y/m/d', strtotime($do_compras -> compra_fh)); ?></td>
+                          <td><?php echo $do_compras -> getDetalleString(); ?></td>
+                          <td>$ <?php echo $do_compras -> compra_monto_total; ?></td>
+                          <td>$ <?php echo $do_compras -> compra_concepto_fletes; ?></td>
+                          <!-- <td>$ <?php echo $do_compras -> compra_concepto_impuestos; ?></td> -->
+                          <td>$ <?php echo $do_compras -> compra_concepto_descargas; ?></td>
+                          <td><?php echo $do_compras -> prov_nombre; ?></td>        
+                          <td><?php echo $do_compras -> compra_observacion; ?></td>
+                          <td> C00<?php echo $do_compras -> compra_id; ?> </td>
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script type="text/javascript" src="public/js/compras.js"></script>   
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+
+            $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
+            $('#combo_prov').select2({
+              minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                },
+                inputTooShort: function () {
+                    return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+                }
+              }
+            });
+
+            $('#combo_transp').select2({
+              minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                },
+                inputTooShort: function () {
+                    return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+                }
+              }
+            });
+            
+            $('#combo_prod').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+            
+            $('#combo_tipo_de_pago').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        <?php if ($_GET['id_compra']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+
+        <?php if ($_GET['id_pago']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+
+        <?php if ($_GET['id_compra_abrir']) {?>
+             getCompra(<?php echo $_GET['id_compra_abrir'];?>);
+        <?php } ?>
+
+
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_compra_elim']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_compra_edit']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<div id="myModalDocumento" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar documento</h4>
+      </div>
+      <div class="modal-body">
+        <p>Complete los siguientes campos:</p><br>
+        <form class="form-horizontal form-label-left" name="detalle_documento" id="detalle_documento" method="post" action="" enctype="multipart/form-data"> 
+            <input type="hidden" name="Insertar_doc" value="1">                 
+            <div class="form-group">
+                <label for="doc_nombre" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Nombre</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="doc_nombre" id="doc_nombre" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="doc_intro" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Introducción</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="doc_intro" id="doc_intro" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="doc_icono" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Icono</label>
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                  <input type="text" name="doc_icono" id="doc_icono" class="form-control col-md-7 col-xs-12" placeholder="file-o">
+                </div>
+                <div style="padding-left: 0;" class="col-md-1 col-sm-1 col-xs-12">
+                  <h4 style="margin-left: 0;"><a href="http://fontawesome.io/icons/" target="_blank"><i data-toggle="tooltip" title="Listado de íconos." class="fa fa-list"></i></a></h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="doc_area" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Area</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <select class="form-control" id="doc_area" name="doc_area">
+                    <option value="0"> Todas </option>
+                    <?php while ($do_areas_select_add -> fetch()) { ?>
+                    <option value="<?php echo $do_areas_select_add -> area_id; ?>"> <?php echo $do_areas_select_add -> area_id; ?>. <?php echo $do_areas_select_add -> area_nombre; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="doc_perm_ver" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Permiso ver</label>
+                <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 20px;">
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="ver_1" onclick="cambiar_permiso_ver(1)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="ver_2" onclick="cambiar_permiso_ver(2)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="ver_3" onclick="cambiar_permiso_ver(3)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="ver_4" onclick="cambiar_permiso_ver(4)"></i>
+                  <input type="hidden" name="doc_perm_ver" id="doc_perm_ver" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="doc_perm_editar" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Permiso editar</label>
+                <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 20px;">
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="editar_1" onclick="cambiar_permiso_editar(1)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="editar_2" onclick="cambiar_permiso_editar(2)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="editar_3" onclick="cambiar_permiso_editar(3)"></i>
+                  <i class="fa fa-check-circle-o seponegrisoscuro" id="editar_4" onclick="cambiar_permiso_editar(4)"></i>
+                  <input type="hidden" name="doc_perm_editar" id="doc_perm_editar" class="form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+                  
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="document.getElementById('detalle_documento').submit();" style="" >Guardar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../templates/templates/assets/js/documentos.js"></script> 

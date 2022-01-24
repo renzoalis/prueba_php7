@@ -1,0 +1,285 @@
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Compras C00<?php echo $do_compras -> compra_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="edit_compra_id" id="edit_compra_id" value="<?php echo $do_compras -> compra_id;?>">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-industry"></i>
+              <select id="combo_prov_e" name="input_id_prov" class="form-control form-angosto form-select-prov" placeholder="Seleccionar proveedor" required>
+                <option value=""> Seleccione un proveedor </option>
+                <?php foreach ($proveedores as $prov) { ?>
+                  <option <?php if($do_compras -> compra_prov_id == $prov['id']) {echo "selected";} ?> value="<?php echo $prov['id']; ?>" ><?php echo $prov['nombre']; ?></option>
+                <?php } ?>
+              </select> <br>
+              <a href="#" id="nuevo_prov" data-toggle="modal" data-target="#myModalProveedorAdd"> <i class="fa fa-user-plus"></i> Agregar nuevo </a>
+            </span>
+          </div>
+
+
+<!-- Form transportistas -->
+<form id="upd_transp" name="upd_transp" method="POST">
+  <input type="hidden" name="id_compra_transp" id="id_compra_transp" value="<?php echo $do_compras -> compra_id;?>">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-truck"></i>
+              <select id="combo_transp_e" name="input_id_transp_e" class="form-control form-angosto <?php if($do_compras -> compra_transp_id) { ?>form-select-transp<?php } ?>" placeholder="Seleccionar transportista" required>
+                <option value=""> Seleccione un transportista </option>
+                <?php foreach ($transportista as $transp) { ?>
+                  <option <?php if($do_compras -> compra_transp_id == $transp['id']) {echo "selected";} ?> value="<?php echo $transp['id']; ?>" ><?php echo $transp['nombre']; ?></option>
+                <?php } ?>
+              </select> <br>
+               <?php if(!$do_compras -> compra_transp_id) { ?>
+                <button style="display: none;" onclick="guardarTransportista();" type="button" id="boton-transp" class="btn btn-raised btn-sm btn-primary" title="Asignar transportista" ><i class="fa fa-truck"></i> Guardar transportista</button> 
+              <?php } ?>
+              </span>
+          </div>
+</form>
+
+
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="compra_fh" class="form-angosto editable" required id="compra_fh" value="<?php echo date('Y-m-d',strtotime($do_compras->compra_fh));?>">
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos_edit">
+              <thead>
+                 <tr>
+                    <th class="col-md-4 col-xs-4">Producto</th>
+                    <th class="col-md-2 col-xs-4">Calibre</th>
+                    <th class="col-md-2 col-xs-4">Cant</th>
+                    <th class="col-md-2 col-xs-4">Precio u.</th>
+                    <th class="col-md-2 col-xs-4">Precio Total</th>
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr>
+                  <td><?php echo $d['prod_modelo'];?> <input type="hidden" id="edit_prod_id_<?php echo $i;?>" name="prod[<?php echo $i;?>][id]" value="<?php echo $d['prod_id'];?>"></td>
+                  <td><input type="text" step="1" min="1" id="edit_calibre_<?php echo $i;?>" class="det_venta" name="prod[<?php echo $i;?>][calibre]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['calibre'];?>"></td>
+                  <td><input type="number" step="1" min="1" id="edit_cantidad_<?php echo $i;?>" name="prod[<?php echo $i;?>][cantidad]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['cant'];?>"></td>
+                  <td><div style="display: flex;"><span style="padding-top:3px">$</span><input type="number" step="0.10" min="0" id="edit_precio_kg_<?php echo $i;?>" name="prod[<?php echo $i;?>][precio_kg]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['precio_por_kg'];?>"></div></td>
+                  <td><div style="display: flex;"><span style="padding-top:3px">$</span><input type="number" step="0.10" min="0" readonly id="edit_precio_total_<?php echo $i;?>" class="precio_parcial" value="<?php echo $d['precio_parcial'];?>"> <a href="#" class="borrar"><i class="fa fa-times"></i></a></div></td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</span></td>
+                <td id="precio_total"><span>$</span><input type="number" readonly value="<?php echo $do_compras -> compra_monto_total; ?>" name="edit_saldo_final_total" id="edit_saldo_final_total"></td>
+              </tfoot>
+            </table>
+            <?php if(!$cajaAbierta) { ?>
+              <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+            <?php } else { ?>
+              <?php  if(($hayproductos) AND ($ocultarbotoncostomercaderia == 0)){?>
+                <button onclick="abrirModalDevolucion(<?php echo $do_compras -> compra_id;?>);" type="button" id="boton-devolver" class="btn btn-raised btn-sm" style="background-color:#00aa9a; color:rgba(255,255,255,.84)" title="Devolución de mercadería" ><i class="fa fa-reply"></i> Devolución de mercadería</button>
+              <?php }?>
+
+              <?php if($ocultarbotondescarga) { ?>
+              <button onclick="abrirModalDescarga(<?php echo $do_compras -> compra_id;?>);" type="button" id="boton-descarga" class="btn btn-raised btn-sm btn-warning" title="Costo de Descarga" ><i class="fa fa-cubes"></i> Costo de Descarga</button> <?php } ?>
+              <?php if($ocultarbotoncostomercaderia) { ?>
+              <button onclick="abrirModalCostoMercaderia(<?php echo $do_compras -> compra_id;?>);" type="button" id="boton-costo" class="btn btn-raised btn-sm btn-info" title="Costo de Mercadería" ><i class="fa fa-dollar"></i> Costo de Mercadería</button> <?php } ?>
+              <?php if($do_compras -> compra_transp_id && $ocultarbotonflete) { ?>
+                <button onclick="abrirModalFlete(<?php echo $do_compras -> compra_id;?>);" type="button" id="boton-flete" class="btn btn-raised btn-sm btn-warning" title="Costo de Flete" ><i class="fa fa-truck"></i> Costo de Flete</button>
+              <?php } ?>
+              <!-- <button onclick="abrirModalGastos(<?php echo $do_compras -> compra_id;?>);" type="button" id="boton-gastos" class="btn btn-raised btn-sm btn-warning" title="Otros gastos" ><i class="fa fa-share-square"></i> Otros gastos</button> -->
+             <!--  <button onclick="$('#compra_id').val(<?php echo $do_compras -> compra_id;?>); $('#input_id_proveedor').val(<?php echo $do_compras -> compra_prov_id;?>);$('#combo_prov_pago').val(<?php echo $do_compras -> compra_prov_id;?>);"  type="button" id="boton-pago" data-toggle="modal" data-target="#myModalPago" class="btn btn-raised btn-sm btn-success" title="Agregar Pago" ><i class="fa fa-industry"></i> Pagar a proveedor</button> -->
+            <?php } ?>
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+        <!-- Seccion Pagos -->
+        <div class="row form-seccion">
+            <table class="table table-hover table-bordered table-sm z-depth-1 tabla_pagos" id="tabla_pagos">
+              <thead><h3 style="text-align: center;">Pagos</h3 >
+                <tr>
+                  <th class="td-ancha">Tipo</th>
+                  <th class="td-angosta">Fecha</th>
+                  <th class="td-angosta">Observación</th>
+                  <th class="td-angosta">Monto</th>
+                </tr>
+              </thead>
+              <tbody id="contenedor-artefactos"> 
+                <?php while ($do_pagos_prov -> fetch()) { ?>
+                  <td><?php echo $do_pagos_prov -> getFormaPago($do_pagos_prov -> pago_forma_pago); ?>
+                      <?php if($do_pagos_prov -> pago_forma_pago == 1) echo ' Comp. '.$do_pagos_prov -> pago_comprob_efectivo; ?>
+                      <?php if($do_pagos_prov -> pago_forma_pago == 8) echo ' Nro. '.$do_pagos_prov -> pago_nro_transf; ?>
+                  </td>
+                  <td><?php echo date('d/m/Y H:i', strtotime($do_pagos_prov -> pago_fh)); ?></td>
+                  <!-- Fecha con hora  <td><?php echo $do_pagos_prov -> pago_fh ?></td> -->
+                  <td><?php echo $do_pagos_prov -> pago_observacion; ?></td>
+                  <td>$ <?php echo $do_pagos_prov -> pago_monto_total?></td>
+                  </tr>
+              <?php } ?>
+              </tbody>
+              <tfoot>
+                <tr class="footer-tabla-artefactos">
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                </tr>
+              </tfoot>
+            </table>
+            <hr>
+            <table class="table table-hover table-bordered table-sm z-depth-1 tabla_conceptos" id="tabla_conceptos">
+              <thead><h3 style="text-align: center;">Conceptos</h3 >
+                  <tr>
+                      <th class="td-ancha">Concepto</th>
+                      <th class="td-angosta">Fecha</th>
+                      <th class="td-angosta">Observación</th>
+                      <th class="td-angosta">Monto</th>
+                  </tr>
+              </thead>
+              <tbody id="contenedor-artefactos"> 
+                <?php while ($do_conceptos -> fetch()) { ?>
+                  <td><?php echo $do_conceptos -> getTipo($do_conceptos -> cc_tipo); ?></td>
+                  
+                  <td><?php echo date('d/m/Y H:i', strtotime($do_conceptos -> cc_fh)); ?></td>
+                  <td><?php echo $do_conceptos -> cc_observacion; ?></td>
+                  <td>$ <?php echo $do_conceptos -> cc_monto?></td>
+                  </tr>
+              <?php } ?>
+              </tbody>
+              
+            </table>
+           
+        </div>
+        <!-- Seccion Pagos -->
+        <!-- comprobante 
+
+        <div class="row form-seccion">
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-file-text-o"></i> 
+                <select id="combo_tipo_comprobante" disabled="" style="color:black" name="combo_tipo_comprobante" class="select-concepto-tipo" onchange="inputsConcepto()" placeholder="Tipo Concepto" >
+                <option <?php if($do_compras -> compra_tipo_comprobante == '') {echo 'selected'; }?> value="">Tipo de comprobante</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'BOL') {echo 'selected'; }?> value="BOL">Boleta (BOL)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'FAC') {echo 'selected'; }?> value="FAC">Factura (FAC)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'PRO') {echo 'selected'; }?> value="PRO">Proforma de Factura (PRO)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'NFE') {echo 'selected'; }?> value="NFE">Nota Fiscal Electrónica (NFE)</option>
+              </select>
+            </span>
+          </div>
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-barcode"></i> 
+                <input autocomplete="off" type="text" name="input_nro_comprob_compra" id="input_nro_comprob_compra" class="form-obs" placeholder="Número de comprobante"  value="<?php echo $do_compras -> compra_nro_comprobante; ?>">
+            </span>
+          </div>
+        </div>
+        tipo de comprobante -->
+        <!--observacion -->
+        <div class="row form-seccion">
+          <div class="col-md-6">
+          <!--observacion  -->  <span class="form-block">
+              <form id="modificar_obs" method="POST">
+              <input type="hidden" name="id_compra_obs" id="id_compra_obs" value="<?php echo $do_compras -> compra_id;?>">
+              <i class="fa fa-edit"></i>   
+                <input autocomplete="off" oninput="$('#boton-obs').show();" type="text" name="input_observacion_compra" id="input_observacion_compra" class="form-obs" placeholder="Observación de la compra" value="<?php echo $do_compras -> compra_observacion; ?>">
+                <button style="display: none;" onclick="guardarObs();" type="button" id="boton-obs" class="btn btn-raised btn-sm btn-primary" title="Guardar Observación" ><i class="fa fa-edit"></i>Guardar Observación</button>
+              </form>
+            </span>
+        </div>
+       <!--observacion  -->
+
+        <input type="hidden" name="cant_prod" id="edit_cant_prod" value="0">
+        <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="<?php echo $i; ?>">            
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">     
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+  $('#boton-eliminar').on("click", function(e) { 
+      if(confirm('Desea eliminar la compra de forma permanente?')){
+        return true;
+      } else {
+        e.preventDefault();
+      }
+    });
+
+  $('#input_cheque_terceros').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+  
+   $('#combo_transp_e').select2({
+      minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+      language: {
+        noResults: function (params) {
+          return "No hay resultados.";
+        },
+        inputTooShort: function () {
+            return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+        }
+      }
+    });
+
+  $('#combo_transp_e').on("change", function(e) { habilitarTransp($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
+    $('#combo_prov_e').select2({
+      minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+      language: {
+        noResults: function (params) {
+          return "No hay resultados.";
+        },
+        inputTooShort: function () {
+            return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+        }
+      }
+    });
+
+  $('#form_editar_compra').find('input').not('input[type=hidden]').not('input[name="input_observacion_compra"]').attr('disabled',true);
+  //$(".form-select-datalist").prop("disabled", true);
+  $(".form-select-prov").prop("disabled", true);
+  $(".form-select-transp").prop("disabled", true);
+  $("#guardar-cambios").css('display','none');
+  $("#nuevo_prov").css('display','none');
+  $("#nuevo_transp").css('display','none');
+  $(".borrar").css('display','none');
+
+</script>

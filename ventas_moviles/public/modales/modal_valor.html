@@ -1,0 +1,23 @@
+<div id="modal-valor" class="modal " role="dialog">
+    <div class="modal-dialog" style="width: 100%; margin-top: 0px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">
+                <span class="titulo_modal" id="titulo">Valor por unidad </span> 
+                </span>
+                <hr>
+                <span class="modal-title">
+                    <span class="breadcrumbs-movil" id="breadcrumb-valor"></span> 
+                </span>
+            </div>
+            <div class="modal-body">
+               <span style="display:inline;" >$ &nbsp</span><input type="number" style="width:95%; display: inline; margin-left:10px;" class="form-control soloNumeros" min="0" name="valor" id="valor" placeholder="Ingrese un valor" >
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-raised btn-danger" onclick="volverCantidad();"><i class="fa fa-times"></i> CERRAR </button>
+                <button class="btn btn-raised btn-primary" onclick='finalizarVenta();'>Continuar</button>
+            </div>
+        </div>
+    </div>
+</div> 

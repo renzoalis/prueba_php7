@@ -1,0 +1,144 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: block;
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+<div id="myModalPago" class="modal fade" role="dialog">
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nueva Entrega</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_pago" id="nuevo_pago" value="1">
+        <!-- Seccion proveedor y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i> 
+              <select id="combo_cli" name="input_id_emplead" class="form-control form-angosto" placeholder="Seleccionar empleado" required>
+                <option value=""> Seleccione un empleado </option>
+                <?php foreach ($empleados as $tra) { ?>
+                <option value="<?php echo $tra['id']; ?>"><?php echo $tra['nombre']; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+          </div>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="pago_fh" class="form-angosto" required id="pago_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion proveedor y fecha -->
+
+        <!-- Seccion Pago y opciones
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value=""> Forma de pago </option>
+                <option value="1"> Efectivo </option>
+                <option value="2"> Cheque Propio</option>
+                <option value="6"> Cheque Terceros </option>
+                <option value="8"> Transferencia </option>
+                <option value="9"> Deposito </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        Seccion Pago y opciones -->
+
+        <input  type="hidden" name="combo_fpago" class="form-angosto" id="forma_de_pago" value="1">
+
+        <!-- Div Efectivo -->
+
+        <div class="form-seccion div-pagos" id="div-contado">
+          <h4> <i class="fa fa-print"> </i>  Efectivo </h4>
+          <div class="row">
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Monto </span>
+            </div>
+            <div class="col-md-5">
+            <input autocomplete="off" type="number" name="input_monto" id="input_monto" class="input-pagos form-obs form-contado soloNumeros" min="0" max="<?php echo $monto_caja; ?>" required placeholder="$" >
+            </div>
+
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Comprobante </span>
+            </div>
+            <div class="col-md-5">
+              <input style="margin-left: 10px;" autocomplete="off" type="text" name="input_comprob_contado" id="input_comprob_contado" class="input-pagos form-obs form-contado">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-1 col-xs-1 label-cliente">
+              <span class="form-label">Mes </span>
+            </div>
+            <div class="col-md-5">
+              <select name="input_id_mes" class="select-concepto-tipo" placeholder="Seleccionar el mes correspondiente" required>
+                <option value=""> Seleccione el mes correspondiente </option>
+                <?php for ($x = 1; $x <= 12; $x++) { ?>
+                  <option value="<?php echo $x; ?>"><?php echo $meses[$x]; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- / Div Efectivo -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del pago">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="submit" class="btn btn-raised btn-primary" >Guardar</button>
+          <button type="button" class="btn btn-raised btn-default"  data-dismiss="modal">Cancelar</button>
+           <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

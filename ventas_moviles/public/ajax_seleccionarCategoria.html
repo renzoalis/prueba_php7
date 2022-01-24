@@ -1,0 +1,37 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <span class="modal-title">
+      <span class="titulo_modal" id="titulo">Seleccionar Producto 
+        
+      </span> 
+    </span>
+    <hr>
+    <span class="modal-title">
+      <span class="breadcrumbs-movil" id="breadcrumb-cat"><?php echo $tipo_nombre; ?></span> 
+    </span>
+
+  </div>
+
+      <div class="modal-body" style=" overflow-y: auto;">
+
+        <?php while($categorias ->fetch()){?>
+
+          <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="modalProductos('<?php echo $categorias -> cat_id ?>','<?php echo $categorias -> cat_nombre ?>');"><?php echo $categorias -> cat_nombre ?></button>
+
+        <?php }?>
+
+      <div>
+
+    </div>
+<?php if(!$_SESSION['unSoloTipo']){ 
+    echo '<span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="volverTipo();"><i class="fa fa-times"></i> CERRAR </span>';
+  }else{
+    echo '<span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="cancelarModal();"><i class="fa fa-times"></i> CERRAR </span>';
+  ;}
+?>
+
+  </div>
+
+
+</div>

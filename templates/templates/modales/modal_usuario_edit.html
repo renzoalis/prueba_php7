@@ -1,0 +1,102 @@
+<div id="myModalUserEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar usuario <span id="id_user_titulo"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p>Complete los siguientes campos:</p><br>
+        <form class="form-horizontal form-label-left" name="detalle_user_edit" id="detalle_user_edit" method="post" action="" enctype="multipart/form-data"> 
+            <input type="hidden" name="edit_usuario_id" id="edit_usuario_id">
+            <div class="form-group">
+                <label for="usuarioNombre" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Nombre</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="usuarioNombre" id="usuarioNombre" class="form-control col-md-7 col-xs-12" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioID" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">ID de usuario</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="usuarioID" id="usuarioID" class="form-control col-md-7 col-xs-12" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioPass" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Contraseña</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="password" name="usuarioPass" id="usuarioPass" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="Ingrese una nueva contraseña" readonly onfocus="this.removeAttribute('readonly');">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioMail" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">E-mail</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="usuarioMail" id="usuarioMail" class="form-control col-md-7 col-xs-12" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioEstado" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Estado</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="hidden" name="usuarioEstado" id="usuarioEstado">
+                  <h5 style="cursor: pointer;" onclick="cambio_estado();" id="usuarioEstado_check"></h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioArea" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Area</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <select class="form-control" id="usuarioArea" name="usuarioArea">
+                    <?php while ($do_areas_select -> fetch()) { ?>
+                    <option value="<?php echo $do_areas_select -> area_id; ?>"> <?php echo $do_areas_select -> area_id; ?>. <?php echo $do_areas_select -> area_nombre; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="usuarioRol" class="control-label col-md-3 col-sm-3 col-xs-12" style="padding-top:0px;">Rol</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <select class="form-control" id="usuarioRol" name="usuarioRol">
+                    <?php while ($do_roles_select -> fetch()) { ?>
+                    <option value="<?php echo $do_roles_select -> rol_id; ?>"> <?php echo $do_roles_select -> rol_id; ?>. <?php echo $do_roles_select -> rol_nombre; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="document.getElementById('detalle_user_edit').submit();" style="" >Guardar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style type="text/css">
+.form-control {
+  border: 1px solid #ccc;
+}
+.btn-success  {
+  background-color: #40babd; 
+  border-color: #2E8D8F;
+}
+.btn-success:hover {
+  background-color: #2E8D8F; 
+  border-color: #2E8D8F;
+}
+</style>
+

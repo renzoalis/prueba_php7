@@ -1,0 +1,186 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <script type="text/javascript">
+        function validarCliente(){
+          var nombre = $('#input_nombre').val();
+          var id = $('#edit_cliente_id').val();
+
+          $.ajax({
+              url: 'ajax_validarCliente.php',
+              type: 'POST',
+              data: {nombre : nombre,
+                    id : id },
+              dataType: 'json'
+          }).done(function(data){
+            if(data && data != id){ //encontro un cliente con el mismo nombre, y no es el mismo id.
+               alert('Ya existe un cliente con el mismo nombre. Debe ingresar un nombre distinto');
+            }else{
+              $('#detalle_cliente_edit').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+
+        function eliminarCliente(){
+          var id = $('#edit_cliente_id').val();
+
+          $.ajax({
+              url: 'ajax_eliminarCliente.php',
+              type: 'POST',
+              data: {id : id},
+              dataType: 'json'
+          }).done(function(data){
+            if(data != 0){ //Tiene un saldo <> 0
+              alert('Error al eliminar, el cliente tiene un saldo pendiente.');
+            }else{
+              $('#eliminar_cliente').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-user"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cliente">Cliente CL00<?php echo $do_clientes -> cliente_id;?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_cliente_edit" id="detalle_cliente_edit" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+
+              <input type="hidden" name="edit_cliente_id" id="edit_cliente_id" value="<?php echo $do_clientes -> cliente_id; ?>">
+              <input type="hidden" name="edit_cliente" id="edit_cliente" value="1">
+
+              <div class="row" >
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_nombre" id="input_nombre" class="form-cliente" placeholder="Nombre" value="<?php echo $do_clientes -> cliente_nombre; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> DNI</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_dni" id="input_dni" class="form-cliente" placeholder="DNI / CUIT" value="<?php echo $do_clientes -> cliente_dni; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Teléfono</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_telefono_1" id="input_telefono_1" class="form-cliente" placeholder="Teléfono" value="<?php echo $do_clientes -> cliente_tel1; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Dirección</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_direccion" id="input_direccion" class="form-cliente" placeholder="Dirección" value="<?php echo $do_clientes -> cliente_direccion; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> E-mail</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_email" id="input_email" class="form-cliente" placeholder="E-mail" value="<?php echo $do_clientes -> cliente_email; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Obs.</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_observacion" id="input_observacion" class="form-cliente" placeholder="Observación" value="<?php echo $do_clientes -> cliente_observacion; ?>">
+                    </div>
+                  </div>
+
+
+
+                  <hr>
+
+
+                  <h3>Cuenta corriente</h3>
+                  <div class="edit_cliente_cc">
+                  <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-2 col-xs-4">Fecha</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Operación</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Saldo</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_cc->fetch()){ ?>
+                        <tr>
+
+                        <!-- -->
+                          <td><?php echo date('d/m/Y', strtotime($do_cc -> ccte_fh)); ?></td>
+
+                        <!-- -->
+                          <td><?php echo $do_cc -> ccop_nombre; ?> #<?php echo $do_cc -> ccte_operacion_id; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $do_cc -> ccte_importe; ?></td>
+                        
+                        <!-- -->
+                          <td><?php echo $do_cc -> ccte_saldo_actual; ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <a href="cuenta_corriente.php?id_cliente=<?php echo $do_clientes -> cliente_id; ?>" target="_blank" > Ver más</a>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+                  </div>
+                  <h4 class="edit_cliente_saldo_actual">Saldo actual: <span class="<?php echo $class_cc; ?>">$ <?php echo $do_cc_last -> ccte_saldo_actual; ?></span></h4>
+                  <br>
+
+
+              </div>
+                            
+            </div>
+           
+        </form>
+
+        <form method="POST" name="eliminar_cliente" id="eliminar_cliente">
+          <input type="hidden" name="borrar_cliente" value="1">
+          <input type="hidden" name="id_eliminar" value="<?php echo $do_clientes -> cliente_id; ?>">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-cliente">
+          <?php if($prem) { ?>
+            <button type="button" class="btn btn-raised btn-danger" onclick="eliminarCliente();">Eliminar</button>
+          <?php } ?>
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarCliente();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>

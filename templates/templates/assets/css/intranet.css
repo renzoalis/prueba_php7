@@ -1,0 +1,104 @@
+/* CUSTOM CSS DE INTRANET-GAM */
+/* 20-05-2017 */
+
+/* TABLA DE USUARIOS CON BUSQUEDA */
+
+  .results tr[visible='false'],
+  .no-result{
+    display:none;
+  }
+
+  .results tr[visible='true']{
+    display:table-row;
+  }
+
+  .counter{
+    padding:8px; 
+    color:#ccc;
+  }
+
+/* TABLA DE USUARIOS CON BUSQUEDA */
+
+
+/* TABLA DE PERMISOS */
+  .seponegris:hover{
+    color:#ccc;
+    cursor: pointer;
+  }
+
+  .seponegrisoscuro {
+    color:#ddd;
+    cursor: pointer;
+  }
+  
+  .seponegrisoscuro:hover{
+    color:#000;
+    cursor: pointer;
+  }
+
+  .seponegrisoscuro:active{
+    color:#000;
+    cursor: pointer;
+  }
+/* TABLA DE PERMISOS */
+
+/* FORMULARIOS  */
+  .form-control {
+    border: 1px solid #ccc;
+  }
+  .btn-success  {
+    background-color: #40babd; 
+    border-color: #2E8D8F;
+  }
+  .btn-success:hover {
+    background-color: #2E8D8F; 
+    border-color: #2E8D8F;
+  }
+/* FORMULARIOS  */
+
+/* Documentacion */
+  .section-title {
+    cursor: default;
+  }
+  .block-title {
+    cursor: default;
+  }
+  .counter{
+    padding:8px; 
+    color:#ccc;
+  }
+  .imagen_proceso{
+      margin-left:40%; 
+      -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+      -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+      box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+  }
+  .imagen_operacion{
+      -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+      -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+      box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+      width:100%;
+  }
+  p {
+      /*text-align: justify;*/
+  }
+
+  .icono_editar {
+    color: #40babd; 
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 2s ease;
+  }
+/* Documentacion */
+
+.fadein {
+    opacity: 0;
+    -moz-transition: opacity 1.5s;
+    -webkit-transition: opacity 1.5s;
+    -o-transition: opacity 1.5s;
+    transition: opacity 1.5s;
+}
+
+#body.loaded .fadein {
+    opacity: 1;
+}

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <link rel="shortcut icon" href="favicon.PNG">    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
+    
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+
+    <style type="text/css">
+        .imagen_proceso{
+            margin-left:40%; 
+            -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+            -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+            box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+        }
+        .imagen_operacion{
+            -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+            -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75); 
+            box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+            width:100%;
+        }
+        p {
+            text-align: justify;
+        }
+    </style>
+    
+</head> 
+
+<body class="body-green">
+    <div class="page-wrapper">
+
+<?php require_once('../templates/templates/header.html');?>
+
+        <div class="doc-wrapper">
+            <div class="container">
+                <div id="doc-header" class="doc-header text-center">
+                    <h1 class="doc-title"><i class="icon fa fa-file-text-o"></i> Sistema de Expedientes</h1>
+                    <div class="meta"><i class="fa fa-clock-o"></i> Última actualización: 19 Abril, 2017</div>
+                </div><!--//doc-header-->
+                <div class="doc-body">
+                    <div class="doc-content">
+                        <div class="content-inner">
+                            <section id="intro-section" class="doc-section">
+                                <h2 class="section-title">Introducción</h2>
+                                <div class="section-block">
+                                    <p> 
+                                    Los expedientes del OCEBA se dividen en dos tipos: Expedientes de usuarios y Expedientes generales.
+                                    </p>
+                                    <p>
+                                     Los <b>Expedientes de usuarios</b> se caracterizan por respetar distintos <a href="#">Procesos</a> dentro del Centro de Atención de Usuarios y las distintas Delegaciones. Estos expedientes surgen a partir de un trámite iniciado por un usuario de servicio eléctrico, y seguirá un proceso administrativo dependiendo del tema correspondiente al trámite.
+                                    </p>
+                                    <p>
+                                     Los <b>Expedientes generales</b> no respetan un proceso específico, sino que pueden trasladarse entre las distintas áreas del OCEBA y sus Delegaciones. Estos expedientes surgen a partir de notas de entrada o de expedientes de usuarios que llegaron al final de su proceso correspondiente.
+                                    </p>
+                                    <!-- <a href="http://themes.3rdwavemedia.com" class="btn btn-green" target="_blank"><i class="fa fa-download"></i> Download PrettyDocs</a> -->
+                                </div>
+                            </section><!--//doc-section-->
+                            <section id="procesos-section" class="doc-section">
+                                <h2 class="section-title">Procesos</h2>
+                                <div id="tecnica"  class="section-block">
+                                    <h3 class="block-title">1. Calidad técnica</h3>
+                                    <p>
+                                        
+                                    </p>
+                                    <p>
+                                        El proceso de calidad técnica ............
+                                    </p>
+                                    <div>
+                                        <img style="" class="img-responsive imagen_proceso" src="img/calidad_tecnica.jpeg" alt="Calidad Tecnica">
+                                    </div>
+                                    
+                                </div><!--//section-block-->
+                                <div id="comercial"  class="section-block">
+                                    <h3 class="block-title">2. Calidad comercial</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+                                    </p>
+                                    <div>
+                                        <img style="" class="img-responsive imagen_proceso" src="img/calidad_comercial.jpeg" alt="Calidad Comercial">
+                                    </div>
+                                    
+                                </div><!--//section-block-->
+
+                                <div id="danios"  class="section-block">
+                                    <h3 class="block-title">3. Daños de artefactos</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     <div>
+                                        <img style="" class="img-responsive imagen_proceso" src="img/danios_artefactos.jpeg" alt="Daños de artefactos">
+                                    </div>
+                                </div><!--//section-block-->
+                               
+                            </section><!--//doc-section-->
+                            
+                            <section id="operaciones" class="doc-section">
+                                <h2 class="section-title">Operaciones</h2>
+                                
+                                <div id="Enviar"  class="section-block">
+                                <h3 class="block-title">1. Enviar e-mail</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="">
+                                                Esta operación se encarga de enviar un mail a cualquier destinatario, siempre y cuando el mismo sea válido. Existe la posibilidad de adjuntar un archivo en el mail. El tamaño del mismo preferentemente debe ser menor a 1 MB.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/envia_mail.PNG" alt="Envio de mails">
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Adjuntar"  class="section-block">
+                                <h3 class="block-title">2. Adjuntar información</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/adjunta_info.PNG" alt="Adjuntar información">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            Se debe seleccionar el tipo de información a adjuntar, y cargar el archivo adjunto con una descripción. El tamaño del mismo preferentemente debe ser menor a 3 MB.
+                                            </p>
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Pedir"  class="section-block">
+                                <h3 class="block-title">3. Pedir pase a archivo</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            Esta operación genera una solicitud de archivo para un expediente, la cual posteriormente debe ser aceptada por el responsable de área para generarse el archivo del expediente.
+                                            Para archivar un expediente el responsable debe ingresar el número de caja en la cual se archiva, como así también la estantería y la sección.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/pase_archivo.PNG" alt="Adjuntar información">
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Confeccionar"  class="section-block">
+                                <h3 class="block-title">4. Confeccionar Nota de salida</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/nota_salida.PNG" alt="Confeccionar Nota de salida">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            A través de esta operación el instructor puede generar una nota de salida relacionada al expediente que esté tratando. Debe completar los datos solicitados:
+                                            <ul>
+                                            <li>Tipo</li>
+                                            <li>Nota de Salida</li>
+                                            <li>Cédula de notificación</li>
+                                            <li>Auto de imputación</li>
+                                            <li>Destinatario</li>
+                                            <li>Extracto</li>
+                                            <li>Domicilio</li>
+                                            <li>Provincia, ciudad, código postal.</li>
+                                            <li>Archivo adjunto</li>
+                                            <li>El tamaño del mismo no debe superar 1 MB.</li>
+                                            <li>Remitente</li>
+                                            <li>Área - Firmante</li>
+                                            <li>Observación</li>
+                                            </ul>
+
+                                            </p>
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Comunicacion"  class="section-block">
+                                <h3 class="block-title">5. Comunicación con la distribuidora</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            A través de esta operación se generan los asientos de comunicaciones con la distribuidora, tanto telefónicos como por email, generando un historial de los mismos.
+                                            Los tamaños de los archivos adjuntos no deben superar 1 MB.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/comunicacion_dist.PNG" alt="Comunicación con la distribuidora">
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Comunicacion_usu"  class="section-block">
+                                <h3 class="block-title">6. Comunicación con el usuario</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/comunicacion_usua.PNG" alt="Confeccionar Nota de salida">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            A través de esta operación se generan los asientos de comunicaciones con los usuarios, tanto telefónicos como por email, generando un historial de los mismos.
+                                            Los tamaños de los archivos adjuntos no deben superar 1 MB.
+                                            </p>
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Elaborar"  class="section-block">
+                                <h3 class="block-title">7. Elaborar acta</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            Esta operación se utiliza para generar un acta, la cual debe contener una descripción y un archivo adjunto. El mismo no debe superar 1 MB.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/acta.PNG" alt="Elaborar acta">
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Reasignar"  class="section-block">
+                                <h3 class="block-title">8. Reasignar expediente</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/reasignar.PNG" alt="Reasignar expediente">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            Se utiliza cuando recibimos un expediente por error, o se decide cambiar de instructor por otros motivos. Se debe seleccionar el instructor al que queremos enviar el expediente y detallar un motivo.
+                                            </p>
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>
+                                <div id="Cargar"  class="section-block">
+                                <h3 class="block-title">9. Cargar observación</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="">
+                                            Esta operación se utiliza cuando necesitamos cargar observaciones a un expediente, detallando una actividad relacionada al mismo, o asentando información importante.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img style="" class="img-responsive imagen_operacion" src="img/observacion.PNG" alt="Cargar observación">
+                                        </div>
+                                    </div>    
+                                </div><!--//section-block-->
+                                <br>                             
+                            </section><!--//doc-section-->
+
+                            <!-- <section id="roles" class="doc-section">
+                                <h2 class="section-title">Roles</h2>
+                                
+                              
+                                <div id="Comunicacion"  class="section-block">
+                                    <h3 class="block-title">5. Comunicación con la distribuidora</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     
+                                </div>
+                                <div id="Comunicacion_usu"  class="section-block">
+                                    <h3 class="block-title">6. Comunicación con el usuario</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     
+                                </div>
+                                <div id="Elaborar"  class="section-block">
+                                    <h3 class="block-title">7. Elaborar acta</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     
+                                </div>
+                                <div id="Reasignar"  class="section-block">
+                                    <h3 class="block-title">8. Reasignar expediente</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     
+                                </div>
+                                <div id="Cargar"  class="section-block">
+                                    <h3 class="block-title">9. Cargar observación</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                     
+                                </div>
+                             
+                            </section> -->
+                          <!--
+                            <section id="tables-section" class="doc-section">
+                                <h2 class="section-title">Tables</h2>
+                                <div class="section-block">
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <h6>Basic Table</h6>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Username</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>@mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                    <td>@fat</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>@twitter</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h6>Bordered Table</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Username</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>@mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                    <td>@fat</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>@twitter</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h6>Striped Table</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Username</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>@mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                    <td>@fat</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>@twitter</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>-->
+
+                        </div><!--//content-inner-->
+                    </div><!--//doc-content-->
+                    <div class="doc-sidebar hidden-xs">
+                        <nav id="doc-nav" >
+                            <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                                <li><a class="scrollto" href="#intro-section">Introducción</a></li>
+                                <li>
+                                    <a class="scrollto" href="#procesos-section">Procesos</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#tecnica">Calidad técnica</a></li>
+                                        <li><a class="scrollto" href="#comercial">Calidad comercial</a></li>
+                                        <li><a class="scrollto" href="#danios">Daños de artefactos</a></li>
+                                    </ul><!--//nav-->
+                                </li>
+                                <li>
+                                    <a class="scrollto" href="#operaciones">Operaciones</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#Enviar">Enviar e-mail</a></li>
+                                        <li><a class="scrollto" href="#Adjuntar">Adjuntar información</a></li>
+                                        <li><a class="scrollto" href="#Pedir">Pedir pase a archivo</a></li>
+                                        <li><a class="scrollto" href="#Confeccionar">Confeccionar Nota de salida</a></li>
+                                        <li><a class="scrollto" href="#Comunicacion">Comunicación con la dist.</a></li>
+                                        <li><a class="scrollto" href="#Comunicacion_usu">Comunicación con el usuario</a></li>
+                                        <li><a class="scrollto" href="#Elaborar">Elaborar acta</a></li>
+                                        <li><a class="scrollto" href="#Reasignar">Reasignar expediente</a></li>
+                                        <li><a class="scrollto" href="#Cargar">Cargar observación</a></li>
+                                    </ul><!--//nav-->
+                                </li>
+                                <!--<li>
+                                    <a class="scrollto" href="#roles">Roles</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#Enviar">Enviar e-mail</a></li>
+                                        <li><a class="scrollto" href="#Adjuntar">Adjuntar información</a></li>
+                                        <li><a class="scrollto" href="#Pedir">Pedir pase a archivo</a></li>
+
+                                    </ul>
+                                </li>-->
+
+                            </ul><!--//doc-menu-->
+                        </nav>
+                    </div><!--//doc-sidebar-->
+                </div><!--//doc-body-->              
+            </div><!--//container-->
+        </div><!--//doc-wrapper-->
+
+        
+    </div><!--//page-wrapper-->
+    
+    <footer id="footer" class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por  <a href="http://www.dev-gam.com.ar/" targe="_blank">GAM</a> </small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
+    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>                                                                
+    <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    
+</body>
+</html> 
+

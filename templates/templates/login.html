@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="favicon.png">  
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+
+</head> 
+
+<body class="landing-page" style="background-color: white;">   
+<style type="text/css">
+    table {
+        width:100%;
+    }
+</style>
+     
+    <!--FACEBOOK LIKE BUTTON JAVASCRIPT SDK-->
+    <div id="fb-root"></div>
+
+    
+    <div class="page-wrapper">
+        
+<?php require_once('../templates/templates/header.html');?>
+        
+        <section class="cards-section text-center" style="background-color: white;">
+            <div class="container" style="background-color: white;">
+                <h2 class="title">Bienvenido</h2>
+                <div class="intro">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"> 
+                    <form action="login.php" method="post" name="login" id="login">
+                    <div>
+                        <table border="0">
+                        Ingreso al sistema
+                            <tr>
+                                <td align="right" valign="top"><b></b></td>
+                                <td valign="top" align="left">  <input size="20" maxlength="20" class="form-control" style="border: 0;" placeholder="Usuario" name="usuario" type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top"><b></b></td>
+                                <td valign="top" align="left">  <input size="20" maxlength="255" class="form-control" style="border: 0;" placeholder="Contraseña" name="clave" type="password" /></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top"><b></b></td>
+                                <td valign="top" align="left">  <input class="btn btn-raised btn-primary" style="" name="B1" value="Ingresar" type="submit" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </form>
+                 </div>
+                    <div class="col-md-4"></div>
+                </div>                    
+                </div><!--//intro-->
+                <div id="cards-wrapper" class="cards-wrapper row">
+
+                </div><!--//cards-->
+                
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>                                                                     
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    
+</body>
+</html> 
+

@@ -1,0 +1,60 @@
+<div class="modal-content">
+  <style type="text/css">
+    .cards-section .item-inner:hover {
+      background: white;
+    }
+    .cards-section .item-primary .item-inner {
+      border-top: 3px solid coral;
+    }
+    .cards-section .item-primary .icon {
+      color: coral;
+    }
+  </style>
+
+  <div class="modal-header">
+    <span class="modal-title">
+      <span class="titulo_modal" id="titulo">Seleccionar Categoria </span> 
+    </span>
+
+    <!-- aviso SinStock --> 
+    <?php if ($tipos-> N == 0 ) { ?>
+    <section class="cards-section text-center" style="background-color: white; margin-top: 100px">
+      <div class="container">
+        <div class="item item-primary col-md-offset-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="item-inner z-depth-1" >
+            <div class="icon-holder">
+              <i class="icon fa fa-warning"></i>
+            </div><!--//icon-holder-->
+            <h3> SIN STOCK </h3>
+          </div><!--//item-inner-->
+        </div><!--//item-->
+      </div>
+    </section>
+    <hr>
+    <span class="modal-title">
+      <span class="breadcrumbs-movil" id="breadcrumb-tipos"> </span> 
+    </span>
+  </div>
+    <!-- aviso SinStock -->
+   <?php } else { ?>
+  <!-- modal cuando tiene stock -->
+  <div class="modal-body" style=" overflow-y: auto;">
+
+    <?php while($tipos ->fetch()){?>
+    <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="modalCategorias('<?php echo $tipos -> tipo_id ?>','<?php echo $tipos -> tipo_desc ?>');"><?php echo $tipos -> tipo_desc ?></button>
+
+    <?php }?>
+
+    <div>
+
+    </div>
+
+  </div>
+  <!-- modal cuando tiene stock -->
+  <?php } ?>
+
+<div class="text-center">
+    <span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="$('#modal-tipos').modal('hide');"><i class="fa fa-times"></i> CERRAR </span>
+</div>
+
+</div>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+  <div id="modal-edit-cheque" class="modal fade" role="dialog">
+  </div>
+
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-money"></i> Listado de cheques Terceros</h3>
+            <form method="POST" id="form-cobrar">
+            <input type="hidden" name="hidden-cobrar" value="1">
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!--  --><th class="col-md-1 col-xs-4">Acción</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Ingreso</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Banco</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Número</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!--  --><th class="col-md-1 col-xs-4">Emision</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">Cobro</th>
+                      <!--  --><th class="col-md-2 col-xs-4">Portador</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Titular</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Estado</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Entregado a:</th> 
+                      <!--  --><th class="col-md-2 col-xs-4">Endosado</th>
+                      <!--  --><th class="col-md-1 col-xs-4">ID</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">ID Cobro</th> 
+                      <!--  --><th class="col-md-1 col-xs-4">ID Pago</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($cheques->fetch()){ ?>
+                        <tr>
+                          <td>
+                            <?php if (in_array($cheques -> cheque_estado,array(1,3,7,8,9,10))) { ?>
+                          <input style="cursor: pointer; margin-left: 20px;" type="checkbox" name="check[<?php echo $cheques -> cheque_id; ?>]">
+                         <?php }?>
+                          <i style="cursor: pointer; margin-left: 20px;" data-toggle="modal" data-target="#myModalEdit" onclick="getCheque(<?php echo $cheques->cheque_id; ?>);" class="fa fa-search"></i>
+                          </td>
+                        <!-- -->
+                          <td><?php echo date('Y/m/d', strtotime($cheques -> cheque_ingreso_fh)); ?></td>
+                            
+                        <!-- -->
+                          <td><?php echo $cheques -> banco_nombre; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $cheques -> cheque_numero; ?></td>
+
+                        <!-- -->
+                          <td>$ <?php echo $cheques -> cheque_monto; ?></td>
+                        
+                        <!-- -->
+                          <td><?php echo $cheques -> cheque_emision_fh; ?></td>
+
+                        <!-- -->
+                          <td><?php echo date('Y/m/d', strtotime($cheques -> cheque_cobro_fh)); ?></td>
+
+                        <!-- -->
+                          <td><?php echo $cheques -> cliente_nombre; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $cheques -> cheque_titular; ?></td>
+
+                        <!-- -->
+                          <td><?php echo $cheques -> vestado_descripcion; ?></td>
+
+                          <td><?php switch($cheques -> cheque_estado){
+
+                                  case '3': echo $cheques -> prov_nombre;
+                                            break;
+                                  case '7': echo $cheques -> transportista_nombre;
+                                            break;
+                                  case '8': echo $cheques -> despachante_nombre;
+                                            break;
+                                  case '9': echo $cheques -> importador_nombre;
+                                            break;
+                                  case '10': echo $cheques -> exportador_nombre;
+                                            break;
+                                  case '12': echo $cheques -> cardesc_nombre;
+                                            break;
+                          } 
+                          ?></td>
+
+                          <td><?php switch($cheques -> cheque_estado){
+
+                                  case '3': echo $cheques -> cheque_proveedor_fh;
+                                            break;
+                                  case '7': echo $cheques -> cheque_transportista_fh;
+                                            break;
+                                  case '8': echo $cheques -> cheque_despachante_fh;
+                                            break;
+                                  case '9': echo $cheques -> cheque_importador_fh;
+                                            break;
+                                  case '10': echo $cheques -> cheque_exportador_fh;
+                                            break;
+                                  case '12': echo $cheques -> cheque_cardesc_fh;
+                                            break;
+
+                                  default: echo "-";
+                                           break;
+                          } 
+                          ?></td>
+                       
+                        <!-- -->
+                          <td> CH00<?php echo $cheques -> cheque_id; ?> </td>
+                          <td> CO00<?php echo $cheques -> cobro_id; ?> </td>
+                          <td><?php $cheques -> getPagoId()?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+            </form>
+            <?php if(!$cajaAbierta) { ?>
+              <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+            <?php } else { ?>
+              <button type="button" class="btn btn-sm btn-raised btn-info" onclick="$('#form-cobrar').submit();">Cobrar seleccionados</button>
+            <?php }  ?>
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/cheques.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_edit']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+              getCheque(<?php echo $_GET['id_edit']; ?>);
+            <?php } 
+            ?>
+
+        } );
+
+            <?php if ($_GET['cant_cobrado']) {?>
+               notificacion('Cheques Cubiertos',<?php echo $_GET['cant_cobrado']; ?>+' Cheques fueron marcados como cobrados.','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+
+            <?php if ($_GET['estado']) {?>
+               notificacion('Estado Cheque','El Cheque cambio a estado <?php echo $_GET['estado'];?>','<icon class=\"fa fa-check\">','success',5000);
+            <?php } ?>
+        
+    </script>
+
+</body>
+</html>

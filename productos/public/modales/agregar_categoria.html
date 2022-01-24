@@ -1,0 +1,75 @@
+<div id="myModalCategoriaAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico">
+    <!-- Modal content-->
+    <script type="text/javascript">
+      function validarCategoriaAdd(){
+          var nombre = $('#input_categoria').val();
+
+          $.ajax({
+              url: 'ajax_validarCategoria.php',
+              type: 'POST',
+              data: {nombre : nombre},
+              dataType: 'json'
+          }).done(function(data){
+            if(data){ //encontro un categoria con el mismo nombre
+              alert('Ya existe un producto con el mismo nombre. Debe ingresar un nombre distinto');
+              return false;
+            }else{
+              $('#detalle_categoria_add').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-cube"></i></span> 
+        <span style="font-size: 18px;" id="nombre_categoria">Nuevo producto </span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_categoria_add" id="detalle_categoria_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="add_categoria" id="add_categoria" value="1">
+              <div class="row">
+               <div class="form-group">
+                      <label for="input_tipo" class="control-label col-md-4 col-sm-4 col-xs-12" >Categoría</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <select name="input_tipo" id="input_tipo" class="form-control col-md-7 col-xs-12" required="required">
+                          <option value="">Seleccione una categoría</option>
+                          <?php while ($do_tipos -> fetch()) { ?>
+                          <option value="<?php echo $do_tipos -> tipo_id; ?>"><?php echo $do_tipos -> tipo_nombre.' ('.$do_tipos -> tipo_desc.')'; ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label for="input_modelo" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre</label>
+                      <div class="col-md-7 col-sm-8 col-xs-12">
+                        <input type="text" name="input_categoria" id="input_categoria" value="" class="form-control col-md-7 col-xs-12">
+                      </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+           <div class="form-group">
+                <button type="button" class="btn btn-raised btn-primary" onclick="validarCategoriaAdd()">Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>  
+    
+</head> 
+<style type="text/css">
+  li.active.pintar{
+  background-color: darkslategrey !important;
+  height: 38px;
+}
+.nav-tabs>li {
+    float: left;
+    margin-bottom: 0px;
+    border-right: solid 1px white;
+    height: 40px;
+}
+.tabla {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.btn-cerrar {
+  padding: 10px !important;
+  float: right;
+}
+
+.item-venta{
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.fila{
+  margin-bottom: 0px !important;
+  background-size: 0 0px,100% 0px !important;
+}
+.btn-danger {
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+
+.boton-cerrar-sesion {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding-top: 15px;
+    margin-bottom: 0;
+}
+</style>
+
+
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+  
+  <!-- Si es usuario vendedor(tablet) oculto el menu-->
+  <?php if($vendedor){  } else {require_once('../templates/templates/header.html'); }?>
+  
+
+  
+  <?php require_once('public/modales/modal_valor.html'); ?>
+  <?php require_once('public/modales/modal_cant.html'); ?>
+  <?php require_once('public/modales/modal_cliente.html'); ?>
+  <?php require_once('public/modales/agregar_cliente.html'); ?>
+
+
+  <div id="modal-tipos" class="modal " role="dialog">
+  </div> 
+  <div id="modal-categorias" class="modal " role="dialog">
+  </div> 
+  <div id="modal-productos" class="modal " role="dialog">
+  </div> 
+  <div id="modal-calibres" class="modal " role="dialog">
+  </div>
+  <div id="modal-lotes" class="modal " role="dialog">
+  </div>
+  <input type="hidden" name="aux_sincalibre" id="aux_sincalibre">
+  <div id="div-conciliar">
+  </div>
+  <!-- Boton de logout cuando es usuario vendedor para tablet-->
+  <?php if($vendedor){ echo '<a class="btn btn-danger boton-cerrar-sesion" href="../home/logout.php" role="button"><i class="fa fa-sign-out"></i></a>'; }?>
+  <!-- Boton de logout cuando es usuario vendedor para tablet-->
+ 
+
+  <?php if ($_GET['id_venta']) { ?>
+    <div class="popup-notificacion-movil">
+        <div class="z-depth-3 contenido-notificacion-movil">
+        <button type="button" class="close btn-danger" onclick='$(this).parent().hide();' aria-label="Close">
+              <span style="color:white;font-size: 40px" aria-hidden="true">&times;</span>
+        </button>
+          <h3>
+           <i class="fa fa-check"></i> NUEVA VENTA # <b><?php echo $_GET['id_venta'];?></b>.
+          </h3>
+      <br>
+          <p>
+           <i class="fa fa-user"></i> CLIENTE: <b><?php echo $_GET['nom_cliente'];?></b>
+          </p>
+           <br>     
+          <p>
+           <i class="fa fa-print"></i> MONTO $<b><?php echo $_GET['monto_venta'];?></b>
+          </p>
+        </div>
+    </div>
+  <?php } ?>
+
+   <?php if ($_GET['id_venta_edit']) { ?>
+    <div class="popup-notificacion-movil">
+        <div class="z-depth-3 contenido-notificacion-movil">
+        <button type="button" class="close btn-danger" onclick='$(this).parent().hide();' aria-label="Close">
+              <span style="color:white;font-size: 40px" aria-hidden="true">&times;</span>
+        </button>
+          <h3>
+           <i class="fa fa-check"></i> VENTA # <b><?php echo $_GET['id_venta_edit'];?></b> MODIFICADA.
+          </h3>
+      <br>
+          <p>
+           <i class="fa fa-user"></i> CLIENTE: <b><?php echo $_GET['nom_cliente'];?></b>
+          </p>
+           <br>     
+          <p>
+           <i class="fa fa-print"></i> MONTO $<b><?php echo $_GET['monto_venta'];?></b>
+          </p>
+        </div>
+    </div>
+  <?php } ?>
+  <!-- Saco los margenes de los costados cuando se ve en tablet-->
+  <?php if($vendedor){ echo '<div style="margin:5px" id="exTab2">'; } else {echo '<div id="exTab2" class="container">';}?>
+   
+
+    <ul class="nav nav-tabs">
+      <li class="active pintar">
+        <a   href="#1" data-toggle="tab">Ventas</a>
+      </li>
+      <li class="pintar"><a href="#2" data-toggle="tab">Procesadas</a>
+      </li>
+      <li class="pintar"><a href="#3" data-toggle="tab">Stock</a>
+      </li>
+
+    </ul>
+
+    <div class="tab-content ">
+      <div class="tab-pane active tabla" id="1">
+
+        <form class="form-horizontal form-label-left" name="detalle_venta" id="detalle_venta" method="POST" action="cargar_venta.php"  > 
+          <input type="hidden" name="venta_fh" id="venta_fh" value="<?php echo date('Y-m-d H:i:s'); ?>">      
+          <input type="hidden" id="cant_items" value="0">
+          <input type="hidden" id="edit_venta" name="edit_venta" value="0">
+          <input type="hidden" name="cliente" id="cliente">
+          <input type="hidden" id="calibre_desc">
+
+
+          <table class="table table-hover table-bordered table-sm z-depth-1 " id="tabla_items">
+            <thead>
+                <tr>
+                    <th class="col-md-1">Cantidad</th>
+                    <th class="col-md-2">Variedad</th>
+                    <th class="col-md-1">Lote</th>
+                    <th class="col-md-1">Valor</th>
+                    <th class="col-md-2">Total</th>
+                    <th class="col-md-1"> - </th>
+                </tr>
+            </thead>
+            <tbody id="contenedor-personas"> 
+
+              <input type="hidden" id="aux_tipo">
+              <input type="hidden" id="aux_categoria">
+              <input type="hidden" id="aux_producto_id">
+              <input type="hidden" id="aux_producto_nombre">
+              <input type="hidden" id="aux_calibre">
+              <input type="hidden" id="aux_prod_cant">
+              <input type="hidden" id="aux_prod_val">
+              <input type="hidden" id="aux_lote">
+
+            <?php if ($_GET['reg'] != null) {
+              $index=1;
+            foreach ($procesadas[$_GET['reg']]['Compra'] as $Procesado) {
+
+              echo '<tr class="linea-item" id="linea_'.$index.'">';
+              echo '<input type="hidden" name="producto['.$index.'][id]" id="producto_'.$index.'_id" value="'.$Procesado['prod_id'].'">';
+              echo '<input type="hidden" name="producto['.$index.'][calibre]" id="producto_'.$index.'_calibre" value="'.$Procesado['prod_calibre'].'">';
+              echo '<td class="item-venta"><input class="form-control fila" type="number" step="1" max="'.$Procesado['prod_max'].'" name="producto['.$index.'][cant]" id="producto_'.$index.'_cant" min="1" guardacant="'.$Procesado['prod_cant'].'"  value="'.$Procesado['prod_cant'].'" onchange="actualizarTotal('.$index.','.$Procesado['prod_max'].',this);" ></td>';
+              echo '<td class="item-venta"><input readonly class="form-control fila" type="text" name="producto['.$index.'][nombre]"   id="producto_'.$index.'" value="'.$Procesado['prod_nombre'].'"></td>';
+              echo '<td class="item-venta"><input readonly class="form-control fila" readonly type="text" name="producto['.$index.'][lote]"   id="lote_'.$index.'" value="'.$Procesado['prod_lote'].'"></td>';
+              echo '<td class="item-venta"><input required class="form-control fila" type="number" step="0.1" name="producto['.$index.'][val]" id="producto_'.$index.'_val" min="1" value="'.$Procesado['prod_val'].'" onchange="actualizarTotal('.$index.');"></td>';
+              echo '<td class="item-venta"><span style="display:inline;"> $</span><input style="display:inline; width:80%;" required class="form-control fila" type="text" name="producto['.$index.'][tot]" id="producto_'.$index.'_tot" readonly value="'.($Procesado['prod_cant']*$Procesado['prod_val']).'"></td>';
+              echo '<td class="item-venta"><a class="btn btn-danger" onclick="eliminar('.$index.')"><i class="fa fa-times"></i></a></td>';
+              echo '</tr>';
+                  $index++;
+                  }
+
+                }
+                ?>
+            </tbody>
+          </table>
+            <?php if ($_GET['reg'] != null) {
+            echo '<a class="btn btn-default pull-right" style="cursor: pointer; background-color: #f4433696;" href="movil.php"><i class="icon fa fa-times"></i> Cancelar Edición</a>';
+            }
+            ?>
+        </form>
+      
+        <div class="page-wrapper" style="background-color: #eeeeee;margin-bottom: 50px" >
+            <section class="cards-section text-center" style="background-color: #eeeeee;"> 
+            <!-- SELECT CLIENTE -->  
+            <span class="form-inline">
+              <i class="fa fa-user"></i> Cliente: 
+              <select id="combo_cli" name="input_id_cliente" class="form-control form-angosto" placeholder="Seleccionar cliente" required>
+                 <option value="9999">Anonimo</option>
+                <?php foreach ($clientes as $cli) { if($cli['id'] != 9999) { ?>
+                  <option value="<?php echo $cli['id']; ?>"><?php echo $cli['nombre']; ?></option>
+                <?php } } ?>
+              </select>
+            </span>
+             <!-- DEUDA CLIENTE --> 
+            <span id="deuda_cliente"></span>
+             <!-- AGREGAR NUEVO CLIENTE --> 
+             <a class="btn btn-default " style="cursor: pointer;" onclick="$('#myModalClienteAdd').modal();"><i class="icon fa fa-user-plus"></i>Cliente</a>
+              <!-- AGREGAR NUEVO PRODUCTO --> 
+              <a class="btn btn-default " style="cursor: pointer;" onclick="modalTipo()"><i class="icon fa fa-plus"></i> Producto</a>
+            <?php if ($_GET['id_cliente'] != null) { ?>
+              <a class="btn btn-default " style="cursor: pointer;" onclick="$('#clientemodal').modal();"><i class="icon fa fa-shopping-cart"></i> Cerrar Venta</a>
+            <?php }else{ ?>
+              <a class="btn btn-default " style="cursor: pointer;" onclick='cerrarVenta()'><i class="icon fa fa-shopping-cart"></i> Cerrar Venta</a>
+
+            <?php } ?>
+            </section><!--//cards-section-->
+        </div><!--//page-wrapper-->
+      </div>
+
+      <div class="tab-pane" id="2">
+        <table class="table table-hover table-bordered table-sm z-depth-1 tabla" id="tabla_procesadas">
+            <thead>
+                <tr>
+                    <th class="">ID</th>
+                    <th class="">Usuario</th>
+                    <th class="">Fecha</th>
+                    <th class="">Cliente</th>
+                    <th class="">Productos</th>
+                    <th class="">Bultos</th>
+                    <th class="">Monto</th>
+                    <th class="">Accion</th>
+                </tr>
+            </thead>
+            <tbody id="contenedor-procesadas"> 
+            <?php $index = 0; 
+            foreach ($procesadas as $Procesada): ?>
+             <tr>
+                    <td class=""><?php echo $Procesada['Venta'] ?></td>
+                    <td class=""><?php echo $Procesada['Usuario'] ?></td>
+                    <td class=""><?php echo date('d/m/y h:i', strtotime($Procesada['Fecha'])); ?></td>
+                    <td class=""><?php echo $Procesada['Cliente'] ?></td>
+                    <td class=""><?php echo $Procesada['Productos'] ?></td>
+                    <td class=""><?php echo $Procesada['Bultos'] ?></td>
+                    <td class="">$<?php echo $Procesada['Total'] ?></td>
+                    <td class=""><a  href="movil.php?reg=<?php echo $Procesada['Venta'] ?>&id_cliente=<?php echo $Procesada['cliente_id'] ?>">Modificar</a></td>
+                </tr>
+
+            
+            <?php
+            $index ++;
+             endforeach ?>
+              
+                
+            </tbody>
+        </table>
+      </div>   
+      <div class="tab-pane" id="3" style="text-align: center;">
+          <a class="btn btn-raised btn-info" href="#" onclick="modalConciliarStock(<?php echo $caja -> caja_id; ?>);">
+            <i class="fa fa-dropbox"></i> Ver  stock
+          </a>
+      </div>   
+
+    </div>
+</div>
+ 
+ <!-- Main Javascript -->          
+  <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+  <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+  <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+  <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+
+  <script type="text/javascript" src="public/js/ventas.js"></script>
+  <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+
+</body>
+
+
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function() {
+      $('#combo_cli').select2({
+          minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+          language: {
+            noResults: function (params) {
+              return "No hay resultados.";
+            },
+            inputTooShort: function () {
+                return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+            }
+          }
+        });
+       
+    });
+
+
+    <?php if ($_GET['id_venta']) {?>
+      $('.popup-notificacion-movil').delay( 2000 ).fadeOut( 100 );
+    <?php } ?>
+     <?php if ($_GET['id_venta_edit']) {?>
+      $('.popup-notificacion-movil').delay( 2000 ).fadeOut( 100 );
+    <?php } ?>
+
+    <?php if ($_GET['reg']) {?>
+      $('#edit_venta').val('<?php echo $_GET["reg"]?>');
+    <?php } ?>
+
+    <?php if ($_GET['reg'] != null){ 
+                      $index=1;
+                      foreach ($procesadas[$_GET['reg']]['Compra'] as $Procesado) {
+                            $index++;
+                            }
+                      echo '$("#cant_items").val('.$index.');';
+                          }
+    ?>
+
+    
+
+</script>
+
+<!-- SCRIPT PARA QUE RECUERDE QUE TAB TIENE APRETADO AL RECARGAR -->          
+<script type="">
+  
+  // CUANDO RECARGA, BUSCA EN LA DIRECCION QUE TRAE DSPS DEL #
+    $(document).ready(function() {
+
+      if (location.hash) {
+        $("a[href='" + location.hash + "']").tab("show");
+       }
+
+   // cuando apreto algun boton (ventas procesadas o stock), agrego algun # en la direccion
+    $(document.body).on("click", "a[data-toggle='tab']", function(event) {
+        location.hash = this.getAttribute("href");
+    });
+
+   // SI ESTA EN #1 (VENTAS), ABRO AUTOMATICAMENTE EL MODAL
+    if ( location.hash == '#1' ||  location.hash == '' ) {
+         modalTipo(); 
+        }
+
+});
+  // cuando cambia la direccion, 
+$(window).on("popstate", function() {
+    var anchor = location.hash || $("a[data-toggle='tab']").first().attr("href");
+    $("a[href='" + anchor + "']").tab("show");
+    // SI CAMBIA LA DIRECCIOAN A #1(VENTAS), ABRO AUTOMATICAMENTE EL MODAL
+        if ( location.hash == '#1') {
+         modalTipo(); 
+        }
+
+});
+</script>
+
+</html> 
+

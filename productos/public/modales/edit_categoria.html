@@ -1,0 +1,86 @@
+<div class="modal-dialog modal-chico">
+    <!-- Modal content-->
+    <script type="text/javascript">
+        function validarCategoria(){
+          var nombre = $('#input_categoria_edit').val();
+          var id = $('#edit_categoria_id').val();
+
+          $.ajax({
+              url: 'ajax_validarCategoria.php',
+              type: 'POST',
+              data: {nombre : nombre,
+                    id : id },
+              dataType: 'json'
+          }).done(function(data){
+            console.log(data);
+            if(data && data != id){ //encontro un categoria con el mismo nombre, y no es el mismo id.
+               alert('Ya existe un categoria con el mismo nombre. Debe ingresar un nombre distinto');
+               return false;
+            }else{
+              $('#detalle_categoria_edit').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+
+        $('#input_categoria_edit').keypress(function() {
+          if(event.keyCode == 13){
+            validarCategoria();
+            return false;
+          }
+        });
+
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-cube"></i></span> 
+        <span style="font-size: 18px;" id="nombre_categoria">Producto <?php echo $do_categorias -> categoria_id;?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_categoria_edit" id="detalle_categoria_edit" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_categoria"> 
+
+              <input type="hidden" name="edit_categoria_id" id="edit_categoria_id" value="<?php echo $do_categorias -> cat_id; ?>">
+              <input type="hidden" name="edit_categoria" id="edit_categoria" value="1">
+                  <div class="row">
+                      <div class="col-md-4 col-xs-1 label-cliente">
+                        <span class="form-label"> Categoría</span>
+                      </div>
+                      <div class="col-md-8">
+                          <select name="input_tipo_edit" id="input_tipo" class="form-control" required="required">
+                            <option value="">Seleccione una categoría</option>
+                            <?php while ($do_tipos -> fetch()) { ?>
+                            <option <?php if($do_categorias -> cat_tipo_id == $do_tipos -> tipo_id){ echo "selected";} ?> value="<?php echo $do_tipos -> tipo_id; ?>"><?php echo $do_tipos -> tipo_nombre.' ('.$do_tipos -> tipo_desc.')'; ?></option>
+                            <?php } ?>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-8">
+                      <input autocomplete="off" type="text" name="input_categoria_edit" id="input_categoria_edit" class="form-cliente" placeholder="Nombre" value="<?php echo $do_categorias -> cat_nombre; ?>">
+                    </div>
+                  </div>
+            </div>
+           
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-categoria">
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarCategoria();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>

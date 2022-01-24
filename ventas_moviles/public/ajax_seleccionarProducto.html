@@ -1,0 +1,34 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <span class="modal-title">
+    <span class="titulo_modal" id="titulo">Seleccionar Variedad </span> 
+    </span>
+    <hr>
+    <span class="modal-title">
+      <span class="breadcrumbs-movil" id="breadcrumb-prod"><?php echo $tipo_cat_nombre ?></span> 
+    </span>
+
+  </div>
+
+       <div class="modal-body" style="  overflow-y: auto;">
+
+        <?php while($productos ->fetch()){
+        ?>
+          <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="modalCantidad('<?php echo $productos-> prod_nombre ?> > <?php echo $productos-> ps_calibre ?> > <?php echo $productos-> ps_lote ?>','<?php echo $productos -> getCantidadxcalibreylote(); ?>','<?php echo $productos-> prod_nombre ?>', '<?php echo $productos-> ps_calibre ?>','<?php echo $productos-> ps_id ?>','<?php echo $productos-> prod_id ?>');"> <?php echo $productos-> prod_nombre ?> - <?php echo $productos-> ps_calibre ?> - <?php echo $productos-> ps_lote ?><span class="badge badge-danger" style="margin-left: 10px;">   V: <?php echo $productos -> getCantidadxcalibreylote(); ?></span><span class="badge badge-danger"  style="margin-left: 10px;"> F: <?php echo $productos -> getCantidadFisicaxcalibreylote(); ?> </span></button>
+
+        <?php
+        }?>
+
+      <div>
+
+    </div>
+
+    <div class="text-center">
+        <span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="volverCategoria();"><i class="fa fa-times"></i> CERRAR </span>
+    </div>
+
+  </div>
+
+
+</div>

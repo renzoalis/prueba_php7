@@ -1,0 +1,119 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+  .texto-restaurar {
+    font-size: 16px;
+    font-weight: 400;
+  }
+</style>
+<div id="myModalFlete" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Costo de flete</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_concepto" id="nuevo_concepto" value="1">
+        <input type="hidden" name="combo_tipo" id="combo_tipo" value="3">
+        <input type="hidden" name="concepto_compra_id" id="concepto_compra_id" value="<?php echo $compra -> compra_id; ?>">
+        <input type="hidden" name="concepto_compra_detalle_id" id="concepto_compra_detalle_id" value="">
+        <input type="hidden" name="input_obs_flete" id="input_obs_flete" value="">
+
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+<br>
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos">
+              <thead>
+                <tr>
+                  <th class="col-md-2 col-xs-3">Producto</th>
+                  <th class="col-md-1 col-xs-4">Cantidad</th>
+                  <th class="col-md-1 col-xs-4">Costo u.</th>
+                  <th class="col-md-2 col-xs-4">Sub Total</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr id="det_<?php echo $d['det_id']; ?>" class="prods_dev">
+                  <td><?php echo $d['tipo_nombre'].' / '. $d['cat_nombre'].' / '. $d['prod_nombre'].' / '. $d['prod_calibre']; ?>
+                    <input type="hidden" id="prod_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][id]" value="<?php echo $d['prod_id']; ?>"></td>
+                    <input type="hidden" id="prod_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][calibre]" value="<?php echo $d['prod_calibre']; ?>"></td>
+                    <input type="hidden" id="prod_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][cantidad]" value="<?php echo $d['prod_cant']; ?>"></td>
+                    <input type="hidden" id="prod_ps_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][ps_id]" value="<?php echo $d['ps_id']; ?>"></td>
+                    
+                  <td><?php echo $d['prod_cant']; ?> <input type="hidden" id="cant_<?php echo $d['det_id']; ?>" value="<?php echo $d['prod_cant']; ?>"></td>
+                <td>
+                  $ <input style="width:80%; " autocomplete="off" type="number" name="prod[<?php echo $i; ?>][costo]" step="0.1" id="costo_<?php echo $d['det_id']; ?>" placeholder="0" oninput="actualizarMontoFlete(<?php echo $d['det_id']; ?>);" >
+                </td>
+                <input type="hidden" class="subtotalflete" id="guardasubtotales_<?php echo $d['det_id']; ?>" >
+                  <td>$ <span  id="subtotal_flete_<?php echo $d['det_id']; ?>">0</span></td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa; " class="mostrar-devolucion">
+                <td>
+                  
+                </td>
+                <td>
+                </td>
+                <td style="text-align: right;">Total $</span></td>
+                <td id="precio_total"><input type="number" readonly name="input_monto" id="total_flete" value="<?php echo $do_compras -> compra_monto_total - $do_compras -> compra_descuento_total; ?>"></td>
+                
+              </tfoot>
+            </table>  
+
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_concepto" id="input_obs_concepto" class="form-obs" placeholder="Observación ">
+            </span>
+          </div>
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-barcode"></i> 
+                <input autocomplete="off" type="text" name="input_comprob" id="input_comprob" class="form-obs" placeholder="Comprobante ">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->  
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" style="color: whitesmoke;background: #00aa9a;" class="btn btn-raised btn-default" onclick="validarFlete()">Guardar</button>
+        <button type="button" class="btn btn-raised btn-default" onclick="$('#myModalFlete').modal('hide');">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

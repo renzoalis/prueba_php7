@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+    <form class="form-horizontal form-label-left" name="form_pago" id="form_pago" method="post" action="" enctype="multipart/form-data" > 
+    
+        <?php require_once('public/modales/nuevo_pago.html'); ?> 
+
+    </form>
+
+    <?php if ($_GET['id_pago']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente el pago número <b>PA00<?php echo $_GET['id_pago']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <h3><i class="fa fa-ticket"></i> Pagos a exportadores</h3>
+            <br>
+            <div class="container">
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    
+                    <div class="item item-primary col-md-offset-2 col-md-4 col-sm-6 col-xs-12" data-toggle="modal" data-target="#myModalPago">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-plus"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Nuevo pago </h3>
+                            <a class="link" href="#"><span></span></a>
+                            
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-list-ul"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Listado de pagos </h3>
+                            <a class="link" href="listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+              
+                </div><!--//cards-->
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script type="text/javascript" src="public/js/pagos.js"></script>
+
+    <script type="text/javascript">  
+       
+        $(document).ready(function(){
+
+            $('#combo_cli').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        });
+
+        <?php if ($_GET['id_pago']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+
+    </script>
+    
+</body>
+</html> 
+

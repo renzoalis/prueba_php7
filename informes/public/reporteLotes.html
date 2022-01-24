@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+</head> 
+<style type="text/css">
+    tr th { text-align: center };
+</style>
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+          <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+            <h3> Reporte Lotes </h3>
+
+            <br>
+            <div class="col-md-3">
+              <form method="GET" id="form-fecha">
+                <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+                <input id="fecha_desde" type="hidden" name="fecha_desde">
+                <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+              </form>
+            </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+              <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                <thead>
+                  <tr>
+                    <!-- 1 --><th class="">Lote</th> 
+                    <!-- 1 --><th class="">Origen</th> 
+                    <!-- 1 --><th class="">Proveedor</th> 
+                    <!-- 1 --><th class="">Transportista</th> 
+                    <!-- 1 --><th class="">Fecha</th> 
+                    <!-- 2 --><th class="">Categoria</th>
+                    <!-- 3 --><th class="">Producto</th>
+                    <!-- 4 --><th class="">Variedad</th>
+                    <!-- 5 --><th class="">Calibre</th>
+                    <!-- 5 --><th class="">Cantidad</th>
+                    <!-- 4 --><th class="">Valor U</th>
+                    <!-- 4 --><th class="">Descarga U</th>
+                    <!-- 4 --><th class="">Carga U</th>
+                    <!-- 4 --><th class="">Flete U</th>
+                    <!-- 6 --><th class="">Costo Total</th> 
+                    <!-- 6 --><th class="">PPV</th> 
+                    <!-- 6 --><th class="">PPV Fecha</th> 
+                  </tr>
+
+                </thead>
+                <tbody>
+                  <?php while ($reporte_lotes->fetch()){ 
+                    $total_lote = $reporte_lotes -> VALOR_U + $reporte_lotes -> DESCARGA_U + $reporte_lotes -> CARGA_U + $reporte_lotes -> FLETE_U;
+                    ?>
+                  <tr>
+                        <td> <?php echo $reporte_lotes -> ID; ?> </td>
+                        <td> <?php echo $reporte_lotes -> ORIGEN; ?> </td>
+                        <td> <?php echo $reporte_lotes -> PROVEEDOR; ?> </td>
+                        <td> <?php echo $reporte_lotes -> TRANSPORTISTA; ?> </td>
+                        <td> <?php if($reporte_lotes -> FECHA_COMPRA){ echo $reporte_lotes -> FECHA_COMPRA;}
+                                   elseif($reporte_lotes -> FECHA_TRANSF){ echo $reporte_lotes -> FECHA_TRANSF;} ?> </td>
+                        <td> <?php echo $reporte_lotes -> CATEGORIA; ?> </td>
+                        <td> <?php echo $reporte_lotes -> PRODUCTO; ?> </td>
+                        <td> <?php echo $reporte_lotes -> VARIEDAD; ?> </td>
+                        <td> <?php echo $reporte_lotes -> CALIBRE; ?> </td>
+                        <td> <?php echo $reporte_lotes -> CANTIDAD; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $reporte_lotes -> VALOR_U; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $reporte_lotes -> DESCARGA_U; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $reporte_lotes -> CARGA_U; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $reporte_lotes -> FLETE_U; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $total_lote; ?> </td>
+                        <td> $ <span class="row_monto"><?php echo $reporte_lotes -> PPV; ?> </td>
+                        <td> <?php echo $reporte_lotes -> PPV_FH; ?> </td>
+                  </tr>
+                          
+                  <?php     } ?>
+                </tbody>
+                <tfoot style="background-color: #ededed;">
+                  
+                </tfoot>
+              </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html');?>
+    <script src="../templates/templates/assets/plugins/print-this/print-this/printThis.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/daterangepicker.min.js"></script>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script type="text/javascript" src="public/js/informes.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+  
+
+
+
+        } );
+
+    </script>
+    
+</body>
+</html> 
+

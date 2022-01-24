@@ -1,0 +1,192 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+</style>
+<div id="myModalConcepto" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nuevo concepto</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_concepto" id="nuevo_concepto" value="1">
+        <input type="hidden" name="concepto_compra_id" id="concepto_compra_id" value="">
+        <input type="hidden" name="concepto_transp_id" id="concepto_transp_id" value="">
+        <input type="hidden" name="concepto_prov_id" id="concepto_prov_id" value="">
+        <input type="hidden" name="concepto_compra_detalle_id" id="concepto_compra_detalle_id" value="">
+        <input type="hidden" name="descarga_ps_id" id="descarga_ps_id" value="">
+        <input type="hidden" name="carga_ps_id" id="carga_ps_id" value="">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i> 
+                <select id="combo_tipo" name="combo_tipo" class="select-concepto-tipo" onchange="inputsConcepto()" placeholder="Tipo Concepto" required>
+                <option value="0">Seleccione</option>
+                <?php while ($do_concepto -> fetch()) { ?>
+                <option value="<?php echo $do_concepto -> cc_tipo_id; ?>"><?php echo $do_concepto -> cc_tipo_nombre; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="concepto_fh" class="form-angosto" required id="concepto_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / -->
+        <!-- DIV CARGA --> 
+
+          <div class="row form-seccion" id="div-carga" style="display:none;">
+            <div class="col-md-8 col-xs-4"> 
+              <span class="form-inline">Producto:
+                <select id="combo_prod_carga" name="combo_prod_carga" class="select-concepto-tipo form-largo" placeholder="Seleccionar producto"  required>
+                  <option value=""> Seleccione </option>
+                </select>
+              </span>
+            </div>   
+            <div class="col-md-6 col-xs-4">
+              
+            </div> 
+          </div>
+        <!-- /DIV CARGA --> 
+        <!-- DIV DESCARGA --> 
+
+          <div class="row form-seccion" id="div-descarga" style="display:none;">
+            <div class="col-md-8 col-xs-4"> 
+              <span class="form-inline">Producto:
+                <select id="combo_prod_descarga" name="combo_prod_descarga" class="select-concepto-tipo form-largo" placeholder="Seleccionar producto"  required>
+                  <option value=""> Seleccione </option>
+                </select>
+              </span>
+            </div>   
+            <div class="col-md-6 col-xs-4">
+              
+            </div> 
+          </div>
+        <!-- /DIV DESCARGA --> 
+
+        <!-- Div COSTO UNITARIO -->
+        <div class="row form-seccion"  id="div-precio-unitario" style="display:none;">
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-cube"></i>
+              <input autocomplete="off" type="number" name="input_costo_unitario" id="input_costo_unitario" class="input-pagos form-obs form-contado soloNumeros" oninput="actualizarMonto();" placeholder="Costo Unitario">
+            </span>
+          </div>
+        </div>
+        <!-- / Div COSTO UNITARIO -->
+        <!-- Div CANTIDAD -->
+        <div class="row form-seccion"  id="div-cantidad" style="display:none;">
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-quora"></i>
+              <input autocomplete="off" type="number" min="0" step="1" name="input_cantidad" id="input_cantidad" class="input-pagos form-obs form-contado" oninput="actualizarMonto();" placeholder="Cantidad">
+            </span>
+          </div>
+        </div>
+        <!-- / Div CANTIDAD -->
+        <!-- Div Efectivo -->
+        <div class="row form-seccion" id="div-monto" style="display:none;">
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" min="0" name="input_monto" id="input_monto" class="input-pagos form-obs form-contado" placeholder="Monto">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Efectivo -->
+
+        <!-- Div Devolucion Mercaderia -->
+        <div class="row form-seccion" id="div-devolucion" style="display:none;">
+          <div class="row">
+            <div class="col-md-8 col-xs-4"> 
+              <span class="form-inline">Producto:
+                <select id="combo_prod_dev" name="combo_prod_dev" class="select-concepto-tipo form-angosto" placeholder="Seleccionar producto" required>
+                  <option value=""> Seleccione </option>
+                </select>
+              <input type="checkbox" name="input_restaurar_stock" value="1"> Quitar productos de Stock
+              </span>
+            </div>   
+            <div class="col-md-6 col-xs-4">
+              
+            </div> 
+          </div>
+          <br>
+         <div class="row">
+            <div class="col-md-6 col-xs-4" > 
+              <span class="form-inline">
+                <i class="fa fa-quora"></i>
+                <input style="width:80%; margin-top:7px;" autocomplete="off" type="number" name="input_cantidad_dev" step="1" id="input_cantidad_dev" class="input-pagos form-obs form-contado soloNumeros" oninput="actualizarMontoDevolucion();" min="1" placeholder="Cantidad">
+              </span>
+            </div>
+            <div class="col-md-6 col-xs-4" > 
+              <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input style="margin-top:7px;" autocomplete="off" type="number" name="input_costo_dev" id="input_costo_dev" class="input-pagos form-obs form-contado" readonly placeholder="Precio unitario">
+              </span>
+              <span class="form-inline">
+                
+              </span>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-md-6 col-xs-4" > 
+            </div>
+            <div class="col-md-6 col-xs-4" > 
+              <span class="form-inline">
+                <i class="fa fa-check"></i>
+                <input style="margin-top:7px;" autocomplete="off" type="number" name="input_costo_total" id="input_costo_total" class="input-pagos form-obs form-contado" readonly placeholder="Precio total">
+              </span>
+            </div>
+          </div>     
+
+        </div>
+        <!-- / Div Devolucion Mercaderia -->
+
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_concepto" id="input_obs_concepto" class="form-obs" placeholder="Observación">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="button" class="btn btn-raised btn-primary" onclick="validarConcepto();" value="Guardar">
+          <button type="button" class="btn btn-raised btn-default" onclick="$('#myModalConcepto').modal('hide');">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

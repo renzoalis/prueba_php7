@@ -1,0 +1,181 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+  .texto-restaurar {
+    font-size: 16px;
+    font-weight: 400;
+  }
+</style>
+<div id="myModalConcepto" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Devolución de mercadería</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_concepto" id="nuevo_concepto" value="1">
+        <input type="hidden" name="tipo_concepto" id="tipo_concepto" value="5">
+        <input type="hidden" name="concepto_venta_id" id="concepto_venta_id" value="<?php echo $venta_id; ?>">
+        <input type="hidden" name="input_id_cliente" id="input_id_cliente" value="<?php echo $cliente_id; ?>">
+        <input type="hidden" name="concepto_venta_detalle_id" id="concepto_venta_detalle_id" value="">
+        <input type="hidden" name="input_obs_devolver" id="input_obs_devolver" value="">
+
+        <div class="row">
+          <div class="col-md-8">
+            <div id="select-productos-devolver" >
+              <span class="form-inline">Producto a devolver:
+                <select id="combo_prod_dev" name="combo_prod_dev" onchange="setearDevolucion();" class="select-concepto-tipo form-angosto" placeholder="Seleccionar producto" required>
+                  <option value=""> Seleccione </option>
+                  <?php $j = 0; ?>
+                  <?php foreach ($detalle as $d) { ?>
+                    <option value="<?php echo $d['det_id']; ?>"> <?php echo $d['tipo_nombre'].' / '. $d['cat_nombre'].' / '. $d['prod_nombre'].' / '. $d['prod_calibre']; ?> </option>
+                    <?php $j ++; ?>
+                    <?php } ?> 
+                </select>
+              </span>
+            </div>
+          </div>
+          <br><br>
+        </div>
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+<br>
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos">
+              <thead>
+                <tr>
+                  <th class="col-md-2 col-xs-3">Producto</th>
+                  <th class="col-md-1 col-xs-4">Cantidad</th>
+                  <th class="col-md-1 col-xs-4">Precio u.</th>
+                  <th class="col-md-2 col-xs-4">Sub Total</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr id="det_<?php echo $d['det_id']; ?>" class="prods_dev" style="display: none;">
+                  <td><?php echo $d['tipo_nombre'].' / '. $d['cat_nombre'].' / '. $d['prod_nombre'].' / '. $d['prod_calibre']; ?>
+                    <input type="hidden" id="prod_id_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][id]" value="<?php echo $d['prod_id']; ?>"></td>
+                  <td><?php echo $d['prod_cant']; ?> <input type="hidden" id="cant_<?php echo $d['det_id']; ?>" value="<?php echo $d['prod_cant']; ?>"></td>
+                  <td>$ <?php echo $d['prod_val']; ?> <input type="hidden" id="val_<?php echo $d['det_id']; ?>" value="<?php echo $d['prod_val']; ?>"></td>
+                  </td>
+                  <td>$ <?php echo $d['prod_tot']; ?></td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa; display: none; " class="mostrar-devolucion">
+                <td>
+                  
+                </td>
+                <td>
+                    <input style="width:100%; " autocomplete="off" type="number" name="input_cantidad_dev" step="1" id="input_cantidad_dev" placeholder="0" oninput="actualizarMonto();" min="1" required>
+                </td>
+                <td style="text-align: right;">Quedan $</span></td>
+                <td id="precio_total"><input type="number" readonly name="input_monto" id="saldo_final_dev" value="<?php echo $do_ventas -> venta_monto_total - $do_ventas -> venta_descuento_total; ?>"></td>
+                
+              </tfoot>
+            </table>  
+
+            <input type="checkbox" id="input_restaurar_stock" name="input_restaurar_stock" value="1"> Restaurar Stock: 
+            <span class="form-inline texto-restaurar" id="rest_no"> NO. Los productos devueltos se descartarán. </span>
+            <span class="form-inline texto-restaurar" style="display: none;" id="rest_si"> SI. Los productos devueltos volverán al stock. </span>
+
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+
+        <!-- Div Devolucion Mercaderia -->
+        <div class="row form-seccion" id="div-contable" style="display:none;">
+
+          <?php if ($boleto_id) { ?>
+          <div class="row" id="div_tieneBoleto" >
+            <input type="hidden" name="boleto_id" value="<?php echo $boleto_id; ?>">
+            <div class="col-md-12 col-xs-4" > 
+              <span class="texto-restaurar"> <i class="fa fa-ticket"></i> La venta fue cobrada con un boleto. Seleccione una opción. </span><br>
+              <span class="texto-restaurar"> 
+                <input type="radio" required name="tieneBoleto" id="tieneBoleto1" onclick="radios_dev(1);" value="NC" > Nota de crédito  <br>
+                <input type="radio" required name="tieneBoleto" id="tieneBoleto2" onclick="radios_dev(2);" value="DESC" > Descuento en Boleto 
+              </span>
+            </div>
+          </div>   
+          <?php } ?>
+          <br>
+          <div style="padding-left:15px" id="dev-nota" <?php if ($boleto_id) { ?> style="display: none;" <?php } ?> >
+             <input type="checkbox" id="devoluciondinero" name="devoluciondinero" value="1"> Devolver Dinero: 
+            <span class="form-inline texto-restaurar" id="span-devolucion-no">No, Se realizará una Nota de Crédito al cliente <?php echo $do_cliente -> cliente_nombre; ?> por un monto de $ <span id="monto-nc-dev"></span>. </span>
+            <span style="display:none" class="form-inline texto-restaurar" id="span-devolucion-si">SI, Se realizará una salida de caja por un monto de $ <span id="monto-nc-dev2"></span>. </span>
+
+          </div>
+
+          <div id="dev-descuento" style="display: none;">
+            <span class="form-inline texto-restaurar" id="desc-bol"> <i class="fa fa-ticket"></i> Se realizará un descuento al boleto B00<?php echo $boleto_id; ?> por un monto de $ <span id="monto-bol-desc"></span>. </span>
+          </div>
+
+        </div>
+        <!-- / Div Devolucion Mercaderia -->
+
+        <script type="text/javascript">
+          $('#input_restaurar_stock').click(function(event) {   
+              if(this.checked) {
+                  $('#rest_no').hide();
+                  $('#rest_si').show();
+              } else {
+                  $('#rest_no').show();
+                  $('#rest_si').hide();
+              }
+          });
+          $('#devoluciondinero').click(function(event) {   
+              if(this.checked) {
+                  $('#span-devolucion-no').hide();
+                  $('#span-devolucion-si').show();
+              } else {
+                  $('#span-devolucion-no').show();
+                  $('#span-devolucion-si').hide();
+              }
+          });
+        </script>
+        
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_concepto" id="input_obs_concepto" class="form-obs" placeholder="Observación ">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->  
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary" value="Guardar">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

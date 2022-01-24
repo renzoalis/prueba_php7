@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../templates/templates/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../templates/templates/assets/images/favicon-16x16.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+
+</head> 
+
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+    <form class="form-horizontal form-label-left" name="detalle_venta" id="detalle_venta" method="post" action="" enctype="multipart/form-data" > 
+    
+        <?php require_once('public/modales/nueva_venta.html'); ?> 
+
+    </form>
+    <?php require_once('public/modales/agregar_cliente.html'); ?>
+
+    <?php if ($_GET['id_venta']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente la venta número <b>V00<?php echo $_GET['id_venta']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <h3>Ventas</h3>
+            <br>
+            <div class="container">
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+
+                    
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-inbox"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                                Pendientes 
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['pendientes']; ?> </strong><p>
+                            </h3>
+                            <a class="link" href="pendientes.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                                Saldadas 
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['saldadas']; ?> </strong><p>
+                            </h3>
+                            <a class="link" href="saldadas.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-truck"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                                Despachadas 
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['despachadas']; ?> </strong><p>
+                            </h3>
+                            <a class="link" href="despachadas.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+
+              
+                </div><!--//cards-->
+
+                 <div id="cards-wrapper" class="cards-wrapper row">
+
+                    
+                    <div class="item item-primary col-md-3  col-xs-12">
+                        <a style="text-decoration: none" href="ventas_todas.php">
+                        <div class="sub-item-ventas z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-list-alt"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                               Todas las ventas
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['todas']; ?> </strong><p>
+                            </h3>
+                        </div><!--//item-inner-->
+                        </a>
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-3  col-xs-12">
+                        <a style="text-decoration: none" href="ventas_fiadas.php">
+                        <div class="sub-item-ventas z-depth-1"  href="ventas_fiadas.php" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-handshake-o"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                               Ventas con fiado
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['fiado']; ?> </strong><p>
+                            </h3>
+                        </div><!--//item-inner-->
+                    </a>
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-3  col-xs-12">
+                         <a style="text-decoration: none" href="ventas_anuladas.php">
+                        <div class="sub-item-ventas z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-ban"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                               Ventas anuladas
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['anuladas']; ?> </strong><p>
+                            </h3>
+                        </div><!--//item-inner-->
+                        </a>
+                    </div><!--//item-->
+                    
+                    <div class="item item-primary col-md-3  col-xs-12">
+                        <a style="text-decoration: none" href="ventas_devolucion.php">
+                        <div class="sub-item-ventas z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-undo"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> 
+                               Ventas con devolución
+                            <p><strong style="color:darkseagreen"><?php echo $cantidad_ventas['devolucion']; ?> </strong><p>
+                            </h3>
+                            <a class="link" href="ventas_devolucion.php"><span></span></a>
+                        </div><!--//item-inner-->
+                        </a>
+                    </div><!--//item-->
+
+                </div><!--//cards-->
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script type="text/javascript" src="public/js/ventas.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript">  
+       
+        $(document).ready(function(){
+
+            $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
+            $('#combo_cli').select2({
+              minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                },
+                inputTooShort: function () {
+                    return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+                }
+              }
+            });
+
+            $('#combo_prod').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        });
+        <?php if ($_GET['id_venta']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+    </script>
+    
+</body>
+</html> 
+

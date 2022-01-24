@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+
+            <h3><i class="fa fa-cubes"></i> Stock </h3>
+            <br>
+
+            <div class="container">
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-archive"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Compras </h3>
+                            <p class="intro"> Gestión de compras </p>
+                            <a class="link" href="../compras/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-share"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Transferencias </h3>
+                            <p class="intro"> Gestión de transferencias </p>
+                            <a class="link" href="../transferencias/index.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cubes"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Lotes </h3>
+                            <p class="intro"> Stock por lotes </p>
+                            <a class="link" href="lotes.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-exclamation-circle"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Pérdida </h3>
+                            <p class="intro"> De mercadería </p>
+                            <a class="link" href="perdida.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-file"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> DTV </h3>
+                            <p class="intro"> Listado </p>
+                            <a class="link" href="../dtves/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                      <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-list"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Stock Agregado </h3>
+                            <p class="intro"> Listado </p>
+                            <a class="link" href="../productos/stock_agregado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-cog"></i> Administración </h3>
+                    <br>
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cogs"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Categorías </h3>
+                            <p class="intro"> Listado </p>
+                            <a class="link" href="tipos.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                  
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cogs"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Productos </h3>
+                            <p class="intro"> Listado </p>
+                            <a class="link" href="categorias.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm68 col-xs-6">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cogs"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Variedades </h3>
+                            <p class="intro"> Listado y stock </p>   
+                            <a class="link" href="listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+               
+                </div><!--//cards-->
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="public/js/productos.js"></script>   
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    
+    <script type="text/javascript">  
+        $(document).ready(function() {
+
+        if(navigator.onLine) { // Servicios si el navegador esta online
+            getListadoProductos();
+        } else {
+            notificacion('Sin conexión','El puesto se encuentra desconectado de internet. <br> Sincronización de datos pendiente.','<icon class=\"fa fa-times\">','error',10000);
+        }
+
+        } );
+        $('#breadcrumb_div').html('<ol class="breadcrumb"> <li ><a href="../index.php" >Inicio</a></li> <li class="active"> Stock </li></ol>');
+    </script>
+    
+</body>
+</html> 
+

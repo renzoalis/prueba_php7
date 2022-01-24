@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+  <div id="modal-edit-lote" class="modal fade" role="dialog">
+  </div>
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-cubes"></i> Productos por lotes </h3>
+      <br>
+
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <form method="GET" name="buscar_lote" id="buscar_lote">
+            <select id="combo_prod" name="id_prod" class="form-control" placeholder="Seleccionar producto" onchange="$('#buscar_lote').submit();">
+              <option value=""> Seleccione un producto </option>
+              <?php while ($productos -> fetch()) { ?>
+
+              <option <?php if($_GET['id_prod'] == $productos -> prod_id) { echo 'selected'; } ?> value="<?php echo $productos -> prod_id; ?>"><?php echo $productos -> tipo_nombre . ' - '. $productos -> cat_nombre. ' - '. $productos -> prod_nombre; ?></option>
+              <?php } ?>
+            </select>
+          </form>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+
+        <div style="overflow-x:auto; width: 95%; margin: auto;">   
+
+          <?php if($_GET['id_prod']) { ?>
+            <table class="table table-hover table-bordered results z-depth-2" id="tabla_tickets" style="background-color: #fafafa;">
+              <thead>
+
+                <tr>
+                  <th class="">Lote</th>
+                  <th class="">Calibre</th>
+                  <th class="">Cantidad</th>
+                  <th class="">Precio prom. venta</th>
+                  <th class="">Origen</th>
+                  <th class="">Proveedor</th>
+                </tr>
+
+              </thead>
+
+              <tbody>
+                <?php foreach ($listado as $ps){?> 
+                    
+                    <tr style="cursor: pointer;" onclick="getPS(<?php echo $ps['id']; ?>)">
+                      <th scope="row"><?php echo $ps['id']; ?></th>
+                      <td><?php echo $ps['calibre']; ?></td>
+                      <td><?php echo $ps['cantidad']; ?></td>
+                      <td><?php echo $ps['ppv']; ?></td>
+                      <td><?php echo $ps['origen']; ?></td>
+                      <td><?php echo $ps['prov']; ?></td>
+                    </tr>
+
+                <?php  } ?>
+              </tbody>
+
+            </table>
+
+          <?php } else { ?>
+          
+          <h4>Seleccione un producto de la lista</h4>
+
+          <?php } ?>
+              
+          </div><!--//overflow-->
+
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/productos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+          $('#combo_prod').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+          $('#tabla_tickets').DataTable(
+            {
+              "pageLength": 50,
+              "aaSorting": [0,'desc'],
+              "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'copy', 'excel', 'pdf'
+                  ]
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

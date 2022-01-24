@@ -1,0 +1,33 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <span class="modal-title">
+    <span class="titulo_modal" id="titulo">Seleccionar Calibre </span> 
+    </span>
+    <hr>
+    <span class="modal-title">
+      <span class="breadcrumbs-movil" id="breadcrumb-calibre"><?php echo $calibre_nombre; ?></span> 
+    </span>
+  </div>
+
+      <div class="modal-body" style=" min-height: calc(100vh - 135px); max-height: calc(100vh - 130px); overflow-y: auto;">
+          <?php foreach($calibres as $k => $val) {
+            if($val){
+          ?>
+           <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="modalLote('<?php echo $k; ?>','<?php echo $val['venta'];?>','<?php echo $_POST['prod_id'];?>');"><?php echo $k; ?><span class="badge badge-danger" style="margin-left: 10px;">   V: <?php echo $val['venta']; ?></span><span class="badge badge-danger"  style="margin-left: 10px;"> F: <?php echo $val['fisico']; ?> </span></button>
+          <?php 
+            }
+          } ?>
+
+      <div>
+
+    </div>
+
+    <div class="text-center">
+        <span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="volverProducto();"><i class="fa fa-times"></i> CERRAR </span>
+    </div>
+
+  </div>
+
+
+</div>

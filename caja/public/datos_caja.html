@@ -1,0 +1,378 @@
+<div class="item item-primary col-md-6 col-sm-12 col-xs-12">
+  <div class="item-inner item-estadistico z-depth-1 text-center">
+    <h2 class="title title-estadistico"> 
+      <i class="fa fa-print"></i> Caja 
+    </h2>
+    <?php print_r($datos_crudos); if($fecha_filtro == date('Y-m-d')) { ?>
+      <div class="estado-caja">
+        <h2><span style="color:#40babd;"><?php echo $caja -> getEstado(); ?></span></h2>
+      </div>
+    <?php } ?>
+    <div>
+      <?php if($fecha_filtro == date('Y-m-d')) { ?>
+        <?php if($caja -> caja_estado == 2){  // CERRADA?> 
+          <a class="btn btn-raised btn-sm btn-primary" href="#" data-toggle="modal" data-target="#modalAbrirCaja">
+            <i class="fa fa-upload"></i> Abrir caja
+          </a>
+        <?php } else { ?>
+                      <h4><span style="color:#40babd;"><?php echo date('d/m - H:i', strtotime($caja -> caja_fh_inicio))?>hs</span></h4>
+                      <?php if(!is_null($caja -> caja_conciliacion_id) && $ventas_sin_despachar == 0  && $compras_sin_costos == 0 && $transferencias_sin_costos == 0){ ?>
+                        <a class="btn btn-raised btn-primary" href="#" onclick="modalCerrarCaja(<?php echo $caja -> caja_id; ?>);">
+                        <i class="fa fa-upload"></i> Cerrar caja
+                        </a>
+                      <?php }else{ 
+                      if($ventas_sin_despachar == 0 && $compras_sin_costos == 0) { ?>
+                        <!--<i class="fa fa-chevron-right"></i> -->
+                        <a class="btn btn-raised" style="color:whitesmoke;background-color:#009688" href="#" onclick="modalCerrarCaja(<?php echo $caja -> caja_id; ?>);">
+                        <i class="fa fa-upload"></i> Cerrar caja
+                        </a>
+
+                        <!-- <button class="btn btn-raised btn-primary disabled" title="Realizar la conciliación de Stock para habilitar el cierre de caja.">
+                        <i class="fa fa-upload"></i> Cerrar caja -->
+                        </button>
+                      <?php } else { ?>
+                      <h3>Hay <?php echo $ventas_sin_despachar; ?> venta/s sin despachar</h3>
+                      <h3>Hay <?php echo $compras_sin_costos; ?> compra/s sin costos asociados</h3>
+                      <h3>Hay <?php echo $transferencias_sin_costos; ?> transferencia/s para aceptar o con dif de stock</h3>
+                      <?php } } ?>       
+                      <?php if($caja -> caja_estado != 2){  // Lo muestra siempre que la caja esté abierta?> 
+                      <!--<span> <i class="fa fa-info-circle"></i> Realizar la conciliación de Stock para habilitar el cierre de caja. </span><br> -->
+                      <a class="btn btn-raised btn-info" href="#" onclick="modalConciliarStock(<?php echo $caja -> caja_id; ?>);">
+                      <i class="fa fa-dropbox"></i> Ver  stock
+                      </a>
+                      <?php }?>  
+                      <a class="btn btn-raised btn-danger" style="text-align:center;" target="_blank" href="../informes/reporteOnline.php">REPORTE ONLINE</a>
+                      <br>
+                      <br>
+
+        <?php } ?>
+      <?php } ?>     
+    </div>
+    <?php if($caja -> caja_estado == 1){ ?>
+      
+    <?php } ?>  
+    <?php if($caja -> caja_estado == 1){ ?>
+      <div class="row">
+        <div class="col-md-6 col-xs-1">
+          <span class="form-label">Abierta por <h3 class="nums-totales"><?php echo $u_abrio -> usua_nombre; ?></h3></span>
+        </div>
+        <div class="col-md-6 col-xs-1">
+          <span class="form-label">Monto inicial <h3 class="nums-totales">$ <?php echo $caja -> caja_monto_inicio; ?></h3></span>
+        </div>
+      </div>
+    <?php } ?>    
+<hr>
+    <div class="row">
+<br>
+      <div class="col-md-12">
+<?php if($caja -> caja_estado == 1){ ?>
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+               Ventas 
+            </h2>
+            <div>
+              <h1><?php echo $estadistica_ventas['Ventas']; ?></h1>
+            </div>
+          </div><!--//item-inner-->
+        </div>
+
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+               Bultos vendidos 
+            </h2>
+            <div>
+              <h1><?php echo $estadistica_ventas['Bultos_vendidos']; ?></h1>
+            </div>
+          </div><!--//item-inner-->
+        </div>
+
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+               Bultos retirados 
+            </h2>
+            <div>
+              <h1><?php echo $estadistica_ventas['Bultos_despachados']; ?></h1>
+            </div>
+          </div><!--//item-inner-->
+        </div>
+<?php } ?>
+      </div>
+
+    </div>
+
+<?php if($caja -> caja_estado == 1){ ?>
+    <div class="row">
+
+      <!-- TABLA INGRESOS DE EFECTIVO CAJA ACTUAL -->      
+    <div class="col-md-12">
+      <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+        <thead>
+          <tr class="header-tabla-caja">
+            <th class="col-md-12 dobleheader-estadistico title-estadistico" colspan="5">En caja</th>
+          </tr>
+          <tr class="header-tabla-caja">
+            <th class="col-md-3 text-center">Concepto</th>
+            <th class="col-md-2 text-center">Inicial</th>
+            <th class="col-md-2 text-center">Entradas</th>
+            <th class="col-md-2 text-center">Salidas</th>
+            <th class="col-md-3 text-center">Final caja</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>Efectivo</td>
+            <td class="text-right">$ <?php echo $caja -> caja_monto_inicio; ?></td>
+            <td class="text-right">$ <?php echo $contable['En Caja']['Efectivo']['Entradas']; ?></td>
+            <td class="text-right">$ <?php echo $contable['En Caja']['Efectivo']['Salidas']; ?></td>
+            <td class="text-right"><b>$ <?php echo $caja -> caja_monto_inicio + $contable['En Caja']['Efectivo']['Entradas'] - $contable['En Caja']['Efectivo']['Salidas']; ?></b></td>
+          </tr>
+
+ <!--          <tr>
+            <td>Boletos</td>
+            <td class="text-right">$ <?php echo $caja -> caja_boletos_inicio; ?></td>
+            <td class="text-right">$ <?php echo '?'; ?></td>
+            <td class="text-right">$ <?php echo '?'; ?></td>
+            <td class="text-right">$ <?php echo '?'; ?></td>
+          </tr> -->
+
+          <tr>
+            <td>Cheques de terceros</td>
+            <td class="text-right">$ <?php echo $caja -> caja_cheques_inicio; ?></td>
+            <td class="text-right">$ <?php echo $contable['En Caja']['Cheques']['Entradas']; ?></td>
+            <td class="text-right">$ <?php echo $contable['En Caja']['Cheques']['Salidas']; ?></td>
+            <td class="text-right">$ <?php echo $caja -> caja_cheques_inicio + $contable['En Caja']['Cheques']['Entradas'] - $contable['En Caja']['Cheques']['Salidas']; ?></td>
+          </tr>
+
+        </tbody>
+      </table>
+  
+       <!--  TABLA EGRESOS DE EFECTIVO CAJA ACTUAL --> 
+    </div>
+  </div>
+  <?php } ?>
+  </div><!--//item-inner-->
+</div>
+
+<div class="item item-primary col-md-6 col-sm-12 col-xs-12">
+  <?php if($caja -> caja_estado == 1){ ?>
+
+  <div class="item-inner item-estadistico z-depth-1 text-center">
+
+    <h2 class="title title-estadistico"> 
+      <i class="fa fa-line-chart"></i> Balance
+    </h2>
+    <div class="caja-resumen">
+
+       <!-- TABLA INGRESOS DE EFECTIVO CAJA ACTUAL -->      
+ 
+      <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+        <thead>
+          <tr class="header-tabla-caja">
+            <th class="col-md-12 dobleheader-estadistico title-estadistico" colspan="2">Resumen</th>
+          </tr>
+          <tr class="header-tabla-caja">
+            <th class="col-md-3 text-center">Concepto</th>
+            <th class="col-md-3 text-center">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- Total ventas -->
+          <tr style="background-color: #dceddc;">
+            <td>Inicio de Caja</td>
+            <td class="text-right" >$ <?php echo $movimientos_efectivo['inicio']; ?></td>
+          </tr>
+        <!-- Total ventas -->
+          <tr style="background-color: #dceddc;">
+            <td>Total Ventas</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Total_ventas']; ?></td>
+          </tr>
+        <!-- Total ventas -->
+          <tr style="background-color: #dceddc;">
+            <td>Cobros a cuenta corriente</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Cobros_ccte']; ?></td>
+          </tr>
+          <tr style="background-color: #dceddc;"> 
+            <td>Ingreso por Otros</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Ingreso_otros']; ?></td>
+          </tr>
+
+          <tr style="background-color: #dceddc;"> 
+            <td>Ingreso por Bancos</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Ingreso_bancos']; ?></td>
+          </tr>
+
+        <!-- Total ventas -->
+          <tr style="background-color: #eddcdc; ">
+            <td>Ventas a cuenta corriente</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Total_ventas_a_cc']; ?></td>
+          </tr>
+
+          <tr style="background-color: #eddcdc; ">
+            <td>Salidas de caja</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Salidas_de_caja']; ?></td>
+          </tr>
+      
+          <tr>
+            <td>Total</td>
+            <td class="text-right" >$ <?php echo $movimientos_efectivo['TOTAL']; ?></td>
+          </tr>
+           
+          <tr>
+            <td> <br> </td>
+            <td class="text-right" > <br></td>
+          </tr>
+
+          <tr style="background-color: #dceddc;">
+            <td>NC Clientes</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Notas']['NC']; ?></td>
+          </tr>
+
+          <tr style="background-color: #dceddc;"> 
+            <td>ND Clientes</td>
+            <td class="text-right">$ <?php echo $movimientos_efectivo['Notas']['ND']; ?></td>
+          </tr>
+          
+
+        </tbody>
+   
+      
+ 
+
+         
+      </table>
+
+    <hr>
+    <!-- TABLA EGRESOS DE EFECTIVO CAJA ACTUAL -->      
+   
+      <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+        <thead>
+          <tr class="header-tabla-caja">
+            <th class="col-md-12 dobleheader-estadistico title-estadistico" colspan="5">Movimientos diarios</th>
+          </tr>
+          <tr class="header-tabla-caja">
+            <th class="col-md-3 text-center">Concepto</th>
+            <th class="col-md-2 text-center">Ingresos</th>
+            <th class="col-md-2 text-center">Egresos</th>
+            <th class="col-md-3 text-center">Movimiento diario</th>
+          </tr>
+        </thead>
+       
+        <tbody>
+          
+          <tr>
+            <td>Efectivo</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Efectivo']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Efectivo']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Efectivo']['Ingresos'] - $contable['Movimientos']['Efectivo']['Egresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Boletos</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Boletos']['Ingresos']; ?></td>
+            <td class="text-right"> - </td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Boletos']['Ingresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Cheques de terceros</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Cheques']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Cheques']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Cheques']['Ingresos'] - $contable['Movimientos']['Cheques']['Egresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Cheques propios</td>
+            <td class="text-right"><?php echo '-'; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['ChequesPropios']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['ChequesPropios']['Egresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Depósitos</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Depositos']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Depositos']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Depositos']['Ingresos'] - $contable['Movimientos']['Depositos']['Egresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Notas de crédito</td>
+            <td class="text-right">$ <?php echo $contable['Notas']['NC']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Notas']['NC']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Notas']['NC']['Total']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Notas de débito</td>
+            <td class="text-right">$ <?php echo $contable['Notas']['ND']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Notas']['ND']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Notas']['ND']['Total']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Tarjeta Debito</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_debito']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_debito']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_debito']['Total']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Tarjeta Credito</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_credito']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_credito']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Tarjeta_credito']['Total']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Transferencias</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Transferencias']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Transferencias']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Transferencias']['Ingresos'] - $contable['Movimientos']['Transferencias']['Egresos']; ?></td>
+          </tr>
+
+          <tr>
+            <td>Ingreso por otros</td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Ingreso_otros']['Ingresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Ingreso_otros']['Egresos']; ?></td>
+            <td class="text-right">$ <?php echo $contable['Movimientos']['Ingreso_otros']['Ingresos'] - $contable['Movimientos']['Ingreso_otros']['Egresos']; ?></td>
+          </tr>
+
+        </tbody>
+
+        <?php 
+
+          $total['Ingresos'] = $contable['Movimientos']['Efectivo']['Ingresos'] + $contable['Movimientos']['Boletos']['Ingresos'] + 
+                               $contable['Movimientos']['Cheques']['Ingresos'] + $contable['Movimientos']['Depositos']['Ingresos'] + 
+                               $contable['Notas']['NC']['Ingresos'] + $contable['Notas']['ND']['Ingresos'] + $contable['Movimientos']['Tarjetas']['Ingresos'] + $contable['Movimientos']['Tarjeta_credito']['Ingresos'] + $contable['Movimientos']['Tarjeta_debito']['Ingresos'] + $contable['Movimientos']['Transferencias']['Ingresos'];
+
+          $total['Egresos'] =  $contable['Movimientos']['Efectivo']['Egresos'] + $contable['Movimientos']['Cheques']['Egresos'] + 
+                               $contable['Movimientos']['ChequesPropios']['Egresos'] + $contable['Movimientos']['Depositos']['Egresos'] + 
+                               $contable['Notas']['NC']['Egresos'] + $contable['Notas']['ND']['Egresos'] + $contable['Movimientos']['Transferencias']['Egresos'] + $contable['Movimientos']['Tarjeta_debito']['Egresos'] + $contable['Movimientos']['Tarjeta_credito']['Egresos']; 
+
+        ?>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            <th class="text-right">$ <?php echo $total['Ingresos']; ?></th>
+            <th class="text-right">$ <?php echo $total['Egresos']; ?></th>
+            <th class="text-right">$ <?php echo $total['Ingresos'] - $total['Egresos']; ?></th>
+          </tr>
+        </tfoot>
+    
+      </table>
+
+       <!--  TABLA EGRESOS DE EFECTIVO CAJA ACTUAL --> 
+      
+    </div>
+  </div><!--//item-inner-->
+  <?php  } ?>
+</div>
+
+
+
+<br>
+<hr>
+<br>

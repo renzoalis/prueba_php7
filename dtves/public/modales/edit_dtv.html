@@ -1,0 +1,183 @@
+<style type="text/css">
+  .subirinput{
+    margin-top:-10px;
+  }
+</style>
+
+  <div class="modal-dialog modal-grande">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <div style="margin-top:5px;display: inline-block;">
+<span style="margin-top: 5px;padding-top: 5px;font-size: 18px;"><i class="fa fa-eye"></i> DTV</span>
+</div> 
+
+      </div>
+      <div class="modal-body" style="margin-top: 0px;padding-top: 5px">   
+            <div id="datos_dtv"> 
+
+              <div class="row" >
+
+                <div class="col-md-6 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Número DTV </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_numero_dtv" id="edit_numero_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_numero ;?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Fecha de alta </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="date" name="edit_dtv_fh" id="edit_fecha_vencimiento_dtv" class="form-cliente inputdtv" value="<?php echo date('Y-m-d',strtotime($do_dtv -> dtv_fh));?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Fecha de vencimiento </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="date" name="edit_fecha_vencimiento_dtv" id="edit_fecha_vencimiento_dtv" class="form-cliente inputdtv" value="<?php echo date('Y-m-d',strtotime($do_dtv -> dtv_fh_vencimiento));?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Tipo</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_tipo_dtv" id="edit_tipo_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_tipo ;?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Motivo</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_motivo_dtv" id="edit_motivo_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_motivo ;?>">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 col-xs-12"> 
+
+                 <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Emisor </span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_emisor_dtv" id="edit_emisor_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_emisor ;?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Cuit Emisor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="number" name="input_cuitemisor_dtv" id="input_cuitemisor_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_cuitemisor ;?>">
+                    </div>
+                  </div>
+
+                 <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Receptor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_receptor_dtv" id="edit_receptor_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_receptor ;?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Cuit Receptor</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_cuitreceptor_dtv" id="edit_receptor_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_cuitreceptor ;?>">
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Domicilio/Establecimiento</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="input_domicilio_dtv" id="input_domicilio_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_domicilio ;?>">
+                    </div>
+                  </div>
+                   
+                   <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Código de cierre</span>
+                    </div>
+                    <div class="col-md-12 subirinput">
+                      <input autocomplete="off" readonly type="text" name="edit_codcierre_dtv" id="edit_codcierre_dtv" class="form-cliente inputdtv" placeholder="<?php echo $do_dtv -> dtv_codigo_cierre ;?>">
+                    </div>
+                  </div>
+                  
+                 </div>
+                <div class="row">
+                   <div class="col-md-12">
+                    <hr>
+                   </div> 
+                  </div>
+
+                <div class="row"> 
+                  <div class="col-md-12 col-xs-12" style="overflow-x:auto"> 
+                    <table class="table table-bordered table-sm z-depth-1" id="tabla_productos_dtv">
+                      <thead>
+                         <tr>
+                            <th class="">Producto</th>
+                            <th class="">Variedad</th>
+                            <th class="">Tipo de embalaje</th>
+                            <th class="">Cantidad</th>
+                            <th class="">Peso/cant unidades</th>
+                            <th class="">Total</th>
+                            <th class="">U. medidad</th>
+                          </tr>
+                      </thead>
+                <tbody>
+                <?php while ($productos_dtv->fetch()){ ?>
+                        <tr>
+                          <td><?php echo $productos_dtv ->dtv_producto ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_variedad ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_embalaje ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_cantidad ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_peso ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_total ; ?></td>
+                          <td><?php echo $productos_dtv ->dtv_unidad_medida; ?></td>
+                        </tr>
+                 <?php     } ?>                  
+                 </tbody>
+                    </table>
+                  </div>
+                  </div>
+                  <hr>
+
+               <div class="col-md-12">
+                  <div class="form-group label-cliente">
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal" >Cancelar</button>
+                  </div>
+                </div>
+
+                </div>
+
+
+              </div>
+            </div>
+           
+       
+      </div>
+
+    </div>
+
+  </div>

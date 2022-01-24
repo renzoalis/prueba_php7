@@ -1,0 +1,33 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <span class="modal-title">
+    <span class="titulo_modal" id="titulo">Seleccionar Lote  </span> 
+    </span>
+    <hr>
+    <span class="modal-title">
+      <span class="breadcrumbs-movil" id="breadcrumb-lote"><?php echo $lote_nombre; ?></span> 
+    </span>
+  </div>
+
+      <div class="modal-body" style=" min-height: calc(100vh - 135px); max-height: calc(100vh - 130px); overflow-y: auto;">
+          <?php foreach($lotes as $k => $val) {
+            if($val['stock_venta']){
+          ?>
+           <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="modalCantidad('<?php echo $k; ?>','<?php echo $val['stock_venta'];?>');">LOTE: <b><?php echo $val['desc'];?> | <span class="badge badge-danger" style="margin-left: 10px;">   V: <?php echo $val['stock_venta']; ?></span><span class="badge badge-danger"  style="margin-left: 10px;"> F: <?php echo $val['stock_fisico']; ?> </span> </b></button>
+          <?php 
+            }
+          } ?>
+
+      <div>
+
+    </div>
+
+    <div class="text-center">
+        <span class="btn btn-raised btn-danger cerrarModal btn-cerrar" onclick="volverCalibre();"><i class="fa fa-times"></i> CERRAR </span>
+    </div>
+    
+  </div>
+
+
+</div>

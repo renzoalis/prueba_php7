@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+
+</head> 
+
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+<?php if ($_GET['id_venta']) { ?>
+            <div class="popup-notificacion">
+             <div class="modal-content">
+                <div class="z-depth-3 contenido-notificacion">
+                  <span>
+                   <i class="fa fa-trash"></i> Se agregó correctamente la venta  # <b><?php echo $_GET['id_venta'];?></b>.
+                  </span>
+                </div>
+              </div>
+            </div>
+          <?php } ?>
+
+<div id="exTab2" class="container"> 
+<ul class="nav nav-tabs">
+      <li class="active">
+        <a  href="#1" data-toggle="tab">En Proceso</a>
+      </li>
+      <li><a href="#2" data-toggle="tab">Procesadas</a>
+      </li>
+    </ul>
+
+      <div class="tab-content ">
+        <div class="tab-pane active" id="1">
+
+
+
+    <form class="form-horizontal form-label-left" name="detalle_venta" id="detalle_venta" method="POST" action="cargar_venta.php"  > 
+<input type="hidden" name="venta_fh" id="venta_fh" value="<?php echo date('Y-m-d H:i:s'); ?>">      
+<input type="hidden" id="cant_items" value="0">
+<input type="hidden" id="edit_venta" name="edit_venta" value="0">
+<input type="hidden" name="cliente" id="cliente">
+
+    <table class="table table-hover table-bordered table-sm z-depth-1" id="tabla_items">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2">Categoria</th>
+                                <th class="col-md-2">Producto</th>
+                                <th class="col-md-2">Cantidad</th>
+                                <th class="col-md-2">Valor</th>
+                                <th class="col-md-2">Sub Total</th>
+                                <th class="col-md-2">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contenedor-personas"> 
+
+                      <?php if ($_GET['reg'] != null) {
+                        $index=1;
+                      foreach ($procesadas[$_GET['reg']]['Compra'] as $Procesado) {
+
+                        echo '<tr class="linea-item" id="linea_'.$index.'">';
+                        echo '<input type="hidden" name="producto['.$index.'][id]" id="producto_'.$index.'_id" value="'.$Procesado['prod_id'].'">';
+                        echo '<td><input readonly class="form-control" type="text" name="producto['.$index.'][categoria]"  id="producto_'.$index.'_categoria" value="'.$Procesado['cat_id'].'"></td>';
+                        echo '<td><input readonly class="form-control" type="text" name="producto['.$index.'][nombre]"   id="producto_'.$index.'" value="'.$Procesado['prod_nombre'].'"></td>';
+                        echo '<td><input class="form-control" type="number" step="1" name="producto['.$index.'][cant]" id="producto_'.$index.'_cant"  value="'.$Procesado['prod_cant'].'" oninput="actualizarTotal('.$index.');" ></td>';
+                        echo '<td><input required class="form-control" type="number" step="0.1" name="producto['.$index.'][val]" id="producto_'.$index.'_val"  value="'.$Procesado['prod_val'].'" oninput="actualizarTotal('.$index.');"></td>';
+                        echo '<td><span style="display:inline;"> $</span><input style="display:inline; width:80%;" required class="form-control" type="text" name="producto['.$index.'][tot]" id="producto_'.$index.'_tot" value="'.($Procesado['prod_cant']*$Procesado['prod_val']).'"></td>';
+                        echo '<td><a class="btn btn-danger" onclick="eliminar('.$index.')">Quitar</a></td>';
+                        echo '</tr>';
+                            $index++;
+                            }
+                          }
+                          ?>
+                        </tbody>
+                  </table>
+                      <?php if ($_GET['reg'] != null) {
+                      echo '<a class="btn btn-default pull-right" style="cursor: pointer; background-color: #f4433696;" href="movil.php"><i class="icon fa fa-times"></i> Cancelar Edición</a>';
+                      }
+                      ?>
+               </form>
+            <?php require_once('public/modales/nueva_venta_movil.html'); ?>
+
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+
+
+                    
+        <a class="btn btn-default pull-left" style="cursor: pointer;" onclick="nueva_venta()"><i class="icon fa fa-plus"></i> Nuevo producto</a>
+                        <a class="btn btn-default pull-right" style="cursor: pointer;" onclick="$('#clientemodal').modal()"><i class="icon fa fa-shopping-cart"></i> Finalizar Venta</a>
+              
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+        </div>
+        <div class="tab-pane" id="2">
+
+
+             <table class="table table-hover table-bordered table-sm z-depth-1" id="tabla_procesadas">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2">Cliente</th>
+                                <th class="col-md-2">Productos</th>
+                                <th class="col-md-2">Total</th>
+                                <th class="col-md-2">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contenedor-procesadas"> 
+                        <?php $index = 0; 
+                        foreach ($procesadas as $Procesada): ?>
+                         <tr>
+                                <th class="col-md-2"><?php echo $Procesada['Cliente'] ?></th>
+                                <th class="col-md-2"><?php echo $Procesada['Productos'] ?></th>
+                                <th class="col-md-2"><?php echo $Procesada['Total'] ?></th>
+                                <th class="col-md-2"><a  href="movil.php?reg=<?php echo $Procesada['Venta'] ?>">Modificar</a></th>
+                            </tr>
+
+                        
+                        <?php
+                        $index ++;
+                         endforeach ?>
+                          
+                            
+                        </tbody>
+                  </table>
+
+
+        </div>
+      
+      </div>
+  </div>
+   <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script type="text/javascript" src="public/js/ventas.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+
+</body>
+
+
+
+<script type="text/javascript">
+
+    <?php if ($_GET['id_venta']) {?>
+      $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+    <?php } ?>
+
+    <?php if ($_GET['reg']) {?>
+      $('#edit_venta').val('<?php echo $_GET["reg"]?>');
+    <?php } ?>
+    
+
+    $('#cantidad_alert').hide();
+    $('#valor_alert').hide();
+    $('#cliente_alert').hide();
+
+        $('#cantidad').focus(function(){
+
+              $('#cantidad_alert').hide();
+
+          });
+
+
+        $('#valor').focus(function(){
+
+              $('#valor_alert').hide();
+
+          });
+
+  $('#clientevalor').focus(function(){
+
+              $('#cliente_alert').hide();
+
+          });
+
+
+<?php if ($_GET['reg'] == null) { ?>
+nueva_venta();
+<?php } ?>
+
+function nueva_venta(){
+       nuevaLineaForm();
+      $('#myModalVenta').modal();
+}
+
+function productos(categoria) {
+  //console.log(tipo);
+        $('#producto_'+$("#cant_items").val()+'_categoria').val(categoria);
+        $('#myModalVenta').modal('hide');
+        $('#modalProducto_'+categoria).modal();
+}
+
+function process(prod,tipo,id) {
+        $('#producto_'+$("#cant_items").val()+'_nombre').val(prod);
+        $('#producto_'+$("#cant_items").val()+'_id').val(id);
+        $('#modalProducto_'+tipo).modal('hide');
+        $('#modal_cant').modal();
+        $('#cantidad').focus();
+}
+
+function cantidad(cant) {
+
+  if (cant == '') {
+    $('#cantidad_alert').show();
+    return false;
+  }
+  $('#producto_'+$("#cant_items").val()+'_cant').val(cant);
+  $('#modal_cant').modal('hide');
+  $('#modal_valor').modal();
+  $('#valor').focus();
+}
+
+function valor(valor) {
+
+    if (valor == '') {
+    $('#valor_alert').show();
+    return false;
+  }
+        $('#producto_'+$("#cant_items").val()+'_val').val(valor);
+        $('#modal_valor').modal('hide');
+        $('#producto_'+$("#cant_items").val()+'_tot').val(($('#producto_'+$("#cant_items").val()+'_cant').val() * $('#producto_'+$("#cant_items").val()+'_val').val()).toFixed(2));
+        $('#cantidad').val('');
+        $('#valor').val('');
+        nueva_venta();
+}
+
+function eliminar(tipo) {
+
+
+    $('#linea_'+tipo).remove();
+    $('#cant_items').val() = $('#cant_items').val() -1;
+
+    return false;
+
+}
+
+function actualizarTotal(i) {
+    console.log($('#producto_'+i+'_cant').val());
+    console.log($('#producto_'+i+'_val').val());
+    
+    $('#producto_'+i+'_tot').val(($('#producto_'+i+'_cant').val() * $('#producto_'+i+'_val').val()).toFixed(2));
+
+}
+
+
+function nuevaLineaForm(){
+
+    var i = parseInt($("#cant_items").val()) + 1;
+    var newRowContent = '<tr class="linea-item" id="linea_'+i+'">';
+    newRowContent += '<input type="hidden" name="producto['+i+'][id]" id="producto_'+i+'_id">';
+    newRowContent += '<td><input class="form-control" type="text" name="producto['+i+'][categoria] "  id="producto_'+i+'_categoria" ></td>';
+    newRowContent += '<td><input class="form-control" type="text" name="producto['+i+'][nombre]" id="producto_'+i+'_nombre"></td>';
+    newRowContent += '<td><input class="form-control" name="producto['+i+'][cant]" id="producto_'+i+'_cant" ></td>';
+    newRowContent += '<td><input required class="form-control" name="producto['+i+'][val]" id="producto_'+i+'_val"  ></td>';
+    newRowContent += '<td><span style="display:inline;">$ </span><input style="display:inline; width:80%;" required class="form-control" type="number" step="0.1" name="producto['+i+'][tot]" id="producto_'+i+'_tot"  ></td>';
+    newRowContent += '<td><a class="btn btn-danger" onclick="eliminar('+i+')">Quitar</a></td>';
+    newRowContent += '</tr>';
+
+    $("#tabla_items tbody").append(newRowContent);
+    $("#cant_items").val(i);
+
+}
+
+  <?php if ($_GET['reg'] != null) { 
+                      $index=1;
+                      foreach ($procesadas[$_GET['reg']]['Compra'] as $Procesado) {
+                        echo '$("#cant_items").val('.$index.');';
+                            $index++;
+                            }
+                          }
+  ?>
+
+</script>
+
+<style>
+  .required {
+    color: #000;
+}
+
+
+li.active{
+  background: #016c62 !important;
+}
+
+.font-roboto {
+  font-family: 'roboto condensed';
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  .font-roboto();
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.modal-dialog {
+  position: fixed;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.modal-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+.modal-body {
+  position: absolute;
+top: 65px;
+  bottom: 0px;
+  width: 100%;
+  font-weight: 300;
+  overflow: auto;
+}
+
+.modal-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  padding: 10px;
+  background: #f1f3f5;
+}
+
+
+.btn-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -100px;
+  width: 200px;
+}
+
+p {
+  font-size: 1.4em;
+  line-height: 1.5;
+  color: lighten(#5f6377, 20%);
+
+  // last
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  background: #f1f3f5;
+  border-left: 1px solid darken(#f1f3f5, 10%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: darken(#f1f3f5, 20%);
+}
+
+</style>
+
+
+
+</html> 
+

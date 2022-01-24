@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title><?php echo WEB_TITULO;?></title>
+    <!-- Meta -->
+    <meta charset="utf-8">  
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <link rel="icon" type="image/png" sizes="32x32" href="../templates/templates/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../templates/templates/assets/images/favicon-16x16.png">  
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/elegant_font/css/style.css">
+    <link href="../templates/templates/assets/plugins/bs-material-design/dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+    
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="../templates/templates/assets/css/styles.css">
+
+
+    <style type="text/css">
+        .negrita {
+            font-weight: 400;
+        }
+        .control-label {
+            margin: 0 !important;
+        }
+        .form-group {
+            margin-bottom: 0 !important;
+        }
+        tr {
+            cursor: pointer;
+        }
+    </style>
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        
+<?php require_once('../templates/templates/header.html');?>
+<?php require_once('public/modales/edit_cancha.html'); ?>
+
+        <section class="cards-section" style="background-color: #eeeeee;">
+            <div class="container">
+
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    <h1>Configuración</h1>
+                    <div style="overflow-x:auto; overflow-y:auto; width: 95%; margin: auto; max-height: 500px;">  
+
+                    <h3>Canchas</h3> 
+
+                    <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa; overflow-x: scroll;">
+                      <thead>
+                        <tr>
+                          <!-- 1 --><th class="col-md-1 col-xs-3">ID</th>
+                          <!-- 2 --><th class="col-md-3 col-xs-4">Cancha</th>
+                          <!-- 3 --><th class="col-md-2 col-xs-4">Valor turno</th>
+                        </tr>
+
+                      </thead>
+                      <tbody>
+                        <?php while ($do_canchas->fetch()){ ?>
+                            <tr onclick="modificarCancha(<?php echo $do_canchas -> cancha_id; ?>);" data-toggle="modal" data-target="#myModalCanchaEdit">
+
+                            <!-- 1 ID -->
+                              <td><?php echo $do_canchas -> cancha_id; ?></td>
+
+                            <!-- 2 Usuario -->
+                              <td><?php echo $do_canchas -> cancha_nombre; ?></td>
+
+                            <!-- 3 Monto -->
+                              <td>$ <?php echo $do_canchas -> cancha_valor; ?></td>
+
+                            </tr>
+                        <?php    } ?>
+                      </tbody>
+                      <tfoot style="background-color: #ededed;">
+                        <td class="col-md-1 col-xs-3"></td>
+                        <td class="col-md-3 col-xs-3"></td>
+                        <td class="col-md-2 col-xs-4"></td>
+                      </tfoot>
+                    </table>
+                    </div>
+                </div><!--//cards-->
+                
+            </div><!--//container-->
+        </section><!--//cards-section-->
+
+        
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>                                 
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script type="text/javascript" src="public/js/suscripcion.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    <script src="../templates/templates/assets/plugins/chartjs/dist/Chart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        setTimeout(function() {
+            $(".desaparecer").fadeOut(7000);
+                },3000);
+        });    
+    </script>
+
+</body>
+</html> 
+

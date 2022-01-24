@@ -1,0 +1,191 @@
+<div id="myModalVenta" class="modal" role="dialog">
+
+  <div class="modal-dialog container-noventa">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Agregar producto <span class="pull-right small" style="cursor: pointer" onclick="$('#myModalVenta').modal('hide'); eliminar($('#cant_items').val())">Cancelar</span></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <?php foreach ($categorias as $categoria): ?>
+
+          <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick="productos('<?php echo $categoria['id'] ?>')"><?php echo $categoria['nombre'] ?></button>
+        <?php endforeach ?>
+
+            </div>
+
+          </div>
+
+        </div>
+     
+
+  </div>
+
+
+
+<?php foreach ($categorias as $categoria): ?>
+
+
+<div id="modalProducto_<?php echo $categoria['id']?>" class="modal" role="dialog">
+
+  <div class="modal-dialog container-noventa">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Seleccione producto <span class="pull-right small" style="cursor: pointer" onclick="$('#modalProducto_<?php echo $categoria['id']?>').modal('hide'); $('#myModalVenta').modal();">Volver a Categorias</span></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+
+        <?php foreach ($productos[$categoria['id']] as $id_prod => $producto ): print_r($id);  ?>
+          <button class="btn btn-default btn-block" style="border-bottom: 2px solid #cbcbcb;" onclick='process("<?php echo $producto ?>","<?php echo $categoria["id"] ?>","<?php echo $id_prod ?>")'><?php echo $producto ?></button>
+      
+        <?php endforeach ?>
+
+       
+            </div>
+
+        </div>
+        <!-- Seccion productos -->
+      </div>
+     
+    </div>
+
+<?php endforeach ?>
+
+
+
+
+<div id="modal_cant" class="modal" role="dialog">
+
+  <div class="modal-dialog container-noventa">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Cantidad <span class="pull-right small" style="cursor: pointer" onclick="$('#modal_cant').modal('hide'); $('#modalProducto_<?php echo $categoria['id']?>').modal(); ">Volver a Productos</span></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+          <input type="number" class="form-control" name="cantidad" id="cantidad">
+          <br>
+          <small id="cantidad_alert">Por favor ingrese un valor</small>
+
+       </div>
+
+      </div>
+        <!-- Seccion productos -->
+      </div>
+      <div class="modal-footer">
+
+      <button class="btn btn-default btn-block" onclick='cantidad($("#cantidad").val())'>Continuar</button>
+
+      </div>
+
+    </div>
+
+
+
+
+
+<div id="modal_valor" class="modal" role="dialog">
+
+  <div class="modal-dialog container-noventa">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Valor por unidad <span class="pull-right small" style="cursor: pointer" onclick="$('#modal_cant').modal(); $('#modal_valor').modal('hide');$('#cantidad').focus(); $('#cantidad').select();">Volver a Cantidad</span></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+
+          <input type="number" class="form-control" name="valor" id="valor">
+            <br>
+          <small id="valor_alert">Por favor ingrese un valor</small>
+            </div>
+
+        </div>
+        <!-- Seccion productos -->
+      </div>
+      <div class="modal-footer">
+
+                  <button class="btn btn-default btn-block" onclick='valor($("#valor").val())'>Continuar</button>
+
+      </div>
+
+    </div>
+
+
+
+
+
+<div id="clientemodal" class="modal" role="dialog">
+
+  <div class="modal-dialog container-noventa">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nombre del cliente<span class="pull-right small" style="cursor: pointer" onclick=" $('#clientemodal').modal('hide');">Volver a la venta</span></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+
+          <input type="text" class="form-control" name="cliente" id="clientevalor" <?php if ($_GET['reg']!= NULL) { echo 'value = '.$Procesadas[$_GET['reg']]['Cliente'];} ?>>
+          <small id="cliente_alert">Por favor ingrese un cliente</small>
+
+            </div>
+
+        </div>
+        <!-- Seccion productos -->
+      </div>
+      <div class="modal-footer">
+
+            <button class="btn btn-default btn-block" onclick='
+
+            if ($("#clientevalor").val() == "") {
+              $("#cliente_alert").show();
+              return false;
+            }
+
+            $("#cliente").val($("#clientevalor").val());
+
+
+
+            $("#productoshidden").val($("#cant_items").val());
+            $("#totalhidden").val();
+
+
+            $("#detalle_venta").submit()'>Continuar</button>
+
+      </div>
+
+</div>
+
+
+
+
+
+
+
+
+

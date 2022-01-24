@@ -1,0 +1,106 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <script type="text/javascript">
+        function validarTipo(){
+          var nombre = $('#input_nombre').val();
+          var id = $('#edit_tipo_id').val();
+
+          $.ajax({
+              url: 'ajax_validarTipo.php',
+              type: 'POST',
+              data: {nombre : nombre,
+                    id : id },
+              dataType: 'json'
+          }).done(function(data){
+            if(data && data != id){ //encontro un tipo con el mismo nombre, y no es el mismo id.
+               alert('Ya existe un tipo con el mismo nombre. Debe ingresar un nombre distinto');
+            }else{
+              $('#detalle_tipo_edit').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+
+        function eliminarTipo(){
+          var id = $('#edit_tipo_id').val();
+
+          $.ajax({
+              url: 'ajax_eliminarTipo.php',
+              type: 'POST',
+              data: {id : id},
+              dataType: 'json'
+          }).done(function(data){
+            if(data != 0){ //Tiene un saldo <> 0
+              alert('Error al eliminar, el tipo tiene un saldo pendiente.');
+            }else{
+              $('#eliminar_tipo').submit();
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-user"></i></span> 
+        <span style="font-size: 18px;" id="nombre_tipo">Tipo CL00<?php echo $do_tipos -> tipo_id;?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_tipo_edit" id="detalle_tipo_edit" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_tipo"> 
+
+              <input type="hidden" name="edit_tipo_id" id="edit_tipo_id" value="<?php echo $do_tipos -> tipo_id; ?>">
+              <input type="hidden" name="edit_tipo" id="edit_tipo" value="1">
+
+              <div class="row" >
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-tipo">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_nombre" id="input_nombre" class="form-tipo" placeholder="Nombre" value="<?php echo $do_tipos -> tipo_nombre; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-tipo">
+                      <span class="form-label"> DNI</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_dni" id="input_dni" class="form-tipo" placeholder="DNI / CUIT" value="<?php echo $do_tipos -> tipo_desc ?>">
+                    </div>
+                  </div>
+                 
+
+
+              </div>
+                            
+            </div>
+           
+        </form>
+
+        <form method="POST" name="eliminar_tipo" id="eliminar_tipo">
+          <input type="hidden" name="borrar_tipo" value="1">
+          <input type="hidden" name="id_eliminar" value="<?php echo $do_tipos -> tipo_id; ?>">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-tipo">
+          <?php if($prem) { ?>
+            <button type="button" class="btn btn-raised btn-danger" onclick="eliminarTipo();">Eliminar</button>
+          <?php } ?>
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarTipo();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>

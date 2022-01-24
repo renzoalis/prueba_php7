@@ -1,0 +1,103 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <script type="text/javascript">
+
+        function eliminarProducto(){
+          $('#eliminar_producto').submit();
+        }
+         function editarAlias(){
+          $('#editar_alias_form').submit();
+        }
+        
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-dropbox"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cliente">Variedad <?php echo $do_productos -> prod_id; ?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="editar_alias_form" id="editar_alias_form" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+
+              <input type="hidden" name="edit_alias_id" id="edit_alias_id" value="<?php echo $do_productos -> prod_id; ?>">
+              <input type="hidden" name="edit_alias" id="edit_alias" value="1">
+
+              <div class="row" >
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_nombre" id="input_nombre" class="form-cliente" disabled value="<?php echo $do_productos -> prod_nombre; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Categoría</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_categoria" id="input_categoria" class="form-cliente" disabled value="<?php echo $do_productos -> tipo_nombre; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Alias</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_alias" id="input_alias" class="form-cliente" oninput="$('#editar_alias').css('display','inline')" value="<?php echo $do_productos -> prod_alias; ?>">
+                    </div>
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Producto</span>
+                    </div>
+                    <div class="col-md-4">
+                      <input autocomplete="off" type="text" name="input_direccion" id="input_direccion" class="form-cliente" disabled value="<?php echo $do_productos -> cat_nombre; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-1">
+                      <h3>Stock</h3>
+                    </div>
+                    <?php $cal = explode(', ',$do_stock['calibres']); ?>
+                    <?php $cant = explode(', ',$do_stock['cantidades']); ?>
+                    <?php foreach ($cal as $c => $a) { $stock_total += $cant[$c];?>
+                    <div class="row">
+                      <div class="col-md-3 col-xs-3 label-cliente">
+                        <span class="form-label"> <?php if(!($do_stock['calibres'])) {echo 'Sin ';} ?> Calibre <?php echo $a; ?></span>
+                      </div>
+                      <div class="col-md-4">
+                        <input autocomplete="off" type="number" class="form-cliente" disabled value="<?php echo $cant[$c]; ?>">
+                      </div>
+                    </div>
+                    <?php } ?>
+                    
+                  </div>
+
+                  <br>
+
+              </div>
+                            
+            </div>
+           
+        </form>
+
+        <form method="POST" name="eliminar_producto" id="eliminar_producto">
+          <input type="hidden" name="borrar_producto" value="1">
+          <input type="hidden" name="id_eliminar" value="<?php echo $do_productos -> prod_id; ?>">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-cliente">
+          <?php if($stock_total == 0 && $prem){ ?>
+            <button type="button" class="btn btn-raised btn-danger" onclick="eliminarProducto();">Eliminar</button>
+          <?php } ?>
+          <button type="button" id="editar_alias" class="btn btn-raised btn-primary" style="display:none;" onclick="editarAlias()">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>

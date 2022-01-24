@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html');?>
+
+    <style type="text/css">
+        .oculto {
+            display: none; important!
+        }
+        #proveedores{
+            display: block;
+        }
+        #proveedoresBoton{
+            background-color: #b9eff16b;
+        }
+    </style>
+</head> 
+
+<body class="landing-page" style="background-color: #eeeeee;">   
+    <?php require_once('../templates/templates/header.html');?>
+    
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+        <section class="cards-section text-center" style="background-color: #eeeeee;">
+            <h3><i class="fa fa-calculator"></i> Contable</h3>
+            <br>
+            <div class="container">
+
+                <div class="item item-orange col-md-3 col-sm-6 col-xs-12">
+                    <div class="item-inner z-depth-1" >
+                        <div class="icon-holder">
+                            <i class="icon fa fa-print"></i>
+                        </div><!--//icon-holder-->
+                        <h3 class="title"> Caja </h3>
+                        <a class="link" href="../caja/index.php"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                <div class="item item-primary col-md-3 col-sm-6 col-xs-12">
+                    <div class="item-inner z-depth-1" >
+                        <div class="icon-holder">
+                            <i class="icon fa fa-share-square"></i>
+                        </div><!--//icon-holder-->
+                        <h3 class="title"> Salidas de Caja </h3>
+                        <a class="link" href="../gastos/listado.php"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                <div class="item item-primary col-md-3 col-sm-6 col-xs-12">
+                    <div class="item-inner z-depth-1" >
+                        <div class="icon-holder">
+                            <i class="icon fa fa-share-square"></i>
+                        </div><!--//icon-holder-->
+                        <h3 class="title"> Salidas por Otros </h3>
+                        <a class="link" href="../pagos_otros/listado.php"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-primary col-md-3 col-sm-6 col-xs-12">
+                    <div class="item-inner z-depth-1" >
+                        <div class="icon-holder">
+                            <i class="icon fa fa-copy"></i>
+                        </div><!--//icon-holder-->
+                        <h3 class="title"> Notas </h3>
+                        <a class="link" href="../notas/index.php"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+            <hr class="separador-modulos">
+               <h3><i class="fa fa-vcard-o"></i> Cartera </h3>
+                <br>
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-ticket"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Boletos </h3>
+                            <a class="link" href="../boletos/index.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-money"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cheques propios </h3>
+                            <span class="badge" style="background-color: #eea236;">
+                              <?php echo $notificacionpropio; ?> 
+                            </span> a cubrir
+                            <?php if($noti_monto_a_cubrir > 0){ ?>
+                            <p><strong style="color: #f3724b;">$<?php echo $noti_monto_a_cubrir; ?> </strong></p>
+                            <?php } ?>
+                          <a class="link" href="../cheques/cartera_propios.php"><span></span></a>
+                      </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-money"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cheques de terceros </h3>
+                            <span class="badge" style="background-color: #eea236;">
+                              <?php echo $notificacion; ?> 
+                            </span> a cobrar
+                            <?php if($noti_monto_a_cobrar > 0){ ?>
+                            <p><strong style="color:darkseagreen">$<?php echo $noti_monto_a_cobrar; ?> </strong></p>
+                            <?php } ?>
+                            <a class="link" href="../cheques/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <hr class="separador-modulos">
+                    <h3><i class="fa fa-users"></i> Clientes</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cobros</h3>
+                            Clientes
+                            <a class="link" href="../cobros_clientes/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cartera</h3>
+                            Clientes
+                            <a class="link" href="../clientes/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Clientes
+                            <a class="link" href="../clientes/cuenta_corriente.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                      <hr class="separador-modulos">
+                    <br>
+                    <div  style="cursor:pointer;" onclick="mostrar('#proveedores','#proveedoresBoton')" class="item item-blue col-md-3 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="proveedoresBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-industry"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Proveedores </h3>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+             <!--        <div  style="cursor:pointer;" onclick="mostrar('#despachantes','#despachantesBoton')" class="item item-blue col-md-2 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="despachantesBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cubes"></i>
+                            </div>
+                            <h3 class="title"> Despachantes </h3>
+                         
+                        </div>
+                    </div>
+                    <div  style="cursor:pointer;" onclick="mostrar('#importadores','#importadoresBoton')" class="item item-blue col-md-2 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="importadoresBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cloud-download"></i>
+                            </div>
+                            <h3 class="title"> Importadores </h3>
+                          
+                           
+                        </div>
+                    </div>
+                    <div  style="cursor:pointer;" onclick="mostrar('#exportadores','#exportadoresBoton')" class="item item-blue col-md-2 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="exportadoresBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-cloud-upload"></i>
+                            </div>
+                            <h3 class="title"> Exportadores </h3>
+                          
+                           
+                        </div>
+                    </div> -->
+                    <div  style="cursor:pointer;" onclick="mostrar('#empleados','#empleadosBoton')" class="item item-blue col-md-3 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="empleadosBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-card-o"></i>
+                            </div>
+                            <h3 class="title"> Empleados </h3>
+                           
+                          
+                        </div>
+                    </div>
+                    <div  style="cursor:pointer;" onclick="mostrar('#transportistas','#transportistasBoton')" class="item item-blue col-md-3 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="transportistasBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-truck"></i>
+                            </div>
+                            <h3 class="title"> Transportistas </h3>
+                        </div>
+                    </div>
+
+                    <div  style="cursor:pointer;" onclick="mostrar('#cardesc','#cardescBoton')" class="item item-blue col-md-3 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1 botone" id="cardescBoton" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-shopping-cart"></i>
+                            </div>
+                            <h3 class="title"> Carga / Descarga </h3>
+                        </div>
+                    </div>
+
+
+
+<div id="proveedores" class="oculto">
+                    <hr class="separador-modulos">
+                    <h3 ><i class="fa fa-industry"></i> Proveedores</h3>
+                    <br>
+                    <div  class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Pagos </h3>
+                            Proveedores
+                            <a class="link" href="../pagos_proveedores/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cartera </h3>
+                            Proveedores
+                            <a class="link" href="../proveedores/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Proveedores
+                            <a class="link" href="../proveedores/cuenta_corriente.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+</div>
+<div id="transportistas" class="oculto">
+
+                    <hr class="separador-modulos">
+                    <h3><i class="fa fa-truck"></i> Transportistas</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Pagos </h3> Transportistas
+                            <a class="link" href="../pagos_transportistas/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cartera </h3>
+                            Transportistas
+                            <a class="link" href="../transportistas/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Transportistas
+                            <a class="link" href="../transportistas/cuenta_corriente.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+</div>
+<div id="empleados" class="oculto">
+
+                    <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-address-card-o"></i> Empleados</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-money"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Entrega de Dinero </h3> Empleados
+                            <a class="link" href="../pagos_empleados/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cartera </h3>
+                           Empleados
+                            <a class="link" href="../empleados/cartera.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Empleados
+                            <a class="link" href="../empleados/cuenta_corriente.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+</div>
+<!-- <div id="despachantes" class="oculto">
+
+                <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-cubes"></i> Despachantes de aduana</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div>
+                            <h3 class="title"> Pagos </h3> Despachantes
+                            <a class="link" href="../pagos_despachantes/listado.php"><span></span></a>
+                        </div>
+                    </div>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div>
+                            <h3 class="title"> Cartera </h3>
+                            Despachantes
+                            <a class="link" href="../despachantes/cartera.php"><span></span></a>
+                        </div>
+                    </div>
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div>
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Despachantes
+                            <a class="link" href="../despachantes/cuenta_corriente.php"><span></span></a>
+                        </div>
+                    </div>
+</div> -->
+<!-- <div id="importadores" class="oculto">
+                    
+                    <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-cloud-download"></i> Importadores</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div>
+                            <h3 class="title"> Pagos </h3> Importadores
+                            <a class="link" href="../pagos_importadores/listado.php"><span></span></a>
+                        </div>
+                    </div>
+
+                    <div class="item item-primary  col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div>
+                            <h3 class="title"> Cartera </h3>
+                            Importadores
+                            <a class="link" href="../importadores/cartera.php"><span></span></a>
+                        </div>
+                    </div>
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div>
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Importadores
+                            <a class="link" href="../importadores/cuenta_corriente.php"><span></span></a>
+                        </div>
+                    </div>
+</div> -->
+<!-- <div id="exportadores" class="oculto">
+                    
+                    <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-cloud-upload"></i> Exportadores</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div>
+                            <h3 class="title"> Pagos </h3> Exportadores
+                            <a class="link" href="../pagos_exportadores/listado.php"><span></span></a>
+                        </div>
+                    </div>
+
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-address-book-o"></i>
+                            </div>
+                            <h3 class="title"> Cartera </h3>
+                            Exportadores
+                            <a class="link" href="../exportadores/cartera.php"><span></span></a>
+                        </div>
+                    </div>
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div>
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Exportadores
+                            <a class="link" href="../exportadores/cuenta_corriente.php"><span></span></a>
+                        </div>
+                    </div>
+</div> -->
+
+<div id="cardesc" class="oculto">
+                    
+                    <hr class="separador-modulos">
+
+                    <h3><i class="fa fa-shopping-cart"></i> Carga / Descarga</h3>
+                    <br>
+                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                        <div class="item-inner z-depth-1">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-print"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Pagos </h3> Carga / Descarga
+                            <a class="link" href="../pagos_cardesc/listado.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+
+                    <div class="item item-blue col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner z-depth-1" >
+                            <div class="icon-holder">
+                                <i class="icon fa fa-book"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title"> Cuenta Corriente </h3>
+                            Carga / Descarga
+                            <a class="link" href="../cardesc/cuenta_corriente.php"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+</div>
+
+                    <hr class="separador-modulos">
+
+              
+                </div><!--//cards-->
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="../templates/templates/assets/js/main.js"></script>
+    <script type="text/javascript" src="public/js/contable.js"></script>
+    <script src="../templates/templates/assets/plugins/bs-material-design/dist/js/material.min.js"></script>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    
+</body>
+</html> 
+

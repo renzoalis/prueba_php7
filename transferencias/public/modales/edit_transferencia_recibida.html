@@ -1,0 +1,213 @@
+ 
+
+  <input type="hidden" name="recibi_transferencia" id="recibi_transferencia" value="1">
+  <input type="hidden" name="transferencia_id" id="transferencia_id" value="<?php echo $do_transferencias -> transf_id ?>">
+  <input type="hidden" name="transferencia_matriz_id" id="transferencia_matriz_id" value="<?php echo $do_transferencias -> transf_matriz_id ?>">
+ 
+ <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <div class="col-md-4 col-xs-12">
+          <span class="modal-title">
+            <span class="titulo_modal" id="titulo">Transferencia T00<?php echo $do_transferencias -> transf_id;?></span> 
+          </span>
+        </div>
+        <div class="col-md-4 col-xs-12" > 
+            <span class="form-inline">
+              <i class="titulo_modal fa fa-angle-right"></i>
+             Estado:
+              <?php $estado = $do_transferencias -> getEstado(); ?> 
+             <span style="color: #<?php echo $estado -> te_color; ?>; text-shadow: 1px 1px #ddd;">
+              <i class="titulo_modal <?php echo $estado -> te_icono; ?>"></i> 
+              <?php echo $estado -> te_desc; ?>
+             </span>
+            </span>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+
+      </div>
+
+      <div class="modal-body">
+
+ 
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-angle-right"></i>
+             Origen:
+             <b>
+               <?php echo $do_transferencias ->  getPuestoNombre( $do_transferencias -> transf_origen);?>
+              </b>
+            </span>
+          </div>
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+            <i class="fa fa-hashtag"></i>
+            <b>
+              <?php echo $do_transferencias ->  transf_numero_viaje;?>
+            </b>
+            </span>
+          </div>
+          
+          <div class="col-md-3 col-xs-12"> 
+            <span class="form-inline">
+            <i class="fa fa-truck"></i>
+            <select id="combo_transp_e" name="input_id_transp" class="form-control form-angosto" placeholder="Seleccionar transportista" <?php if($do_transferencias -> transf_estado != 3) {echo "disabled";}else{ echo "required";} ?> >
+                <option  value=""> Seleccione un transportista </option>
+                <?php foreach ($transportista as $transp) { ?>
+                  <option <?php if($do_transferencias -> transf_transp == $transp['id']) {echo "selected";} ?>  value="<?php echo $transp['id']; ?>" ><?php echo $transp['nombre']; ?></option>
+                <?php } ?>
+            </select>
+            </span>
+
+          </div>
+
+          <div class="col-md-3  col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date"  class="form-angosto editable" readonly id="compra_fh" value="<?php echo date('Y-m-d',strtotime($do_transferencias -> transf_fh));?>">
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12">
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos_edit">
+              <thead>
+                 <tr>
+                    <th class="col-md-2 col-xs-4">Producto</th>
+                    <th class="col-md-1 col-xs-4">Calibre</th>
+                    <!-- <th class="col-md-1 col-xs-4">Costo Unitario</th> -->
+                    <th class="col-md-1 col-xs-4">Cantidad Origen</th>
+                    <!-- <th class="col-md-1 col-xs-4">Precio prom. Venta</th> -->
+                    <!-- <th class="col-md-1 col-xs-4">Precio flete</th> -->
+                    <th class="col-md-1 col-xs-4">Cantidad Recibida</th>
+                    <th class="col-md-1 col-xs-4">Precio descarga unitaria</th>
+                    <th class="col-md-1 col-xs-4">Precio flete destino</th>
+
+                    <th class="col-md-2 col-xs-4">Total</th>
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                 <input type="hidden" name="prod[<?php echo $i; ?>][producto_id]" value="<?php echo $d['prod_id'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][calibre]" value="<?php echo $d['detalle_calibre'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][cantidad_origen]" value="<?php echo $d['cantidad'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][costo_unitario]" value="<?php echo $d['detalle_costo_unitario'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][lote]" value="<?php echo $d['detalle_lote'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][lote_desc]" value="<?php echo $d['detalle_lote_desc'];?>">
+                 <input type="hidden" name="prod[<?php echo $i; ?>][detalle_prod]" value="<?php echo $d['tipo_nombre'].' / '. $d['cat_nombre'].' / '. $d['prod_modelo'].' / '. $d['detalle_calibre']; ?>">
+
+                 <tr>
+                 <td><?php echo $d['cat_nombre'].' - '.$d['prod_modelo']; ?></td>
+                 <td><?php echo $d['detalle_calibre']; ?></td>
+                 <!-- <td>$ <?php echo $d['detalle_costo_unitario']; ?></td> -->
+                 <td><?php echo $d['cantidad']; ?></td>
+                 <!-- <td>$ <?php echo $d['ppv']; ?></td> -->
+                 <!-- <td><span>$</span><?php echo $d['costo_flete'];?></td> -->
+                 
+                <?php if($do_transferencias -> transf_estado == 3){ ?>
+                  <td><input  type="number" required style="width: 100%;" step="1" min="0" id="cantidad_real_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][cantidad_real]" value="<?php echo $d['cantidad']; ?>" max="<?php echo $d['cantidad']; ?>"></td>
+                <?php } else { ?>
+                  <td><input oninput="calc_total(<?php echo $i;?>);" class=" sololectura" type="number" required style="width: 100%;" step="1" min="0" id="cantidad_real_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][cantidad_real]" value="<?php echo $d['cantidad_recibida']; ?>"></td>
+                <?php } ?>
+                 <td>$<input oninput="calc_total(<?php echo $i;?>);" class=" sololectura" type="number" required style="width: 90%;" step="0.1" min="0" id="costo_descarga_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][costo_descarga_u]" value="<?php echo $d['costo_descarga']; ?>"></td>
+                <td>$<input oninput="calc_total(<?php echo $i;?>);" class=" sololectura" value="<?php echo $d['costo_flete_destino']; ?>" style="margin-left: 5px" type="number" required style="width: 60%;" step="0.1" min="0" id="costo_flete_destino_<?php echo $i; ?>"  name="prod[<?php echo $i; ?>][costo_flete_destino_u]"></td> 
+
+
+                 <td>$<input readonly="readonly" type="number" step="0.1" min="0" readonly style="width: 90%;" id="total_<?php echo $i; ?>" name="prod[<?php echo $i; ?>][total]" value="<?php echo $d['total']; ?>"></td>
+               
+                </tr>
+                 <?php $i ++; } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+
+              </tfoot>
+            </table>
+
+          </div>
+
+        </div>
+     
+
+        <div class="row form-seccion">
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" disabled name="input_observacion_compra" id="input_observacion_compra" class="form-obs editable" placeholder="" value="<?php echo $do_transferencias -> transf_obs;?>">
+            </span>
+          </div>
+
+        </div>      
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">    
+          <?php if(!$cajaAbierta) { ?>
+              <span class="text-center"> <i class="fa fa-warning"></i> La caja se encuentra cerrada </span>
+          <?php } else { 
+              if($do_transferencias -> transf_estado == 3){ ?>
+                <button type="submit" class="btn btn-sm btn-raised btn-success">Guardar</button>
+              <?php } 
+            } ?>
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+
+   $(".sololectura").each(function (index, element) { 
+
+     <?php if (in_array($do_transferencias -> transf_estado ,array(4,5,6))) {?> // si esta archivada bloquear los inputs
+
+      $(element).attr('readonly',true);
+
+      <?php } else { ?>
+       $(element).attr('readonly',false);
+       <?php }  ?>
+
+   });
+
+   function calc_total(i){
+    var total_descarga = $('#cantidad_real_'+i).val() * $('#costo_descarga_'+i).val(); 
+    var total_flete = $('#cantidad_real_'+i).val() * $('#costo_flete_destino_'+i).val(); 
+    // console.log(total_descarga);
+    // console.log(total_flete);
+
+    var total = total_descarga + total_flete;
+    $('#total_'+i).val(total.toFixed(2));
+   }
+
+    $('#combo_transp_e').select2({
+      minimumInputLength: <?php echo LENGTH_SELECT; ?> ,
+      language: {
+        noResults: function (params) {
+          return "No hay resultados.";
+        },
+        inputTooShort: function () {
+            return "Ingresar al menos <?php echo LENGTH_SELECT; ?> caracteres...";
+        }
+      }
+    });
+   
+</script>
