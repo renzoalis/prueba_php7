@@ -1,0 +1,16 @@
+[DB_DataObject]
+
+database = mysqli://:@localhost:3306/mercadocentral
+
+schema_location	= C:/xampp/htdocs/mercadocentral/dataObjects/
+class_location	= C:/xampp/htdocs/mercadocentral/dataObjects/
+require_prefix	= C:/xampp/htdocs/mercadocentral/dataObjects/
+class_prefix	= DataObjects_
+debug = 0 
+dont_use_pear_sequences = true
+client_encoding = 'UTF8'
+
+[DB_DataObject_FormBuilder]
+clientRules = true
+requiredRuleMessage = El campo %s es requerido
+createSubmit=false
